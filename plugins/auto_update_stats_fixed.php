@@ -123,7 +123,7 @@ if ($PluginEnabled == 1) {
 	   $gid = $row["id"];
 	   $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, 
 	   gp.name as name, 
-	   gp.ip as ip, gp.spoofed, gp.spoofedrealm, gp.reserved, gp.left,
+	   gp.ip as ip, gp.spoofed, gp.spoofedrealm, gp.reserved, gp.left, gp.leaftreason,
 	   b.name as banname, b.expiredate, b.warn
 	   FROM ".OSDB_DP." AS dp 
 	   LEFT JOIN ".OSDB_GP." AS gp ON gp.gameid = dp.gameid and dp.colour = gp.colour 
@@ -192,10 +192,14 @@ if ($PluginEnabled == 1) {
 		
 		if (!empty($name) AND $duration >= OS_MIN_GAME_DURATION) {
 		
-		//DISC
-		if ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) {
+		//LEAVER
+		if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["duration"] == "has left the game voluntarily" ) {
 		$score = $ScoreStart - $ScoreDisc;
 		}
+                //DISC
+                $splitreason = explode( " ", $list["leftreason"] );
+                if( $splitreason[1] == "lost" ) $dc = 1; else $dc = 0;
+
 		
 		$result2 = $db->prepare("SELECT player FROM ".OSDB_STATS." WHERE LOWER(player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
@@ -229,16 +233,16 @@ if ($PluginEnabled == 1) {
 		//Create a new player...
 
 		  if ( $result2->rowCount() <=0) {
-          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths) 
-		  VALUES('$name', '".strtolower( trim($name))."', '$score','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths')";
+          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count) 
+		  VALUES('$name', '".strtolower( trim($name))."', '$score','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc')";
           } else {
 		  //...or update player data
 		  if ($winner == 1) $score = "score = score + $ScoreWins,";
 		  if ($winner == 0) $score = "score = score - $ScoreLosses,";
 		  if ($win==0) $score = "";
 		  
-		  //DISC
-		  if ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) {
+		  //LEAVER
+		  if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["duration"] == "has left the game voluntarily" ) {
 		  $score = "score = score - $ScoreDisc,"; }
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
@@ -270,7 +274,8 @@ if ($PluginEnabled == 1) {
 		  maxstreak = '$maxstreak',
 		  losingstreak = '$losingstreak',
 		  maxlosingstreak = '$maxlosingstreak',
-		  zerodeaths = zerodeaths+$zerodeaths
+		  zerodeaths = zerodeaths+$zerodeaths,
+                  dc_count = dc_count + $dc
 		  WHERE LOWER(player) = LOWER('$name');";
 		   }
 		  $result3 = $db->prepare($sql3);
