@@ -11,7 +11,6 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   <tr>
     <th class="padLeft" width="240"><?=$lang["game_name"]?></th>
 	<th><?=$lang["slots"] ?></th>
-	<th></th>
   </tr>
   <?php
   foreach ( $LiveGamesData as $LiveGames ) {

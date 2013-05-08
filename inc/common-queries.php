@@ -46,7 +46,7 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
       ///////////////
      // GAME INFO //
     ///////////////
-	function getUserGames ($id, $MinDuration, $offset, $rowsperpage, $filter = "" ) {
+	function getUserGames ( $MapString="dota", $id, $MinDuration, $offset, $rowsperpage, $filter = "" ) {
 	
 	 $sql = "SELECT s.*, g.id, g.map, g.gamename, g.datetime, g.ownername, g.duration,  g.creatorname, dg.winner, 
 	 g.gamestate AS type, s.player, dp.kills, dp.deaths, dp.creepkills, dp.creepdenies, dp.assists, dp.hero, dp.neutralkills, dp.newcolour
@@ -55,20 +55,20 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 	 LEFT JOIN ".OSDB_GAMES." as g ON g.id = gp.gameid
 	 LEFT JOIN ".OSDB_DG." as dg ON g.id = dg.gameid 
 	 LEFT JOIN ".OSDB_DP." as dp ON dp.gameid = dg.gameid AND gp.colour = dp.colour
-	 WHERE s.id = '".(int) $id."' AND (g.map) LIKE ('%dota%') AND g.duration>='".$MinDuration."' ".$filter."
+	 WHERE s.id = '".(int) $id."' AND (g.map) LIKE ('%".$MapString."%') AND g.duration>='".$MinDuration."' ".$filter."
 	 LIMIT $offset, $rowsperpage";
 	 
 	return $sql;
 	}
 	
 	
-	function getAllGames($MinDuration, $offset, $rowsperpage, $filter="", $order = "id DESC" ) {
+	function getAllGames( $MapString="dota", $MinDuration, $offset, $rowsperpage, $filter="", $order = "id DESC" ) {
 	  $sql = "SELECT 
           g.id, g.views, g.stats, g.map, g.datetime, g.gamename, g.ownername, g.duration, g.creatorname, dg.winner, 
 		  g.gamestate  type, g.creatorserver as server
 		  FROM ".OSDB_GAMES." as g 
 		  LEFT JOIN ".OSDB_DG." as dg ON g.id = dg.gameid 
-		  WHERE (map) LIKE '%dota%' AND duration>='".$MinDuration."' $filter
+		  WHERE (map) LIKE '%".$MapString."%' AND duration>='".$MinDuration."' $filter
 		  ORDER BY $order
 		  LIMIT $offset, $rowsperpage";
 	return $sql;

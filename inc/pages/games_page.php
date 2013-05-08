@@ -10,7 +10,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$HomeKeywords = strtolower( os_strip_quotes($lang["game_archive"])).','.$HomeKeywords;
 	
 	//Get date of first game
-	$sth = $db->prepare("SELECT * FROM ".OSDB_GAMES." WHERE id>=1 AND (map) LIKE ('%dota%') 
+	$sth = $db->prepare("SELECT * FROM ".OSDB_GAMES." WHERE id>=1 AND (map) LIKE ('%".$MapString."%') 
 	ORDER BY datetime ASC LIMIT 1");
 	
 	$result = $sth->execute();
@@ -44,7 +44,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 LEFT JOIN ".OSDB_GAMES." as g ON g.id = gp.gameid
 	 LEFT JOIN ".OSDB_DG." as dg ON g.id = dg.gameid 
 	 LEFT JOIN ".OSDB_DP." as dp ON dp.gameid = dg.gameid AND gp.colour = dp.colour
-	 WHERE s.id = :id AND (g.map) LIKE ('%dota%') AND g.duration>='".$MinDuration."' ".$sqlFilter."
+	 WHERE s.id = :id AND (g.map) LIKE ('%".$MapString."%') AND g.duration>='".$MinDuration."' ".$sqlFilter."
 	 ";
 	 $sth = $db->prepare($sql);
 	 
@@ -63,7 +63,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 LEFT JOIN ".OSDB_GAMES." as g ON g.id = gp.gameid
 	 LEFT JOIN ".OSDB_DG." as dg ON g.id = dg.gameid 
 	 WHERE s.id = :id 
-	 AND (g.map) LIKE ('%dota%') 
+	 AND (g.map) LIKE ('%".$MapString."%') 
 	 AND g.duration>='".$MinDuration."' 
 	 LIMIT 1";
 	 
@@ -88,7 +88,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   
 	$sqlFilter.="ORDER BY g.datetime DESC";
 	
-	$sql = getUserGames ($id, $MinDuration, $offset, $rowsperpage, $sqlFilter );
+	$sql = getUserGames ($MapString, $id, $MinDuration, $offset, $rowsperpage, $sqlFilter );
 	 
   }
   else   
@@ -107,7 +107,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   }
   
   $sth = $db->prepare("SELECT COUNT(*) FROM ".OSDB_GAMES." 
-  WHERE (map) LIKE ('%dota%') AND duration>='".$MinDuration."' ".$filter." LIMIT 1");
+  WHERE (map) LIKE ('%".$MapString."%') AND duration>='".$MinDuration."' ".$filter." LIMIT 1");
   
   $result = $sth->execute();	  
   
@@ -118,7 +118,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   include('inc/pagination.php');
   $draw_pagination = 1;
 	  
-   $sql = getAllGames($MinDuration, $offset, $rowsperpage, $filter, "datetime DESC" );
+   $sql = getAllGames($MapString, $MinDuration, $offset, $rowsperpage, $filter, "datetime DESC" );
 	  
     }
     $sth = $db->prepare( $sql  );

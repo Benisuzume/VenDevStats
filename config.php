@@ -21,6 +21,10 @@ $DefaultStyle = 'blogger';
 
 $LogoText = 'DotA OpenStats 3';
 
+//** CUSTOM ADDINGS **//
+// Custom Mapname for maps who havent '%dota%' in the mapname.
+$MapString = "dota";
+
 //FACEBOOK APP SETUP
 //Enable Login via Facebook
 $FBLogin = '0';

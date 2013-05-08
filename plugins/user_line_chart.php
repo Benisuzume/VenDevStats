@@ -94,7 +94,10 @@ foreach ( $ChartData as $Chart ) {
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(function () {
-        $('#container').highcharts({
+<?php 
+//Fix JQuery conflict for bootstrap template
+if (OS_THEMES_DIR == "bootstrap") { ?>$.noConflict();<?php } 
+?>
             chart: {
                 type: 'line',
                 marginRight: 100,

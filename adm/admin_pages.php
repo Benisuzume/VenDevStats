@@ -4,13 +4,13 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 if ( !$_GET OR (isset($_GET["delete_file"]) OR isset($_GET["delete_cache"]) OR isset($_GET["delete_replay_cache"]) OR isset($_GET["view_cache"]) OR isset($_GET["optimize_tables"]) )) {
 
    	$sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GAMES." 
-	WHERE map LIKE '%dota%' AND stats = 0 AND duration>='".$MinDuration."'" );
+	WHERE map LIKE '%".$MapString."%' AND stats = 0 AND duration>='".$MinDuration."'" );
 	$result = $sth->execute();
     $r = $sth->fetch(PDO::FETCH_NUM);
     $TotalGamesForUpdate = $r[0];
 	
    	$sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GAMES." 
-	WHERE map LIKE '%dota%' AND stats = 1" );
+	WHERE map LIKE '%".$MapString."%' AND stats = 1" );
 	$result = $sth->execute();
     $r = $sth->fetch(PDO::FETCH_NUM);
     $TotalRankedGames = $r[0];

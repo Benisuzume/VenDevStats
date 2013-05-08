@@ -207,7 +207,7 @@ if ( isset($_GET["game_id"]) AND is_numeric($_GET["game_id"]) ) {
 
   $sth = $db->prepare("SELECT COUNT(*) FROM ".OSDB_GAMES." as g
   LEFT JOIN ".OSDB_DG." as dg ON g.id = dg.gameid 
-  WHERE g.map LIKE '%dota%' AND g.duration>='".$duration."' 
+  WHERE g.map LIKE '%".$MapString."%' AND g.duration>='".$duration."' 
   $filter
   LIMIT 1");
   $result = $sth->execute();
@@ -218,7 +218,7 @@ if ( isset($_GET["game_id"]) AND is_numeric($_GET["game_id"]) ) {
   $SHOW_TOTALS = 1;
   include('pagination.php');
   
-  $sth = $db->prepare( getAllGames( $duration, $offset, $rowsperpage, $filter, $orderby ) );
+  $sth = $db->prepare( getAllGames( $MapString, $duration, $offset, $rowsperpage, $filter, $orderby ) );
   $result = $sth->execute();
   ?>
   <table>

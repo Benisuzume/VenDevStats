@@ -183,7 +183,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	
     //RECENT GAMES
 	if ( $RecentGames == 1 AND (!isset($_GET["post_id"]) AND !$_GET )) {
-    $sth = $db->prepare( getAllGames($MinDuration, 0, $TotalRecentGames )  );
+    $sth = $db->prepare( getAllGames($MapString, $MinDuration, 0, $TotalRecentGames )  );
 	$result = $sth->execute();
 	$c=0;
 	
