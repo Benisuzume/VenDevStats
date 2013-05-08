@@ -32,7 +32,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 }
 	
 	$sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GAMES." 
-	WHERE (map) LIKE ('%dota%') AND stats = 0 AND duration>='".$MinDuration."'" );
+	WHERE (map) LIKE ('%dota%') AND stats = 0 AND duration>='".$MinDuration."' ORDER BY `id`" );
 	$result = $sth->execute();
     $r = $sth->fetch(PDO::FETCH_NUM);
     $Total = $r[0];
@@ -54,7 +54,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 	$result = $sth->execute();
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	 $gid = $row["id"];
-	 $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration,
+	 $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, g.gamename,
 	   gp.name as name, 
 	   gp.ip as ip, gp.spoofed, gp.spoofedrealm, gp.reserved, gp.left, gp.leftreason,
 	   b.name as banname 
@@ -109,7 +109,8 @@ function OS_UpdateScoresTable( $name = "" ) {
 		if ($winner == 0) $score = $ScoreStart - $ScoreLosses;
 		if ($win==0) $score = $ScoreStart;
 		
-		if ( $list["left"] <= ($list["duration"] - $MinDuration) ) {
+                if( !isset($list["leftreason"]) AND empty($list["leftreason"]) ) $list["leftreason"] = "No entry!";
+		if ( ( $list["left"] <= ($list["duration"] - $MinDuration) ) AND $list["leftreason"] == "has left the game voluntarily" ) {
 		   $leaver = 1; $score = "";
 		} else $leaver = 0;
 		
@@ -128,6 +129,49 @@ function OS_UpdateScoresTable( $name = "" ) {
                 //DISC
                 $splitreason = explode( " ", $list["leftreason"] );
                 if( $splitreason[1] == "lost" ) $dc = 1; else $dc = 0;
+
+/** CUSTOM AUTOBAN **/
+                //preperation
+                $games = 1;
+                $dc_count = 0;
+                $leave_count = 0;
+                //check the player
+                $GetUserInfo = $db->prepare("SELECT * FROM ".OSDB_STATS." WHERE player = '".$name."'");
+                $result = $GetUserInfo->execute();
+                while ($list = $GetUserInfo->fetch(PDO::FETCH_ASSOC)) {
+                        $games=$list["games"];
+                        $dc_count=$list["dc_count"];
+                        $leave_count=$list["leaver"];
+                }
+
+                //calculations
+                //Current Leave
+                $games = $games+1;
+                if( $leaver == 1 ) $leave_count = $leave_count+1;
+                if( $dc == 1 ) $dc_count = $dc_count+1;
+                $leaveratio = round( (($leave_count/$games)*100), 2 );
+                $dcratio = round( (($dc_count/$games)*100), 2 );
+
+                        //Check players with lower games than 5 for a high amount of leaving (over or 3 out of 5 games is to much)
+                        if( $games <= 5 AND $leave_count >= 3  AND $is_admin == "0" AND $is_safe == "0" ) {
+                                $reason = "AUTOBAN: Player left ".$leave_count." out of ".$games." games.";
+                                $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$name', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                        }
+			//Check players with lower games than 10 for a high amount of leaving (over or 6 out of 10 games is to much)
+			if( $games <= 10 AND $leave_count >= 6  AND $is_admin == "0" AND $is_safe == "0" ) {
+                                $reason = "AUTOBAN: Player left ".$leave_count." out of ".$games." games.";
+                                $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$name', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                        }
+                        //Check players with more than 10 games, only 10% is a accepted amount of leaving
+                        if( $games > 15 AND ( $leaveratio > 10 ) AND $is_admin == "0" AND $is_safe == "0" ) {
+                                $reason = "AUTOBAN: Player left has a leaving ratio of ".$leaveratio."% out of ".$games." games.";
+                                $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$name', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                        }
+                        //Now check for a high amount of disconnects, they could be done on purpose!
+                        if( $dcratio > 20 AND $games > 20 AND $is_admin == "0" AND $is_safe == "0" ) {
+                                $reason = "AUTOBAN: Player has a disconnect ratio of ".$dcratio."% out of ".$games." games.";
+                                $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$name', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                        }
 		
 		$result2 = $db->prepare("SELECT player FROM ".OSDB_STATS." WHERE (player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
@@ -169,7 +213,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  if ($win==0) $score = "";
 		  
 		  //LEAVER
-		  if ( ( $list["left"] <= ( $list["duration"] - $LeftTimePenalty ) ) AND $list["duration"] == "has left the game voluntarily" ) {
+		  if ( ( $list["left"] <= ( $list["duration"] - $LeftTimePenalty ) ) AND $list["leftreason"] == "has left the game voluntarily" ) {
 		  $score = "score = score - $ScoreDisc,"; }
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
