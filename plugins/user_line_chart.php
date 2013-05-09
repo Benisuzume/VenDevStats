@@ -94,7 +94,7 @@ foreach ( $ChartData as $Chart ) {
 $(function () {
 <?php 
 //Fix JQuery conflict for bootstrap template
-if (OS_THEMES_DIR == "bootstrap") { ?>$.noConflict();<?php } 
+if ( OS_THEMES_DIR == "bootstrap" ) { ?>$.noConflict();<?php } 
 ?>
         $('#container').highcharts({
             chart: {

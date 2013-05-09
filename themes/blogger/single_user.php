@@ -1,45 +1,175 @@
 <?php
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
-
-  foreach ( $UserData as $User ) {
-  ?>
+if (!isset($_SESSION["level"]) AND empty($_SESSION["level"]) ) $_SESSION["level"] = 0;
+//image change add on
+?>
+<script language="javascript">
+function changeImage($iid) {
+ if (document.getElementById($iid).src == "<?=OS_HOME?>img/-.png") {
+  document.getElementById($iid).src = "<?=OS_HOME?>img/+.png";
+ } else {
+  document.getElementById($iid).src = "<?=OS_HOME?>img/-.png";
+ }
+}
+</script>
+<? foreach ( $UserData as $User ) { ?>
 <div class="clr"></div>
  <div class="ct-wrapper">
   <div class="outer-wrapper">
    <div class="content section">
     <div class="widget Blog">
      <div class="blog-posts hfeed">
-  
   <h1>
 	<?=OS_ShowUserFlag( $User["letter"], $User["country"] )?>
-    <?=$User["player"]?><font color="blue">@<?=$User["realm"]?></font>  
+	<?=$User["player"]?><font color="blue">@<?=$User["realm"]?></font>
 	<?=OS_IsUserGameBanned( $User["banned"], $lang["banned"] )?>
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $User["safelist"], $lang["safelist"] )?>
 	<?=OS_IsUserGameLeaver( $User["leaver"], $lang["leaves"].": ".$User["leaver"]."<div>".$lang["stayratio"].": ".$User["stayratio"]."%</div>",1 )?>
   </h1>
-  
-  <?php
-  if ( OS_is_banned_player( $User["banname"] ) ) {
-  ?>
-  <h4><span class="banned"><?=$lang["banned"]?></span></h4>
-  <table class="Table500px">
-  <tr>
-    <td width="100"><b><?=$lang["reason"]?>:</b> </td>
-	<td><span class="banned padTop"><?=$User["reason"]?></span></td>
-  <tr>
-    <td width="100"><b><?=$lang["bannedby"]?>:</b> </td>
-	<td><span class="banned"><a href="<?=OS_HOME?>?u=<?=strtolower($User["admin"])?>"><?=$User["admin"]?></a></span></td>
+<? if ( $_SESSION["level"]>=10 ) { ?>
+	<h4> IP: <?=$User["ip"]?> </h4>
+<? }
+if ( OS_is_banned_player( $User["banname"] ) ) {
+?>
+   <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
+     <tr>
+      <div id="BANS" style="display:none;">
+     <? foreach ( $bans as $bq ) { ?>
+	<div class="comparePlayers">
+	 <table>
+	  <tr><td width="90">Name</td><td width="160"><font color="red"><?=$bq["name"]?></font></td></tr>
+	  <tr><td width="90">Realm</td><td width="160"><font color="green"><?=$bq["server"]?></font></td></tr>
+	 <? if ( $_SESSION["level"]>=10 ) { ?>
+          <tr><td width="90">IP</td><td width="160"><font color="blue"><?=$bq["ip"]?></font></td></tr>
+	 <? }
+           $full_reason = "Reason: ".$bq["reason"];
+	    if( strlen($bq["reason"]) > "30" ) {
+	   $bqreason = explode(" ", $bq["reason"]); ?>
+ 	  <tr><td width="90">Reason</td><td width="160"><span <?=ShowToolTip($full_reason, OS_HOME.'img/banned.png', 400, 16, 16)?>><?=$bqreason[0]?></span></td></tr>
+	 <? } else { ?>
+          <tr><td width="90">Reason</td><td width="160"><span <?=ShowToolTip($full_reason, OS_HOME.'img/banned.png', 400, 16, 16)?>><?=$bq["reason"]?></span></td></tr>
+	 <? }
+	    if( isset($bq["gamename"]) AND !empty($bq["gamename"]))  {
+	   $bqgn = explode(" ", $bq["gamename"]); ?>
+          <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><?=$bqgn[2]?></font></td></tr>
+	 <? } else { ?>
+          <tr><td width="90">GameName</td><td width="160"><?=$bq["gamename"]?></td></tr>
+	 <? }  ?>
+          <tr><td width="90">Admin</td><td width="160"><font color="purple"><?=$bq["admin"]?></font></td></tr>
+	<? $date = explode(" ", $bq["date"]); ?>
+          <tr><td width="90">Date</td><td width="160"><font color="red"><?=$date[0]?></font></td></tr>
+	<? if( isset( $bq["expiredate"] ) AND !empty( $bq["expiredate"] ) ) {
+	   $date1 = explode(" ", $bq["expiredate"]); ?>
+          <tr><td width="90">E-Day</td><td width="160"><font color="orange"><?=$date1[0]?></font></td></tr>
+       <? } ?>
+	 </table>
+	</div>
+        <? }
+        foreach ( $ipbans as $ibq ) { ?>
+	<div class="comparePlayers">
+         <table>
+          <tr><td width="90">Name</td><td width="160"><font color="red"><?=$ibq["name"]?></font></td></tr>
+          <tr><td width="90">Realm</td><td width="160"><font color="green"><?=$ibq["server"]?></font></td></tr>
+       	 <? if ( $_SESSION["level"]>=10 ) { ?>
+          <tr><td width="90">IP</td><td width="160"><font color="blue"><?=$ibq["ip"]?></font></td></tr>
+	 <? }
+	    if( strlen($bq["reason"]) > "30" ) {
+	   $ibqreason = explode(" ", $ibq["reason"]); ?>
+ 	  <tr><td width="90">Reason</td><td width="160"><?=$ibqreason[0]?></td></tr>
+	 <? } else { ?>
+          <tr><td width="90">Reason</td><td width="160"><?=$ibq["reason"]?></td></tr>
+	 <? }
+	    if( isset($ibq["gamename"]) AND !empty($ibq["gamename"]))  {
+	   $ibqgn = explode(" ", $ibq["gamename"]); ?>
+          <tr><td width="90">GameNumber</td><td width="160"><span <?=ShowToolTip($bq["gamename"], OS_HOME.'img/banned.png', 200, 16, 16)?>><font color="teal"><?=$ibqgn[2]?></font></span></td></tr>
+	 <? } else { ?>
+          <tr><td width="90">Reason</td><td width="160"><?=$ibq["gamename"]?></td></tr>
+ 	 <? }  ?>
+          <tr><td width="90">Admin</td><td width="160"><font color="purple"><?=$ibq["admin"]?></td></font></tr>
+	 <? $date = explode(" ", $ibq["date"]); ?>
+          <tr><td width="90">Date</td><td width="160"><font color="red"><?=$date[0]?></td></font></tr>
+	 <? $date2 = explode(" ", $ibq["expiredate"]); ?>
+          <tr><td width="90">E-Day</td><td width="160"><font color="orange"><?=$date2[0]?></font></td></tr>
+         </table>
+	</div>
+     <? } } ?>
+      </div>
+<br>
+<!--- IP RANGE --->
+<table>
+ <tr>
+  <th class="padLeft">Accounts on the IP-Range</th>
+  <th>Bans on the IP-Range</th>
+ </tr>
+ <tr>
+  <td class="padLeft" width="300">
+   <?=$User["player"]?><img class="imgvalign" id="1" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('MACC'); changeImage(1);" alt="" />
+   <div id="MACC" style="display:none;">
+    <table>
+     <tr>
+      <th width="120">AccountName</th>
+   <? if( $_SESSION["level"] >= "10" ) { ?>
+      <th width="80">IP</td>
+   <? } ?>
+      <th width="80">Played on this Ip-Range</th>
+     </tr>
+   <? if( $nummac > 0 ) {
+       foreach ( $macqu as $ACC ) { ?>
+        <tr><td width="120"><?=$ACC["player"]?></td>
+   <? if( $_SESSION["level"] >= "10" ) { ?>
+        <td width="80"><?=$ACC["ip"]?></td>
+   <? } ?>
+        <td width="80"><?=$ACC["games"]?> <?if($ACC["games"] == 1 ) echo 'Time'; else echo 'Times'; ?></td></tr>
+     </tr>
+  <? }
+    } else { ?>
+     <tr>
+      <td>No multiply Accounts</td>
+   <? if( $_SESSION["level"] >= "10" ) { ?>
+      <td></td>
+   <? } ?>
+      <td></td>
+     </tr>
+ <? } ?>
+    </table>
+   </div>
+  </td>
+  <td class="padLeft" width="300">
+   <?=$User["player"]?><img class="imgvalign" id="2" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('BACC'); changeImage(2);" alt="" />
+    <div id="BACC" style="display:none;">
+     <table>
+      <tr>
+       <th width="120">AccountName</th>
+	<? if( $_SESSION["level"] >= "10" ) { ?>
+       <th width="80">IP</td>
+        <? } ?>
+       <th width="80">Banned on this Ip-Range</th>
+      </tr>
+<? if( $numbac > 0 ) {
+    foreach ( $bacqu as $BCC ) { ?>
+      <tr><td width="120"><?=$BCC["name"]?></td>
+      <? if( $_SESSION["level"] >= "10" ) { ?>
+       <td width="80"><?=$BCC["ip"]?></td>
+      <? } ?>
+       <td width="80"><?=$BCC["COUNT(*)"]?> <?if($BCC["COUNT(*)"] == 1 ) echo 'Time'; else echo 'Times'; ?></td></tr>
+    <? }
+      } else { ?>
+      <tr>
+       <td>No Bans on this IP-Range</td>
+   <? if( $_SESSION["level"] >= "10" ) { ?>
+       <td></td>
+   <? } ?>
+       <td></td>
+      </tr>
+<? } ?>
+     </table>
+    </div>
+   </td>
   </tr>
-  <tr>
-    <td width="100"><b><?=$lang["date"]?>:</b> </td>
-	<td><?=$User["bandate"]?></td>
-  </tr>
-  </table>
-  <?php
-  }
-  ?>
+ </table>
+<br>
   <div class="padTop">
   <table class="Table500px">
       <tr class="row">

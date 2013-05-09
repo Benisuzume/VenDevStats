@@ -30,14 +30,14 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 }
 	
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-	
+
 	if ( isset($GeoIP) AND $GeoIP == 1) {
 	$UserData[$c]["letter"]   = geoip_country_code_by_addr($GeoIPDatabase, $row["ip"]);
 	$UserData[$c]["country"]  = geoip_country_name_by_addr($GeoIPDatabase, $row["ip"]);
 	}
 	if ($GeoIP == 1 AND empty($UserData[$c]["letter"]) ) {
 	$UserData[$c]["letter"] = "blank";
-	$UserData[$c]["country"]  = "Reserved";
+	$UserData[$c]["country"]  = "Unknown";
 	}
 	
 	$UserData[$c]["id"]        = (int)($row["id"]);
@@ -122,10 +122,68 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$UserData[$c]["cdpg"] = ROUND($row["denies"]/$row["games"],2); 
 	}
 	else $UserData[$c]["cdpg"] = 0;
-	
+
+        $IP = $UserData[$c]["ip"];
 	$c++;
 	}
 	if ( isset($GeoIP) AND $GeoIP == 1) geoip_close($GeoIPDatabase);
+    //BAN QUERY
+        $bans = array();
+        $bansquery = $db->prepare("SELECT * FROM `bans` WHERE LOWER(name) LIKE LOWER('".$PlayerName."') ORDER BY date DESC;");
+        $result = $bansquery->execute();
+        while ($row = $bansquery->fetch(PDO::FETCH_ASSOC)) {
+                $bans[$c]["name"] = $row["name"];
+                $bans[$c]["server"] = $row["server"];
+                $bans[$c]["ip"] = $row["ip"];
+                $bans[$c]["date"] = $row["date"];
+                $bans[$c]["gamename"] = $row["gamename"];
+                $bans[$c]["admin"] = $row["admin"];
+                $bans[$c]["reason"] = $row["reason"];
+                $bans[$c]["expiredate"] = $row["expiredate"];
+                $bans[$c]["warn"] = $row["warn"];
+            $c++;
+        }
+    //IP BAN QUERY
+        $ipbans = array();
+        $ipbansquery = $db->prepare("SELECT * FROM `bans` WHERE ip LIKE '".$IP."' AND name NOT LIKE LOWER('".$PlayerName."') ORDER BY date DESC;");
+        $result = $ipbansquery->execute();
+        while ($row = $ipbansquery->fetch(PDO::FETCH_ASSOC)) {
+                $ipbans[$c]["name"] = $row["name"];
+                $ipbans[$c]["server"] = $row["server"];
+                $ipbans[$c]["ip"] = $row["ip"];
+                $ipbans[$c]["date"] = $row["date"];
+                $ipbans[$c]["gamename"] = $row["gamename"];
+                $ipbans[$c]["admin"] = $row["admin"];
+                $ipbans[$c]["reason"] = $row["reason"];
+                $ipbans[$c]["expiredate"] = $row["expiredate"];
+                $ipbans[$c]["warn"] = $row["warn"];
+           $c++;
+        }
+
+    //IP RANGE ACCOUNTS & IP RANGE BANS
+	if( isset($IP) AND !empty($IP) ) {
+		$macqu = array();
+		$bacqu = array();
+		$ips = explode(".", $IP );
+		$mac = $db->prepare("SELECT `player`, `games`, `ip` FROM `stats` WHERE ip LIKE '".$ips[0].".".$ips[1].".%' GROUP BY `player` ORDER BY games DESC;");
+		$result = $mac->execute();
+                $nummac = $mac->rowCount();
+		while ($row = $mac->fetch(PDO::FETCH_ASSOC)) {
+			$macqu[$c]["player"] = $row["player"];
+			$macqu[$c]["ip"] = $row["ip"];
+			$macqu[$c]["games"] = $row["games"];
+		    $c++;
+		}
+		$bac = $db->prepare("SELECT `name`, `ip`, COUNT(*) FROM `bans` WHERE ip LIKE '".$ips[0].".".$ips[1].".%' AND `warn` != 1 GROUP BY `name` ORDER BY COUNT(*) DESC;");
+	        $result = $bac->execute();
+                $numbac = $bac->rowCount();
+		while ($row = $row = $bac->fetch(PDO::FETCH_ASSOC)) {
+			$bacqu[$c]["name"] = $row["name"];
+			$bacqu[$c]["COUNT(*)"] = $row["COUNT(*)"];
+			$bacqu[$c]["ip"] = $row["ip"];
+		    $c++;
+		}
+	}
 
     //LONGEST, FASTEST GAME WON
 	if ( !empty($PlayerName) ) {
