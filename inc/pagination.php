@@ -22,6 +22,8 @@ if ( isset($_GET["safelist"]) )   $prefix.="?safelist";
 if ( isset($_GET["members"]) )    $prefix.="?members";
 if ( isset($_GET["guides"]) )     $prefix.="?guides";
 if ( isset($_GET["game"]) AND is_numeric($_GET["game"]) )   $prefix.="?game=".safeEscape( (int)$_GET["game"] );
+if ( isset($_GET["fame"]) )     $prefix.="?fame";
+if ( isset($_GET["shame"]) )     $prefix.="?shame";
 
 if ( isset($_GET["post_id"]) ) {
   $strana = "&amp;page=";

@@ -7,7 +7,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   
   <h1>
 	<?=OS_ShowUserFlag( $User["letter"], $User["country"] )?>
-    <?=$User["player"]?>  
+    <?=$User["player"]?><font color="blue">@<?=$User["realm"]?></font>  
 	<?=OS_IsUserGameBanned( $User["banned"], $lang["banned"] )?>
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>

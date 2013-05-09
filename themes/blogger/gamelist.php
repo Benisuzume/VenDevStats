@@ -11,7 +11,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   
   <table>
   <tr>
-    <th class="padLeft" style="width: 240px"><?=$lang["game_name"]?></th>
+    <th class="padLeft" style="width: 700px"><?=$lang["game_name"]?></th>
 	<th><?=$lang["slots"] ?></th>
   </tr>
   <?php
@@ -23,6 +23,11 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	   <a href="javascript:;" onclick="showhide('<?=$LiveGames["botid"]?>')"><?=$LiveGames["gamename"]?></a>
 	<div id="<?=$LiveGames["botid"]?>" style="display:none;">
 	 <table>
+          <tr>
+           <th>Player</th>
+           <th>Ping</th>
+           <th>Realm</th>
+          </tr>
 	 <?php
 	 //print_r($LiveGames["players"]);
 	 for($i = 0; $i < count( $LiveGames["players"] ) - 2; $i+=3) {
@@ -35,6 +40,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 		<tr>
 		  <td><?=$lang["empty"] ?></td>
 		  <td></td>
+		  <td></td>
 		</tr>
 		<?php
 		} else {
@@ -42,6 +48,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
         <tr>
 		  <td><b><?=$username?></b></td>
 		  <td><?=$ping?> <?=$lang["ms"] ?></td>
+		  <td><?=$realm ?></td>
 		</tr>
 		<?php
 		}

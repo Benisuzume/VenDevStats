@@ -17,13 +17,9 @@ $HomeKeywords = 'dota, games, heroes, players, best players, top list, top playe
 
 $default_language = 'english';
 $DateFormat = 'd.m.Y, H:i';
-$DefaultStyle = 'blogger';
+$DefaultStyle = 'bootstrap';
 
 $LogoText = 'DotA OpenStats 3';
-
-//** CUSTOM ADDINGS **//
-// Custom Mapname for maps who havent '%dota%' in the mapname.
-$MapString = "dota";
 
 //FACEBOOK APP SETUP
 //Enable Login via Facebook
@@ -165,4 +161,12 @@ $TimeZone = 'Europe/Belgrade';
 $GameListPatch = '0';
 
 $OS_INSTALLED = '1';
+
+//** CUSTOM ADDINGS **//
+// Custom Mapname for maps who havent '%dota%' in the mapname.
+$MapString = "dota";
+
+// Fame/Shame Page, enable by set to 1
+$Fame_Shame_Pages = '1';
+
 ?>

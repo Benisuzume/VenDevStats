@@ -141,6 +141,16 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   include('inc/addons/vote.php');
   } 
   else
+  //FAME
+  if ( isset($_GET["fame"]) AND $Fame_Shame_Pages == 1 ) {
+  include(OS_CURRENT_THEME_PATH.'/fame.php');
+  }
+  else
+  //SHAME
+  if ( isset($_GET["shame"]) AND $Fame_Shame_Pages == 1 ) {
+  include(OS_CURRENT_THEME_PATH.'/shame.php');
+  }
+  else
   if ( isset($_GET["404"]) ) {
   include(OS_CURRENT_THEME_PATH.'/404.php');
    } else 

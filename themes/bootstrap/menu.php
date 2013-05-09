@@ -14,6 +14,14 @@ if ( !isset($s) ) $s = $lang["search_players"];
   <?php if ($TopPage == 1) { ?>
   <li><a href="<?=OS_HOME?>?top"><?=$lang["top"]?></a></li>
   <?php } ?>
+  <?php if ($Fame_Shame_Pages == 1) { ?>
+  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">Halls <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+	  <li><a href="<?=OS_HOME?>?fame">HoF</a></li>
+	  <li><a href="<?=OS_HOME?>?shame">HoS</a></li>
+	 </ul>
+	</li>
+  <?php } ?>
   <li><a href="<?=OS_HOME?>?games"><?=$lang["game_archive"]?></a></li>
 <?php if ($HeroesPage == 1 AND $ItemsPage == 1 ) { ?>
   <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"><?=$lang["media"]?> <b class="caret"></b></a>

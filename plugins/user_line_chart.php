@@ -18,6 +18,7 @@ if ($PluginEnabled == 1  ) {
      global $db;
 	 global $MinDuration;
 	 global $UserData;
+	 global $MapString;
 	 
 	 if ( isset($_GET["showgames"]) AND $_GET["showgames"] == 10)  $Total = 10; else
 	 if ( isset($_GET["showgames"]) AND $_GET["showgames"] == 20)  $Total = 20; else

@@ -9,7 +9,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
     <?php if (isset($User["letter"]) ) { ?>
     <img <?=ShowToolTip($User["country"], $website.'img/flags/'.($User["letter"]).'.gif', 130, 21, 15)?> class="imgvalign" width="21" height="15" src="<?=$website?>img/flags/<?=$User["letter"]?>.gif" alt="" />
     <?php } ?>
-    <?=$User["player"]?>   
+    <?=$User["player"]?><font color="blue">@<?=$User["realm"]?></font>   
 	<?php if ( isset( $User["banname"] ) AND !empty( $User["banname"] ) ) { ?> - <span class="banned"><?=$lang["banned"]?></span><?php } ?>
   </h1>
   
