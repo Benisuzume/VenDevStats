@@ -239,7 +239,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 <script type='text/javascript' src='<?=OS_THEME_PATH?>resources/jquery.easing.v1.3.js'></script>
 <script type='text/javascript' src='<?=OS_THEME_PATH?>resources/jquery-fancybox.1.3.4.js'></script>
 <?php */ ?>
-  <p id="copyright">Powered by  <a href="http://openstats.iz.rs">DotA OpenStats</a></p>
+  <p id="copyright">Powered by  <a href="http://openstats.iz.rs">DotA OpenStats</a> modified by <a target="_blank" href="http://www.codelain.com/forum/index.php?action=profile">Grief-Code</a></p>
   <?php
   }
   

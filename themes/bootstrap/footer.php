@@ -7,7 +7,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
     <div class="container">
 	<?php os_footer();?>
-	<div class="credit">Copyright &#169; <?=date("Y")?> &#183; Powered by <a target="_blank" href="http://openstats.iz.rs/">OpenStats <?=OS_VERSION?></a> </div>
+	<div class="credit">Copyright &#169; <?=date("Y")?> &#183; Powered by <a target="_blank" href="http://openstats.iz.rs/">OpenStats <?=OS_VERSION?></a> modified by <a target="_blank" href="http://www.codelain.com/forum/index.php?action=profile">Grief-Code</a></div>
 	<?=show_debug( $_debug  )?>
 	<?php os_after_footer(); ?>
 	 <div class="gototop"><a href="#" rel="nofollow">Return to top of page</a> </div>

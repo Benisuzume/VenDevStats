@@ -13,7 +13,7 @@ if ($PluginEnabled == 1  ) {
    AddEvent("os_head","OS_JQuery182");
    AddEvent("os_display_custom_fields","OS_ChartData");
    }
-   
+
    function OS_JQuery182() {
      global $db;
 	 global $MinDuration;
@@ -30,9 +30,6 @@ if ($PluginEnabled == 1  ) {
 	 $ord = 'DESC';
 	 $label  = 'last';
 	 if ( isset($_GET["first"]) ) { $ord = 'ASC'; $label  = 'first'; }
-	 
-
-	 
 	 $id = (int) $_GET["u"];
 	 $sth = $db->prepare("SELECT s.*, g.id, g.map, g.gamename, g.datetime, g.ownername, g.duration,  g.creatorname, dg.winner, 
 	 g.gamestate  AS type, s.player, dp.kills, dp.deaths, dp.creepkills, dp.creepdenies, dp.assists, dp.hero, dp.neutralkills, dp.newcolour
@@ -41,7 +38,7 @@ if ($PluginEnabled == 1  ) {
 	 LEFT JOIN ".OSDB_GAMES." as g ON g.id = gp.gameid
 	 LEFT JOIN ".OSDB_DG." as dg ON g.id = dg.gameid 
 	 LEFT JOIN ".OSDB_DP." as dp ON dp.gameid = dg.gameid AND gp.colour = dp.colour
-	 WHERE s.id = :id AND (g.map) LIKE ('%dota%') AND g.duration>='".$MinDuration."' 
+	 WHERE s.id = :id AND (g.map) LIKE ('%".$MapString."%') AND g.duration>='".$MinDuration."' 
 	 ORDER BY g.id ".$ord."
 	 LIMIT $Total");
 	 
@@ -99,6 +96,7 @@ $(function () {
 //Fix JQuery conflict for bootstrap template
 if (OS_THEMES_DIR == "bootstrap") { ?>$.noConflict();<?php } 
 ?>
+        $('#container').highcharts({
             chart: {
                 type: 'line',
                 marginRight: 100,

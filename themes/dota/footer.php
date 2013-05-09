@@ -8,7 +8,7 @@ os_footer();
    <tr>
      <td width="900">
 	 <?=show_debug( $_debug  )?>
-	 Powered by <a target="_blank" href="http://openstats.iz.rs/">OpenStats <?=OS_VERSION?></a> 
+	 Powered by <a target="_blank" href="http://openstats.iz.rs/">OpenStats <?=OS_VERSION?></a> modified by <a target="_blank" href="http://www.codelain.com/forum/index.php?action=profile">Grief-Code
 	 </td>
    </tr>
   </table>
