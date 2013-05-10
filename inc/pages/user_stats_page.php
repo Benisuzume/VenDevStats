@@ -51,6 +51,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$UserData[$c]["score"]  = number_format($row["score"],0);
 	$UserData[$c]["games"]  = number_format($row["games"],0);
 	$UserData[$c]["wins"]  = number_format($row["wins"],0);
+        $UserData[$c]["win"]  = number_format($row["wins"],0);
 	$UserData[$c]["losses"]  = number_format($row["losses"],0);
 	$UserData[$c]["draw"]  = number_format($row["draw"],0);
 	$UserData[$c]["kills"]  = number_format($row["kills"],0);
@@ -69,11 +70,19 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$UserData[$c]["ip"]  = ($row["ip"]);
 	$UserData[$c]["streak"]  = ($row["streak"]);
 	$UserData[$c]["maxstreak"]  = ($row["maxstreak"]);
-	$TopData[$c]["losingstreak"]  = ($row["losingstreak"]);
-	$TopData[$c]["maxlosingstreak"]  = ($row["maxlosingstreak"]);
+	$UserData[$c]["losingstreak"]  = ($row["losingstreak"]);
+	$UserData[$c]["maxlosingstreak"]  = ($row["maxlosingstreak"]);
 	$UserData[$c]["zerodeaths"]  = ($row["zerodeaths"]);
+        $UserData[$c]["best_player"]  = ($row["best_player"]);
+        $UserData[$c]["double_score"]  = ($row["double_score"]);
+        $UserData[$c]["dc_count"]  = ($row["dc_count"]);
 	
-	$UserData[$c]["realm"]  = ($row["realm"]);
+        if( !isset($row["realm"]) AND empty($row["realm"]) ) {
+		$UserData[$c]["realm"] = "Garena";
+	} else {
+		$UserData[$c]["realm"]  = ($row["realm"]);
+	}
+	if( !isset($UserData[$c]["realm"]) AND empty($UserData[$c]["realm"]) ) $UserData[$c]["realm"] = "Garena";
 	//$UserData[$c]["avg_loading"]  = millisecondsToTime( $row["loading"]/$row["games"] );
 	//$UserData[$c]["loading"]  = millisecondsToTime( $row["loading"]);
 	$UserData[$c]["reserved"]  = ($row["reserved"]);

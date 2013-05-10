@@ -11,10 +11,10 @@ $best = array();
 $winperc = array();
 $score = array();
 $games = array();
-
+$zero = array();
 
 //querys
-/*
+
 //best_player
 $best_player = $db->prepare("SELECT `player`,`best_player`,`id` FROM `stats` WHERE `id` >= 1 ORDER BY `best_player` DESC LIMIT 5");
 $result = $best_player->execute();
@@ -24,7 +24,17 @@ $best[$c]["best_player"] = $row["best_player"];
 $best[$c]["player"] = $row["player"];
 $c++;
 }
-*/
+
+//zerodeaths
+$zero_deaths = $db->prepare("SELECT `player`,`zerodeaths`,`id` FROM `stats` WHERE `id` >= 1 ORDER BY `zerodeaths` DESC LIMIT 5");
+$result = $zero_deaths->execute();
+while ($row = $zero_deaths->fetch(PDO::FETCH_ASSOC)) {
+$zero[$c]["id"] = $row["id"];
+$zero[$c]["zerodeaths"] = $row["zerodeaths"];
+$zero[$c]["player"] = $row["player"];
+$c++;
+}
+
 //winperc
 $win_perc = $db->prepare("SELECT `player`,((`wins`/`games`)*100) as wp,`id` FROM `stats` WHERE `id` >= 1 AND `games` > 20 ORDER BY `wp` DESC LIMIT 5");
 $result = $win_perc->execute();
@@ -248,7 +258,6 @@ $c++;
          <? } ?>
         </table>
        </div>
-<!----
        <div class="comparePlayers">
         <table>
          <tr><th colspan="2" >Top Best Player</th></tr>
@@ -258,7 +267,15 @@ $c++;
          <? } ?>
         </table>
        </div>
----->
+       <div class="comparePlayers">
+        <table>
+         <tr><th colspan="2" >Top Zero Deaths Player</th></tr>
+         <?//zero deaths
+          foreach( $zero as $z ) { ?>
+           <tr><td style="width: 200px"><a href="<?=OS_HOME?>?u=<?=$z["id"]?>"><?=$z["player"]?></a></td><td style="width: 100px"><?=$z["zerodeaths"]?></td></tr>
+         <? } ?>
+        </table>
+       </div>
 <div style="clear:both;">&nbsp;</div>
 <div class="clr"></div>
 <h2 class="title">Top Total Players</h2>

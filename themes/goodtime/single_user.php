@@ -5,10 +5,10 @@ if (!isset($_SESSION["level"]) AND empty($_SESSION["level"]) ) $_SESSION["level"
 ?>
 <script language="javascript">
 function changeImage($iid) {
- if (document.getElementById($iid).src == "<?=OS_HOME?>img/-.png") {
-  document.getElementById($iid).src = "<?=OS_HOME?>img/+.png";
+ if (document.getElementById($iid).src == "<?=OS_HOME?>img/unexpand.png") {
+  document.getElementById($iid).src = "<?=OS_HOME?>img/expand.png";
  } else {
-  document.getElementById($iid).src = "<?=OS_HOME?>img/-.png";
+  document.getElementById($iid).src = "<?=OS_HOME?>img/unexpand.png";
  }
 }
 </script>
@@ -22,6 +22,7 @@ function changeImage($iid) {
 	<?=OS_IsUserGameBanned( $User["banned"], $lang["banned"] )?>
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>
+        <?=OS_IsDoubleScoreUser( $User["double_score"], 'Double Score' ) ?>
 	<?=OS_IsUserGameSafe( $User["safelist"], $lang["safelist"] )?>
   </h1>
 <? if ( $_SESSION["level"]>=10 ) { ?>
@@ -29,7 +30,7 @@ function changeImage($iid) {
 <? }
 if ( OS_is_banned_player( $User["banname"] ) ) {
 ?>
-   <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
+   <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
      <tr>
       <div id="BANS" style="display:none;">
      <? foreach ( $bans as $bq ) { ?>
@@ -101,7 +102,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
  </tr>
  <tr>
   <td class="padLeft" width="300">
-   <?=$User["player"]?><img class="imgvalign" id="1" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('MACC'); changeImage(1);" alt="" />
+   <?=$User["player"]?><img class="imgvalign" id="1" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('MACC'); changeImage(1);" alt="" />
    <div id="MACC" style="display:none;">
     <table>
      <tr>
@@ -133,7 +134,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
    </div>
   </td>
   <td class="padLeft" width="300">
-   <?=$User["player"]?><img class="imgvalign" id="2" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('BACC'); changeImage(2);" alt="" />
+   <?=$User["player"]?><img class="imgvalign" id="2" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BACC'); changeImage(2);" alt="" />
     <div id="BACC" style="display:none;">
      <table>
       <tr>
@@ -233,11 +234,20 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
     <tr class="row">
 	  <td class="padLeft" width="140"><span <?=ShowToolTip($lang["left_info"], OS_HOME.'img/disc.png', 250, 32, 32)?>><b><?=$lang["left"]?>:</b></span></td>
 	  <td width="160"><?=$User["leaver"]?> x</td>
-	  <td class="padLeft" width="60"><span <?=ShowToolTip($lang["stayratio"], OS_HOME.'img/winner.png', 120, 32, 32)?>><b><?=$lang["stayratio"]?>:</b></span></td>
-	  <td width="160"><?=($User["stayratio"])?> %</td>
-	  <td class="padLeft" width="60"><span <?=ShowToolTip($lang["longest_streak"], OS_HOME.'img/winner.png', 160, 32, 32)?>><b><?=$lang["streak"]?>:</b></span></td>
-	  <td width="160"><?=($User["maxstreak"])?></td>
-	</tr>
+          <td class="padLeft" width="60"><span <?=ShowToolTip('How many times a user disconnected', OS_HOME.'img/disc.png', 350, 32, 32)?>><b>Disconnects:</b></span></td>
+          <td width="160"><?=($User["dc_count"])?> x</td>
+          <td class="padLeft" width="60"><span <?=ShowToolTip($lang["stayratio"], OS_HOME.'img/winner.png', 120, 32, 32)?>><b><?=$lang["stay"]?>:</b></span></td>
+          <td width="160"><?=($User["stayratio"])?> %</td>
+        </tr>
+	
+    <tr>
+          <td class="padLeft" width="60"><span <?=ShowToolTip($lang["longest_streak"], OS_HOME.'img/winner.png', 160, 32, 32)?>><b><?=$lang["streak"]?>:</b></span></td>
+          <td width="160"><?=($User["maxstreak"])?></td>
+          <td class="padLeft" width="60"><span <?=ShowToolTip($lang["zero_deaths"], OS_HOME.'img/winner.png', 250, 32, 32)?>><b>ZeroDeaths:</b></span></td>
+          <td width="160"><?=($User["zerodeaths"])?> x</td>
+          <td class="padLeft" width="60"><span <?=ShowToolTip('The total number a player was the best player', OS_HOME.'img/winner.png', 250, 32, 32)?>><b>Best Player:</b></span></td>
+          <td width="160"><?=($User["best_player"])?> x</td>
+        </tr>
 	
   </table>
   </div>

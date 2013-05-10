@@ -40,6 +40,7 @@ foreach ($TopData as $Data) {
 	<?=OS_IsUserGameAdmin( $Data["admin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $Data["warn"],  $Data["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $Data["safelist"], $lang["safelist"] )?>
+        <?=OS_IsDoubleScoreUser( $Data["double_score"], 'Double Score' ) ?>
 	<?=OS_IsUserGameLeaver( $Data["leaver"], $lang["leaves"].": ".$Data["leaver"]."<div>".$lang["stayratio"].": ".$Data["stayratio"]."%</div>" )?>
 	</td>
 	<td width="80" class="font12"><?=$Data["score"]?></td>

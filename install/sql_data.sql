@@ -311,6 +311,8 @@ CREATE TABLE IF NOT EXISTS `stats` (
   `maxlosingstreak` int(11) NOT NULL,
   `zerodeaths` int(11) NOT NULL,
   `dc_count` int(11) NOT NULL,
+  `best_player` int(11) NOT NULL,
+  `double_score` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `score` (`score`),
   KEY `games` (`games`),

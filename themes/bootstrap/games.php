@@ -11,8 +11,24 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
      <h2><?=$lang["game_history"]?> <a href="<?=OS_HOME?>?u=<?=(int)$_GET["uid"]?>"><?=$GamesData[0]["player"]?></a></h2>
    </div>
    <?php
-  }
+  } else {
 ?>
+<table class="table table-bordered">
+ <tr>
+  <th>Game Statistics</th><th><center>Total Games: <?=$games_count?></center></th>
+ </tr>
+ <tr>
+  <td width="250"><font color="red"> Sentinel</td><td width="200"><center><?=$sent_win?>%</center></td>
+ </tr>
+ <tr>
+  <td width="250"><font color="green"> Scourge</td><td width="200"><center><?=$scour_win?>%</center></td>
+ </tr>
+ <tr>
+  <td width="800"><font color="orange">Draws</td><td><center><?=$draw?>%</center></td>
+ </tr>
+</table>
+<br>
+<? } ?>
 <?=DisplayGameFilter($StartYear) ?>
   <table class="table table-bordered">
     <tr>

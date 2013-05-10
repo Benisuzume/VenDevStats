@@ -18,6 +18,8 @@ define('OS3_UpdateGamesTime', $UpdateTime);
 
 define('OS3_DisplayStatsLog', $DisplayStatsLog);
 
+global $MapString;
+
   function OS_GetAllAdmins($t=1){
     global $db;
     //$db = new db("mysql:host=".OSDB_SERVER.";dbname=".OSDB_DATABASE."", OSDB_USERNAME, OSDB_PASSWORD); 
@@ -139,6 +141,8 @@ if ($PluginEnabled == 1) {
 	   $result = $update->execute();
 	   }
 	   
+           $temp_points  = 0;
+	   
 	   while ($list = $sth2->fetch(PDO::FETCH_ASSOC)) {
 	   	$kills=$list["kills"];
 		$deaths=$list["deaths"];
@@ -183,6 +187,14 @@ if ($PluginEnabled == 1) {
 		if ($winner == 1) $score = $ScoreStart + $ScoreWins;
 		if ($winner == 0) $score = $ScoreStart - $ScoreLosses;
 		if ($win==0) $score = $ScoreStart;
+		
+                if ( !isset($BestPlayer)  )     $BestPlayer = ($list["name"]);
+
+                $score_points = ($list["kills"] -  $list["deaths"]) + ($list["assists"]*0.3);
+                if ( $score_points > $temp_points ) {
+                $BestPlayer = ($list["name"]);
+                $temp_points = $score_points;
+                }
 		
 		global $MinDuration; 
 		if( !isset($list["leftreason"]) AND empty($list["leftreason"]) ) $list["leftreason"] = "No entry!";
@@ -254,6 +266,7 @@ if ($PluginEnabled == 1) {
 		$maxstreak = $stats["maxstreak"];
 		$losingstreak = $stats["losingstreak"];
 		$maxlosingstreak = $stats["maxlosingstreak"];
+                $is_double = $stats["double_score"];
 		
 		//WIN STREAK
 		//increase maxstreak until lose.
@@ -278,11 +291,13 @@ if ($PluginEnabled == 1) {
 		//Create a new player...
 
 		  if ( $result2->rowCount() <=0) {
-          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count) 
+		    if( $is_double == 1 ) $score = $score*2;
+          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count, ) 
 		  VALUES('$name', '".strtolower( trim($name))."', '$score','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc')";
           } else {
 		  //...or update player data
 		  if ($winner == 1) $score = "score = score + $ScoreWins,";
+                  if ($winner == 1 AND $is_double == 1 ) $score = "score = score + ".($ScoreWins*2).",";
 		  if ($winner == 0) $score = "score = score - $ScoreLosses,";
 		  if ($win==0) $score = "";
 		  
@@ -330,6 +345,10 @@ if ($PluginEnabled == 1) {
 		 $result = $update->execute(); 
 		 OS_add_custom_field(0, "last_update_stats" ,  time() );
 		}
+	          if ($temp_points>=1) {
+		        $updateBP = $db->query("UPDATE ".OSDB_STATS." SET best_player = best_player+1 WHERE LOWER(player) = LOWER('".$BestPlayer."') ;");
+			$result = $updateBP->execute();
+	          }
 		$return.="\nGame ($gid) updated!";
 		
 		

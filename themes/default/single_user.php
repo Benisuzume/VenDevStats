@@ -5,10 +5,10 @@ if (!isset($_SESSION["level"]) AND empty($_SESSION["level"]) ) $_SESSION["level"
 ?>
 <script language="javascript">
 function changeImage($iid) {
- if (document.getElementById($iid).src == "<?=OS_HOME?>img/-.png") {
-  document.getElementById($iid).src = "<?=OS_HOME?>img/+.png";
+ if (document.getElementById($iid).src == "<?=OS_HOME?>img/unexpand.png") {
+  document.getElementById($iid).src = "<?=OS_HOME?>img/expand.png";
  } else {
-  document.getElementById($iid).src = "<?=OS_HOME?>img/-.png";
+  document.getElementById($iid).src = "<?=OS_HOME?>img/unexpand.png";
  }
 }
 </script>
@@ -28,7 +28,7 @@ function changeImage($iid) {
 <? }
 if ( OS_is_banned_player( $User["banname"] ) ) {
 ?>
-   <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
+   <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
      <tr>
       <div id="BANS" style="display:none;">
      <? foreach ( $bans as $bq ) { ?>
@@ -100,7 +100,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
  </tr>
  <tr>
   <td class="padLeft" width="300">
-   <?=$User["player"]?><img class="imgvalign" id="1" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('MACC'); changeImage(1);" alt="" />
+   <?=$User["player"]?><img class="imgvalign" id="1" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('MACC'); changeImage(1);" alt="" />
    <div id="MACC" style="display:none;">
     <table>
      <tr>
@@ -132,7 +132,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
    </div>
   </td>
   <td class="padLeft" width="300">
-   <?=$User["player"]?><img class="imgvalign" id="2" width="16" height="16" src="<?=OS_HOME?>img/+.png" onclick="showhide('BACC'); changeImage(2);" alt="" />
+   <?=$User["player"]?><img class="imgvalign" id="2" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BACC'); changeImage(2);" alt="" />
     <div id="BACC" style="display:none;">
      <table>
       <tr>

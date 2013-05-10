@@ -1262,6 +1262,13 @@ function OS_SortTopPlayers( $fieldName = 'sort' ) {
 	  <option <?=$sel?> value="leaves"><?=$lang["leaves"]?></option>
 <?php if (isset($_GET["sort"]) AND $_GET["sort"] == "streak" ) $sel = 'selected="selected"'; else $sel = ''; ?>
 	  <option <?=$sel?> value="streak"><?=$lang["streak"]?></option>
+<?php if (isset($_GET["sort"]) AND $_GET["sort"] == "losingstreak" ) $sel = 'selected="selected"'; else $sel = ''; ?>
+          <option <?=$sel?> value="losingstreak">Losing Streak</option>
+<?php if (isset($_GET["sort"]) AND $_GET["sort"] == "best_player" ) $sel = 'selected="selected"'; else $sel = ''; ?>
+          <option <?=$sel?> value="best_player">Best Player</option>
+<?php if (isset($_GET["sort"]) AND $_GET["sort"] == "dc_count" ) $sel = 'selected="selected"'; else $sel = ''; ?>
+          <option <?=$sel?> value="dc_count">Disconnects</option>
+
 	</select>
 	<input class="menuButtons" type="submit" value="<?=$lang["submit"]?>" />
 	 <?=OS_ComparePlayers( 'link' )?>
@@ -1283,6 +1290,14 @@ $text = "<div><b>".$lang["best_player"]."</b> ".$fullname."</div>";
 <?php
 }
 
+/***    CUSTOM  ****/
+function OS_IsDoubleScoreUser( $double = 0, $text = 'Double Score', $w = '150', $imgw='32',  $imgh='32' ) {
+        if ( $double >= 1 ) {
+    ?>
+        <img <?=ShowToolTip($text, OS_HOME.'img/double.gif', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16"src="<?=OS_HOME?>img/double.gif" alt="Double" />
+        <?php
+        }
+}
 
 function OS_IsUserGameAdmin( $admin = 0, $text = 'Admin', $w = '130', $imgw='32',  $imgh='32' ) {
     if ( $admin >= 1 ) {

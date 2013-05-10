@@ -14,7 +14,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	   <th width="80"><?=$lang["score"]?></th>
 	   <th width="80"><?=$lang["games"]?></th>
 	   <th width="40"><span <?=ShowToolTip($lang["longest_streak"]." / ".$lang["losing_streak"], OS_HOME.'img/winner.png', 230, 32, 32)?>><img src="<?=OS_HOME?>img/streak.gif" width="20" /></span></th>
-	   <th width="30"><span <?=ShowToolTip($lang["zero_deaths"], OS_HOME.'img/winner.png', 210, 32, 32)?>><img src="<?=OS_HOME?>img/winner.png" width="20" /></span></th>
+	   <th width="30"><span <?=ShowToolTip($lang["zero_deaths"]." / Number of games the Player was the Best Player", OS_HOME.'img/winner.png', 400, 32, 32)?>><img src="<?=OS_HOME?>img/winner.png" width="20" /></span></th>
 	   <th width="90"><?=$lang["wld"]?></th>
 	   <th width="70"><?=$lang["wl_percent"]?></th>
 	   <th width="120"><?=$lang["kda"]?></th>
@@ -35,6 +35,7 @@ foreach ($TopData as $Data) {
 	<?=OS_IsUserGameAdmin( $Data["admin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $Data["warn"],  $Data["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $Data["safelist"], $lang["safelist"] )?>
+        <?=OS_IsDoubleScoreUser( $Data["double_score"], 'Double Score' ) ?>
 	<?=OS_IsUserGameLeaver( $Data["leaver"], $lang["leaves"].": ".$Data["leaver"]."<div>".$lang["stayratio"].": ".$Data["stayratio"]."%</div>" )?>
 	</td>
 	<td width="80" class="font12"><?=$Data["score"]?></td>
@@ -43,7 +44,10 @@ foreach ($TopData as $Data) {
 	  <span class="won"><?=$Data["maxstreak"]?></span> / 
 	  <span class="lost"><?=$Data["maxlosingstreak"]?></span>
 	</td>
-	<td width="30" class="font12"><?=$Data["zerodeaths"]?></td>
+	<td width="40" class="font12">
+	  <span class="won"><?=$Data["zerodeaths"]?></span> /
+          <span class="lost"><?=$Data["best_player"]?></span>
+	</td>
 	<td width="90" class="font12">
 	  <span class="won"><?=$Data["wins"]?></span>/
 	  <span class="lost"><?=$Data["losses"]?></span>/

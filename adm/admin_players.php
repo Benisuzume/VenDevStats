@@ -62,6 +62,22 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
 	$result = $sth->execute();
   }
    
+  /** CUSTOM OPTIONS **/
+  //double remove
+  if ( isset($_GET["remove_double"]) AND !empty($_GET["remove_double"]) ) {
+    $remove = safeEscape( trim($_GET["remove_double"]) );
+        $sth = $db->prepare("UPDATE ".OSDB_STATS." SET `double_score` = '0' WHERE (player) = ('".$remove."') ");
+        $result = $sth->execute();
+        if ( $del ) echo '<h2>Removed Double Score for '.$remove.'</h2>';
+  }
+  //double add
+  if ( isset($_GET["add_double"]) AND !empty($_GET["add_double"]) ) {
+    $remove = safeEscape( trim($_GET["add_double"]) );
+        $sth = $db->prepare("UPDATE ".OSDB_STATS." SET `double_score` = '1' WHERE (player) = ('".$remove."') ");
+        $result = $sth->execute();
+        if ( $del ) echo '<h2>Added Double Score for '.$remove.'</h2>';
+  }
+
    //SEARCH
    if ( isset($_GET["search_users"]) AND strlen($_GET["search_users"])>=2 ) {
      $search_users = safeEscape( $_GET["search_users"]);
@@ -75,6 +91,8 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
   if ( isset($_GET["sort"])   AND $_GET["sort"] == 'banned' )   $sql.=' AND banned>=1 '; 
   if ( isset($_GET["sort"])   AND $_GET["sort"] == 'safelist' ) $sql.=' AND safelist>=1 '; 
   if ( isset($_GET["sort"])   AND $_GET["sort"] == 'warns' )    $sql.=" AND warn>=1"; 
+  if ( isset($_GET["sort"])   AND $_GET["sort"] == 'double' )    $sql.=" AND double_score>=1"; 
+
   
   $sth = $db->prepare("SELECT COUNT(*) FROM ".OSDB_STATS." WHERE id>=1 $sql ");
   $result = $sth->execute();
@@ -98,6 +116,7 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
   <a class="menuButtons" href="<?=OS_HOME?>adm/?players&amp;sort=banned">Banned</a>
   <a class="menuButtons" href="<?=OS_HOME?>adm/?players&amp;sort=safelist">On Safelist</a>
   <a class="menuButtons" href="<?=OS_HOME?>adm/?players&amp;sort=warns">Warns</a>
+  <a class="menuButtons" href="<?=OS_HOME?>adm/?players&amp;sort=double">Double Score</a>
   <a class="menuButtons" href="<?=OS_HOME?>adm/?players">All ranked players</a>
    <table>
     <tr>
@@ -128,7 +147,7 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
 	}
 	if ($GeoIP == 1 AND empty($Letter) ) {
 	$Letter = "blank";
-	$Country  = "Reserved";
+	$Country  = "Unknown";
 	}
 	
 	if ( $row["admin"] >= 1 )    
@@ -144,6 +163,11 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
 	$warn = '<span style="color:red">Warned: '.$row["warn"]."x (expire: $warnDate) </span>"; 
 	}
 	else $warn = "";
+
+        if ( $row["double_score"] >= 1 )
+        $double = '<img width="16" height="16" src="double.gif" alt="" class="imgvalign"/> Double Score';
+        else $double = "";
+
 	?>
 	<tr class="row">
 	  <td><img <?=ShowToolTip($Country , OS_HOME.'img/flags/'.$Letter.'.gif', 130, 21, 15)?> class="imgvalign" width="21" height="15" src="<?=OS_HOME?>img/flags/<?=$Letter?>.gif" alt="" /> 
@@ -188,6 +212,15 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
 	  <?php } ?>
 	   </div>
 	   
+          <div>
+          <?php if (!empty($double) ) { ?>
+          <a class="menuButtons" href="javascript:;" onclick="if (confirm('Remove Double Score?') ) { location.href='<?=OS_HOME?>adm/?players&amp;remove_double=<?=$row["player"]?><?=$p?>' }">&raquo; Remove Double Score</a>
+          <?php } else { ?>
+          <a class="menuButtons" href="javascript:;" onclick="if (confirm('Add Double Score?') ) { location.href='<?=OS_HOME?>adm/?players&amp;add_double=<?=$row["player"]?>' }">&raquo; Add Double Score</a>
+          <?php } ?>
+           </div>
+
+	   
 	  </div>
 	  </td>
 	  <td>
@@ -195,6 +228,7 @@ if ( isset($_GET["search_users"]) ) $s = safeEscape($_GET["search_users"]); else
 	  <?=$is_safe?> 
 	  <?=$banned?> 
 	  <?=$warn?> 
+	  <?=$double?>
 	  </td>
 	</tr>
 	<?php

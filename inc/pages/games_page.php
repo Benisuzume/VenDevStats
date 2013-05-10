@@ -199,5 +199,22 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	//$db->free($result);	
   }
   
+/** CUSTOM STATISTICS **/
+//query to gamestats
+$all = $db->prepare("SELECT COUNT(*) FROM `dotagames`  WHERE `id` >= 1 ");
+$sent = $db->prepare("SELECT COUNT(*) FROM `dotagames`  WHERE `winner` = '1' AND `id` >= 1 AND `min` > '5'");
+$scou = $db->prepare("SELECT COUNT(*) FROM `dotagames`  WHERE `winner` = '2' AND `id` >= 1 AND `min` > '5'");
+$result = $all->execute();
+$a = $all->fetch(PDO::FETCH_NUM);
+$games_count = $a[0];
+$result = $sent->execute();
+$se = $sent->fetch(PDO::FETCH_NUM);
+$sent_count = $se[0];
+$result = $scou->execute();
+$sc = $scou->fetch(PDO::FETCH_NUM);
+$scour_count = $sc[0];
+$sent_win = round(($sent_count/$games_count)*100, 2);
+$scour_win = round(($scour_count/$games_count)*100, 2);
+$draw =  round((($games_count-$scour_count-$sent_count)/$games_count)*100, 2);
   // ----- > END GAMES
 ?>

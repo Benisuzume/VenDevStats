@@ -24,6 +24,9 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 if ( $_GET["sort"] == "nk") $orderby = "(`neutrals`) DESC";
 	 if ( $_GET["sort"] == "leaves") $orderby = "(`leaver`) DESC";
 	 if ( $_GET["sort"] == "streak") $orderby = "(`maxstreak`) DESC";
+         if ( $_GET["sort"] == "losingstreak") $orderby = "(`maxlosingstreak`) DESC";
+         if ( $_GET["sort"] == "best_player") $orderby = "(`best_player`) DESC";
+         if ( $_GET["sort"] == "dc") $orderby = "(`dc_count`) DESC";
    }
    
    if ( isset($_GET["L"]) AND strlen($_GET["L"]) == 1 ) {
@@ -107,6 +110,8 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$TopData[$c]["losingstreak"]  = ($row["losingstreak"]);
 	$TopData[$c]["maxlosingstreak"]  = ($row["maxlosingstreak"]);
 	$TopData[$c]["zerodeaths"]  = ($row["zerodeaths"]);
+        $TopData[$c]["double_score"]  = ($row["double_score"]);
+        $TopData[$c]["best_player"]  = ($row["best_player"]);
 	
 	if ($row["games"] >0 )
 	$TopData[$c]["stayratio"] = ROUND($row["games"]/($row["games"]+$row["leaver"]), 3)*100;
@@ -156,6 +161,12 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	if ( isset($_GET["sort"]) AND $_GET["sort"] == "streak") 
 	$TopData[$c]["maxstreak"] = "<span class='highlight_top'>".$TopData[$c]["maxstreak"]."</span>";
 	
+        if ( isset($_GET["sort"]) AND $_GET["sort"] == "losingstreak")
+        $TopData[$c]["maxlosingstreak"] = "<span class='highlight_top'>".$TopData[$c]["maxlosingstreak"]."</span>";
+	
+        if ( isset($_GET["sort"]) AND $_GET["sort"] == "best_player")
+        $TopData[$c]["best_player"] = "<span class='highlight_top'>".$TopData[$c]["best_player"]."</span>";
+
 	$c++;
 	}	
 	if ( isset($GeoIP) AND $GeoIP == 1) geoip_close($GeoIPDatabase);
