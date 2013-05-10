@@ -5,7 +5,7 @@
 
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
-$PluginEnabled = '0';
+$PluginEnabled = '1';
 //Enable edit plugin options
 $PluginOptions = '1';
 
@@ -18,8 +18,6 @@ define('OS3_UpdateGamesTime', $UpdateTime);
 
 define('OS3_DisplayStatsLog', $DisplayStatsLog);
 
-global $MapString;
-
   function OS_GetAllAdmins($t=1){
     global $db;
     //$db = new db("mysql:host=".OSDB_SERVER.";dbname=".OSDB_DATABASE."", OSDB_USERNAME, OSDB_PASSWORD); 
@@ -30,8 +28,8 @@ global $MapString;
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) { $data[]= strtolower($row["name"]);  }
 	return array($data);
   }
-  
-  function OS_TotalGamesForUpdate() {
+
+  function OS_TotalGamesForUpdate( $MapString = "dota" ) {
     global $db;
   	//$db = new db("mysql:host=".OSDB_SERVER.";dbname=".OSDB_DATABASE."", OSDB_USERNAME, OSDB_PASSWORD);
 	//$dbh = OS_DBConnect();
@@ -99,9 +97,10 @@ if ($PluginEnabled == 1) {
 	  global $ScoreLosses;
 	  global $LeftTimePenalty ;
 	  global $ScoreDisc;
+	  global $MapString;
 	  $return = "";
 	  
-      $TotalGamesForUpdate = OS_TotalGamesForUpdate();
+      $TotalGamesForUpdate = OS_TotalGamesForUpdate( $MapString );
 	
 
 	$LastUpdateTime = OS_get_custom_field( 0, "last_update_stats" );
@@ -125,7 +124,7 @@ if ($PluginEnabled == 1) {
 	   $gid = $row["id"];
 	   $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, g.gamename, 
 	   gp.name as name, 
-	   gp.ip as ip, gp.spoofed, gp.spoofedrealm, gp.reserved, gp.left, gp.leaftreason,
+	   gp.ip as ip, gp.spoofed, gp.spoofedrealm, gp.reserved, gp.left, gp.leftreason,
 	   b.name as banname, b.expiredate, b.warn
 	   FROM ".OSDB_DP." AS dp 
 	   LEFT JOIN ".OSDB_GP." AS gp ON gp.gameid = dp.gameid and dp.colour = gp.colour 
@@ -258,7 +257,7 @@ if ($PluginEnabled == 1) {
                         }
 
 		
-		$result2 = $db->prepare("SELECT player FROM ".OSDB_STATS." WHERE LOWER(player) = ?");
+		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, double_score FROM ".OSDB_STATS." WHERE LOWER(player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
 		$result = $result2->execute();
         $stats = $result2->fetch(PDO::FETCH_ASSOC);
@@ -292,7 +291,7 @@ if ($PluginEnabled == 1) {
 
 		  if ( $result2->rowCount() <=0) {
 		    if( $is_double == 1 ) $score = $score*2;
-          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count, ) 
+          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count ) 
 		  VALUES('$name', '".strtolower( trim($name))."', '$score','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc')";
           } else {
 		  //...or update player data
@@ -358,7 +357,7 @@ if ($PluginEnabled == 1) {
 	
   }
 
-	  $TotalGamesForUpdate = OS_TotalGamesForUpdate();
+	  $TotalGamesForUpdate = OS_TotalGamesForUpdate( $MapString );
 	  $LastUpdateTime = OS_get_custom_field( 0, "last_update_stats" );
 
 
