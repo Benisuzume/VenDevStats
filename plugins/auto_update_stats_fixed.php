@@ -120,6 +120,8 @@ if ($PluginEnabled == 1) {
 	WHERE LOWER(map) LIKE LOWER('%".$MapString."%') AND stats = 0 AND duration>='".OS_MIN_GAME_DURATION."' LIMIT ".OS3_MaxUpdateGames." " );
 	$result = $sth->execute();
 
+           $temp_points  = 0;
+
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	   $gid = $row["id"];
 	   $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, g.gamename, 
@@ -139,8 +141,6 @@ if ($PluginEnabled == 1) {
 	   $update = $db->prepare("UPDATE ".OSDB_GAMES." SET stats = 1 WHERE id = '".$gid."'");
 	   $result = $update->execute();
 	   }
-	   
-           $temp_points  = 0;
 	   
 	   while ($list = $sth2->fetch(PDO::FETCH_ASSOC)) {
 	   	$kills=$list["kills"];

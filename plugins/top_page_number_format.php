@@ -46,6 +46,7 @@ $Option = '
 	  $TopData[$c]["assists"]= str_replace(",", $dec_point, $TopData[$c]["assists"]);
 	  $TopData[$c]["creeps"] = str_replace(",", $dec_point, $TopData[$c]["creeps"]);
 	  $TopData[$c]["denies"] = str_replace(",", $dec_point, $TopData[$c]["denies"]);
+          $TopData[$c]["neutrals"] = str_replace(",", $dec_point, $TopData[$c]["neutrals"]);
 	  }
 	  
 	   return array($TopData);
