@@ -13,8 +13,8 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	   <th width="160"><?=$lang["player"]?></th>
 	   <th width="80"><?=$lang["score"]?></th>
 	   <th width="80"><?=$lang["games"]?></th>
-	   <th width="40"><span <?=ShowToolTip($lang["longest_streak"]." / ".$lang["losing_streak"], OS_HOME.'img/winner.png', 230, 32, 32)?>><img src="<?=OS_HOME?>img/streak.gif" width="20" /></span></th>
-	   <th width="30"><span <?=ShowToolTip($lang["zero_deaths"]." / Number of games the Player was the Best Player", OS_HOME.'img/winner.png', 400, 32, 32)?>><img src="<?=OS_HOME?>img/winner.png" width="20" /></span></th>
+	   <th width="40"><center><span <?=ShowToolTip($lang["longest_streak"]." / ".$lang["losing_streak"], OS_HOME.'img/winner.png', 230, 32, 32)?>><img src="<?=OS_HOME?>img/streak.gif" width="20" /></span></center></th>
+	   <th width="55"><center><span <?=ShowToolTip($lang["zero_deaths"]." / Number of games the Player was the Best Player", OS_HOME.'img/winner.png', 400, 32, 32)?>><img src="<?=OS_HOME?>img/winner.png" width="20" /></span><center></th>
 	   <th width="90"><?=$lang["wld"]?></th>
 	   <th width="70"><?=$lang["wl_percent"]?></th>
 	   <th width="120"><?=$lang["kda"]?></th>

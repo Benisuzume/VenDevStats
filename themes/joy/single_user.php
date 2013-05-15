@@ -14,7 +14,12 @@ function changeImage($iid) {
 </script>
 <? foreach ( $UserData as $User ) {
   ?>
-<div class="container">
+<div class="clr"></div>
+ <div class="ct-wrapper">
+  <div class="outer-wrapper">
+   <div class="content section">
+    <div class="widget Blog">
+     <div class="blog-posts hfeed">
   
   <h1>
 	<?=OS_ShowUserFlag( $User["letter"], $User["country"] )?>
@@ -23,7 +28,6 @@ function changeImage($iid) {
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $User["safelist"], $lang["safelist"] )?>
-        <?=OS_IsDoubleScoreUser( $User["double_score"], 'Double Score' ) ?>
 	<?=OS_IsUserGameLeaver( $User["leaver"], $lang["leaves"].": ".$User["leaver"]."<div>".$lang["stayratio"].": ".$User["stayratio"]."%</div>",1 )?>
   </h1>
 <? if ( $_SESSION["level"]>=10 ) { ?>
@@ -51,17 +55,17 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	 <? }
 	    if( isset($bq["gamename"]) AND !empty($bq["gamename"]))  {
 	   $bqgn = explode(" ", $bq["gamename"]); ?>
-          <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><span <?=ShowToolTip($bq["gamename"], OS_HOME.'img/banned.png', 200, 16, 16)?>><?=$bqgn[2]?></font></span></td></tr>
+          <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><?=$bqgn[2]?></font></td></tr>
 	 <? } else { ?>
           <tr><td width="90">GameName</td><td width="160"><?=$bq["gamename"]?></td></tr>
 	 <? }  ?>
           <tr><td width="90">Admin</td><td width="160"><font color="purple"><?=$bq["admin"]?></font></td></tr>
 	<? $date = explode(" ", $bq["date"]); ?>
           <tr><td width="90">Date</td><td width="160"><font color="red"><?=$date[0]?></font></td></tr>
-	<? if( isset($bq["expiredate"]) AND !empty($bq["expiredate"])) {
+        <? if( isset( $bq["expiredate"] ) AND !empty( $bq["expiredate"] ) ) {
 	   $date1 = explode(" ", $bq["expiredate"]); ?>
           <tr><td width="90">E-Day</td><td width="160"><font color="orange"><?=$date1[0]?></font></td></tr>
-	<? }  ?>
+        <? } ?>
 	 </table>
 	</div>
         <? }
@@ -81,7 +85,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	 <? }
 	    if( isset($ibq["gamename"]) AND !empty($ibq["gamename"]))  {
 	   $ibqgn = explode(" ", $ibq["gamename"]); ?>
-          <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><?=$ibqgn[2]?></font></td></tr>
+          <tr><td width="90">GameNumber</td><td width="160"><span <?=ShowToolTip($bq["gamename"], OS_HOME.'img/banned.png', 200, 16, 16)?>><font color="teal"><?=$ibqgn[2]?></font></span></td></tr>
 	 <? } else { ?>
           <tr><td width="90">Reason</td><td width="160"><?=$ibq["gamename"]?></td></tr>
  	 <? }  ?>
@@ -96,7 +100,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
       </div>
 <br>
 <!--- IP RANGE --->
-<table class="Table500px table table-bordered">
+<table>
  <tr>
   <th class="padLeft">Accounts on the IP-Range</th>
   <th>Bans on the IP-Range</th>
@@ -168,10 +172,9 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
   </tr>
  </table>
 <br>
-
   <div class="padTop">
-  <table class="Table500px table table-bordered">
-      <tr>
+  <table class="Table500px">
+      <tr class="row">
 	  <th class="padLeft" width="140"><?=$lang["stats"] ?></th>
 	  <th width="160"></th>
 	  <th width="60"></th>
@@ -179,7 +182,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <th width="175"></th>
 	  <th width="175"></th>
 	</tr>
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><b><?=$lang["score"]?>:</b></td>
 	  <td width="160"><?=$User["score"]?></td>
 	  <td class="padLeft" width="60"><b><?=$lang["win_percent"] ?>:</b></td>
@@ -188,7 +191,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <td width="160"><?=$User["creeps"]?></td>
 	</tr>
 	
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><b><?=$lang["kills"]?>:</b></td>
 	  <td width="160"><?=$User["kills"]?></td>
 	  <td class="padLeft" width="60"><b><?=$lang["assists"]?>:</b></td>
@@ -197,7 +200,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <td width="180"><?=$User["denies"]?></td>
 	</tr>
 	
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><b><?=$lang["deaths"]?>:</b></td>
 	  <td width="160"><?=$User["deaths"]?></td>
 	  <td class="padLeft" width="90"><b><?=$lang["kd_ratio"]?>:</b></td>
@@ -206,7 +209,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <td width="160"><?=$User["neutrals"]?></td>
 	</tr>
 	
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><b><?=$lang["games"]?>:</b></td>
 	  <td width="160"><a href="<?=OS_HOME?>?games&amp;uid=<?=$User["id"]?>"><?=$User["games"]?></a></td>
 	  <td class="padLeft" width="60"><b><?=$lang["wl"] ?>:</b></td>
@@ -215,7 +218,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <td width="160"><?=($User["towers"])?></td>
 	</tr>
 	
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><span <?=ShowToolTip($lang["kills_per_game"], OS_HOME.'img/winner.png', 130, 32, 32)?>><b><?=$lang["kpg"]?>:</b></span></td>
 	  <td width="160"><?=$User["kpg"]?></td>
 	  <td class="padLeft" width="60"><span <?=ShowToolTip($lang["deaths_per_game"], OS_HOME.'img/skull.png', 160, 32, 32)?>><b><?=$lang["dpg"]?>:</b></span></td>
@@ -224,7 +227,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <td width="160"><?=($User["rax"])?></td>
 	</tr>
 	
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><span <?=ShowToolTip($lang["assists_per_game"], OS_HOME.'img/winner.png', 180, 32, 32)?>><b><?=$lang["apg"]?>:</b></span></td>
 	  <td width="160"><?=$User["apg"]?></td>
 	  <td class="padLeft" width="60"><span <?=ShowToolTip($lang["creeps_per_game"], OS_HOME.'img/winner.png', 190, 32, 32)?>><b><?=$lang["ckpg"]?>:</b></span></td>
@@ -233,30 +236,30 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	  <td width="160"><?=($User["cdpg"])?></td>
 	</tr>
 	
-    <tr>
+    <tr class="row">
 	  <td class="padLeft" width="140"><span <?=ShowToolTip($lang["left_info"], OS_HOME.'img/disc.png', 250, 32, 32)?>><b><?=$lang["left"]?>:</b></span></td>
 	  <td width="160"><?=$User["leaver"]?> x</td>
-	  <td class="padLeft" width="60"><span <?=ShowToolTip('How many times a user disconnected', OS_HOME.'img/disc.png', 350, 32, 32)?>><b>Disconnects:</b></span></td>
-	  <td width="160"><?=($User["dc_count"])?> x</td>
+          <td class="padLeft" width="60"><span <?=ShowToolTip('How many times a user disconnected', OS_HOME.'img/disc.png', 350, 32, 32)?>><b>Disconnects:</b></span></td>
+          <td width="160"><?=($User["dc_count"])?> x</td>
           <td class="padLeft" width="60"><span <?=ShowToolTip($lang["stayratio"], OS_HOME.'img/winner.png', 120, 32, 32)?>><b><?=$lang["stay"]?>:</b></span></td>
           <td width="160"><?=($User["stayratio"])?> %</td>
-	</tr>
-	
+        </tr>
+
     <tr>
-	  <td class="padLeft" width="60"><span <?=ShowToolTip($lang["longest_streak"], OS_HOME.'img/winner.png', 160, 32, 32)?>><b><?=$lang["streak"]?>:</b></span></td>
-	  <td width="160"><?=($User["maxstreak"])?></td>
+          <td class="padLeft" width="60"><span <?=ShowToolTip($lang["longest_streak"], OS_HOME.'img/winner.png', 160, 32, 32)?>><b><?=$lang["streak"]?>:</b></span></td>
+          <td width="160"><?=($User["maxstreak"])?></td>
           <td class="padLeft" width="60"><span <?=ShowToolTip($lang["zero_deaths"], OS_HOME.'img/winner.png', 250, 32, 32)?>><b>ZeroDeaths:</b></span></td>
           <td width="160"><?=($User["zerodeaths"])?> x</td>
           <td class="padLeft" width="60"><span <?=ShowToolTip('The total number a player was the best player', OS_HOME.'img/winner.png', 250, 32, 32)?>><b>Best Player:</b></span></td>
           <td width="160"><?=($User["best_player"])?> x</td>
-	</tr>
+        </tr>
 	
   </table>
   </div>
 
   <div class="padTop"></div>
-  <table class="Table500px table table-bordered">
-    <tr>
+  <table class="Table500px">
+    <tr class="scourgeRow">
 	  <td width="190" class="padLeft"><b><?=$lang["time_played"] ?></b>:</td>
 	  <td class="padLeft"><?=$TimePlayed["timeplayed"]?></td>
 	</tr>
@@ -269,15 +272,15 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
   <div class="padTop"></div>
    <!-- FASTEST AND LONGEST GAME -->
 <?php if (isset($FastestGame ) AND !empty($FastestGame) ) { ?> 
-  <table class="Table500px table table-bordered">
-    <tr class="success">
+  <table class="Table500px">
+    <tr>
 	  <th class="padLeft" width="250"><?=$lang["fastest_game"]?></th>
 	  <th><?=$lang["duration"]?></th>
 	  <th><?=$lang["kills"]?></th>
 	  <th><?=$lang["deaths"]?></th>
 	  <th><?=$lang["assists"]?></th>
 	</tr>
-    <tr class="success">
+    <tr>
 	  <td width="250" class="slot<?=$FastestGame["newcolour"]?> padLeft font12">
 	      <a href="<?=OS_HOME?>?game=<?=$FastestGame["gameid"]?>"><?=$FastestGame["gamename"]?></a>
 	  </td>
@@ -291,15 +294,15 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
    
 <?php } ?>
 <?php if (isset($LongestGame ) AND !empty($LongestGame) ) { ?> 
-  <table class="Table500px table table-bordered">
-    <tr class="success">
+  <table class="Table500px">
+    <tr>
 	  <th class="padLeft" width="250"><?=$lang["longest_game"]?></th>
 	  <th><?=$lang["duration"]?></th>
 	  <th><?=$lang["kills"]?></th>
 	  <th><?=$lang["deaths"]?></th>
 	  <th><?=$lang["assists"]?></th>
 	</tr>
-    <tr class="success">
+    <tr>
 	  <td width="250" class="slot<?=$LongestGame["newcolour"]?> padLeft font12">
 	      <a href="<?=OS_HOME?>?game=<?=$LongestGame["gameid"]?>"><?=$LongestGame["gamename"]?></a>
 	  </td>
@@ -318,8 +321,8 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
   <div class="padTop"></div>
   <div class="padTop"></div>
  
-<table class="Table500px table table-bordered">
-<tr class="success">
+<table class="Table500px">
+<tr>
   <td>
      <div class="padTop aligncenter" align="center">
        <h2><a name="game_history" href="<?=OS_HOME?>?games&amp;uid=<?=$User["id"]?>"><?=$lang["user_game_history"] ?></a></h2>
@@ -328,7 +331,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 </tr>
 </table>
   
-   <table class="Table500px table table-bordered">
+   <table>
     <tr>
 	 <th width="220" class="padLeft"><?=$lang["game"]?></th>
 	 <?php if (isset($_GET["u"]) ) { ?>
@@ -348,18 +351,9 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
   
   foreach ($GamesData as $Games) {
   ?>
-  <tr class="GameHistoryRow">
+  <tr class="row GameHistoryRow">
 	 <td width="220" class="padLeft overflow_hidden slot<?=$Games["newcolour"]?>">
- 	 <?php if ($Games["winner"] == 1) { ?>
- 	 <img src="<?=OS_HOME?>img/winner.png" alt="*" width="24" height="24" class="imgvalign" />
- 	 <?php } ?>
- 	 <?php if ($Games["winner"] == 2) { ?>
- 	 <img src="<?=OS_HOME?>img/loser.png"  alt="*" width="24" height="24" class="imgvalign" />
- 	 <?php } ?>
- 	 <?php if ($Games["winner"] == 0) { ?>
- 	 <img src="<?=OS_HOME?>img/draw.png"   alt="*" width="24" height="24" class="imgvalign" />
- 	 <?php } ?>
-	 
+	 <?=OS_WinLoseIcon( $Games["win"] )?>
 	   <a href="<?=OS_HOME?>?game=<?=$Games["id"]?>"><span class="winner<?=$Games["winner"]?>"><?=$Games["gamename"]?></span></a>
 	 </td>
 	 <?php if (isset($_GET["u"]) ) { ?>
@@ -387,8 +381,11 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
   }
   ?>
   </table> 
+     </div>
+    </div>
+   </div>
+  </div>
 </div>
-
   
   <?php
    $SHOW_TOTALS = 1;

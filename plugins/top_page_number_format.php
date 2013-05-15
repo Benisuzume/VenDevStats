@@ -5,7 +5,7 @@
 
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
-$PluginEnabled = '0';
+$PluginEnabled = '1';
 //Enable edit plugin options
 $PluginOptions = '1';
 

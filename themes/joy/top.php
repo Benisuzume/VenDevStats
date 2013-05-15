@@ -2,19 +2,23 @@
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 ?>
 
-<div class="entry clearfix">
+<div class="clr"></div>
+ <div class="ct-wrapper">
+  <div class="outer-wrapper">
+   <div class="content section">
+    <div class="widget Blog">
+     <div class="blog-posts hfeed">
 	 
      <?=OS_SortTopPlayers()?>
 	 
 	 <?=OS_ComparePlayers( 'form_start' )?>
-	 
     <table>
      <tr> 
 	   <th width="32" class="padLeft">&nbsp;</th>
 	   <th width="160"><?=$lang["player"]?></th>
-	   <th width="80"><?=$lang["score"]?></th>
-	   <th width="80"><?=$lang["games"]?></th>
-	   <th width="40"><center><span <?=ShowToolTip($lang["longest_streak"]." / ".$lang["losing_streak"], OS_HOME.'img/winner.png', 230, 32, 32)?>><img src="<?=OS_HOME?>img/streak.gif" width="20" /></span></center></th>
+	   <th width="70"><?=$lang["score"]?></th>
+	   <th width="70"><?=$lang["games"]?></th>
+	   <th width="50"><center><span <?=ShowToolTip($lang["longest_streak"]." / ".$lang["losing_streak"], OS_HOME.'img/winner.png', 230, 32, 32)?>><img src="<?=OS_HOME?>img/streak.gif" width="20" /></span></center></th>
 	   <th width="80"><center><span <?=ShowToolTip($lang["zero_deaths"]." / Number of games the Player was the Best Player", OS_HOME.'img/winner.png', 400, 32, 32)?>><img src="<?=OS_HOME?>img/winner.png" width="20" /></span></center></th>
 	   <th width="90"><?=$lang["wld"]?></th>
 	   <th width="70"><?=$lang["wl_percent"]?></th>
@@ -37,10 +41,11 @@ foreach ($TopData as $Data) {
 	<?=OS_IsUserGameWarned( $Data["warn"],  $Data["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $Data["safelist"], $lang["safelist"] )?>
         <?=OS_IsDoubleScoreUser( $Data["double_score"], 'Double Score' ) ?>
+	<?=OS_IsUserGameLeaver( $Data["leaver"], $lang["leaves"].": ".$Data["leaver"]."<div>".$lang["stayratio"].": ".$Data["stayratio"]."%</div>" )?>
 	</td>
-	<td width="80" class="font12"><?=$Data["score"]?></td>
-    <td width="80" class="font12"><?=$Data["games"]?></td>
-	<td width="40" class="font12">
+	<td width="70" class="font12"><?=$Data["score"]?></td>
+    <td width="70" class="font12"><?=$Data["games"]?></td>
+	<td width="50" class="font12">
 	  <span class="won"><?=$Data["maxstreak"]?></span> / 
 	  <span class="lost"><?=$Data["maxlosingstreak"]?></span>
 	</td>
@@ -76,8 +81,11 @@ foreach ($TopData as $Data) {
 ?>	  
     </table>
 	<?=OS_ComparePlayers( 'submit' )?>
+     </div>
+    </div>
+   </div>
+  </div>
 </div>
-	<div style="margin-bottom:64px;">&nbsp;</div>
 <?php
 	 include('inc/pagination.php');
 ?>
