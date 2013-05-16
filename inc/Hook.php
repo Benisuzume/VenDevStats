@@ -68,6 +68,11 @@ function os_start() {
   execute_action("os_start");
 }
 
+//Reserved for javascript (from v4)
+function os_js() {
+  execute_action("os_js");
+}
+
 function os_head() {
   execute_action("os_head");
 }

@@ -155,6 +155,7 @@ $lang["longest_game"]   = 'Najduža pobeda u igri';
 $lang["game_history"]         = "Istorijat igara:";
 $lang["user_game_history"]    = "Istorijat igara igrača";
 $lang["best_player"]          = "Najbolji igrač: ";
+$lang["show_hero_history"]    = "Prika.i sve igre sa ovim herojem";
 
 $lang["download_replay"]      = "Download replay";
 $lang["view_gamelog"]         = "Pogledaj Gamelog";
@@ -221,6 +222,7 @@ $lang["female"]      = "Žensko";
 $lang["password"]    = "Lozinka";
 $lang["register"]    = "Registracija";
 $lang["username"]    = "Korisničko ime";
+$lang["language"]    = "Jezik";
 $lang["confirm_password"]       = "Potvrda lozinke";
 $lang["change_password"]        = "Promena lozinke";
 $lang["change_password_info"]   = "Označi ovo ukoliko menjaš lozinku";

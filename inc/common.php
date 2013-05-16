@@ -37,6 +37,10 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 
 $errors = "";
 
+if ( isset($_SESSION["user_lang"]) AND file_exists("lang/".$_SESSION["user_lang"].".php") ) {
+   $default_language = $_SESSION["user_lang"];
+}
+
 include("Hook.php");
 include("default-constants.php");
 include("common-queries.php");
@@ -321,10 +325,9 @@ function ShowToolTip($text, $img = "", $width = "", $imgwidth = "", $imgheight =
 
 function convEnt($text){
 return str_replace(
-array('<br>', '&#039;', '&quot;', '&amp;', '&#36;', '&lt;', '&gt;', '&amp;amp;quot;'), 
-array("\r\n", "'", '"', '&amp;', '$', '<', '>', '"'), $text);
+array('&amp;amp;quot;', "&amp;amp;", '<br>', '&amp;#039;', '&#039;', '&quot;', '&amp;', '&#36;', '&lt;', '&gt;'),
+array('"',             "&",          "\r\n",  "'",         "'",      '"',      '&amp;', '$',     '<',    '>'), $text);
 }
-
 
 function convEnt2($text){
 return strip_tags(str_replace(
@@ -1445,5 +1448,19 @@ function LettersLink($page = "bans", $qry = "L", $letters = "ABCDEFGHIJKLMNOPQRS
 function OS_DBConnect() {
   $db = new db("mysql:host=".OSDB_SERVER.";dbname=".OSDB_DATABASE."", OSDB_USERNAME, OSDB_PASSWORD);
   return $db;
+}
+
+function OS_HeroIcon($hid = "", $w='32', $h = '32') {
+  if ( !empty($hid) ) {
+  ?>
+  <img src="img/heroes/<?=$hid?>.gif" alt="<?=$hid?>" width="<?=$w?>" height="<?=$h?>" class="imgvalign" />
+  <?php
+  }
+}
+	
+function OS_UserHeroHistoryLink( $userID, $heroID,  $title = "", $w = '32', $h = '32' ) {
+ ?>
+ <a title="<?=$title?>" href="<?=OS_HOME?>?games&amp;uid=<?=$userID?>&amp;h=<?=$heroID?>"><?=OS_HeroIcon( $heroID, $w, $h)?></a>
+ <?php
 }
 ?>

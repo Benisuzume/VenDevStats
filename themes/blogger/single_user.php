@@ -358,9 +358,10 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
 	 <td width="220" class="padLeft overflow_hidden slot<?=$Games["newcolour"]?>">
 	 <?=OS_WinLoseIcon( $Games["win"] )?>
 	   <a href="<?=OS_HOME?>?game=<?=$Games["id"]?>"><span class="winner<?=$Games["winner"]?>"><?=$Games["gamename"]?></span></a>
+	   <?=OS_IsUserGameLeaver($Games["leaver"])?>
 	 </td>
 	 <?php if (isset($_GET["u"]) ) { ?>
-	 <td width="40" height="40"><img width="32" height="32" src="<?=OS_HOME?>img/heroes/<?=($Games["hero"])?>.gif" alt="Hero" /></td>
+	 <td width="40" height="40"><?=OS_UserHeroHistoryLink($User["id"], $Games["hero"], $lang["show_hero_history"]) ?></td>
 	 <td width="90">
 	 	<span class="won"><?=($Games["kills"])?></span> / 
 	    <span class="lost"><?=$Games["deaths"]?></span> / 

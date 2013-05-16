@@ -35,10 +35,10 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 
 	 if ( isset($_GET["h"]) ) {
 	   $hero = safeEscape(strtoupper($_GET["h"]) );
-	   $sqlFilter = "AND dp.hero = :hero ";
+	   $sqlFilter = "AND dp.hero = '".$hero."'";
 	   
      $sql = "SELECT s.*, g.id, g.map, g.gamename, g.datetime, g.ownername, g.duration,  g.creatorname, dg.winner, 
-	 g.gamestate  AS type, s.player, dp.kills, dp.deaths, dp.creepkills, dp.creepdenies, dp.assists, dp.hero, dp.neutralkills, dp.newcolour
+	 g.gamestate  AS type, s.player, dp.kills, dp.deaths, dp.creepkills, dp.creepdenies, dp.assists, dp.hero, dp.neutralkills, dp.newcolour, gp.`left`
 	 FROM ".OSDB_STATS." as s 
 	 LEFT JOIN ".OSDB_GP." as gp ON (gp.name) = (s.player)
 	 LEFT JOIN ".OSDB_GAMES." as g ON g.id = gp.gameid
@@ -49,7 +49,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 $sth = $db->prepare($sql);
 	 
 	 $sth->bindValue(':id', $id, PDO::PARAM_INT); 
-	 if (!empty($sqlFilter) ) $sth->bindValue(':hero', $hero, PDO::PARAM_STR); 
+	 //if (!empty($sqlFilter) ) $sth->bindValue(':hero', $hero, PDO::PARAM_STR); 
 	 
 	 $result = $sth->execute();
 	 
@@ -141,6 +141,9 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$GamesData[$c]["duration"]  = ($row["duration"]);
 	$GamesData[$c]["creatorname"]  = ($row["creatorname"]);
 	
+	if ( isset($_GET["h"]) AND file_exists("img/heroes/".$_GET["h"].".gif") )
+	$GamesData[$c]["hero_history"]  = $_GET["h"].""; else $GamesData[$c]["hero_history"] = "";
+	
 	$GamesData[$c]["winner"]  = ($row["winner"]);
 	$GamesData[$c]["type"]  = OS_GetGameState($row["type"], $lang["gamestate_priv"] , $lang["gamestate_pub"]);
 	
@@ -157,8 +160,18 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	} else $GamesData[$c]["newcolour"]  = 0;
 	if ( $row["winner"] == 0 ) $GamesData[$c]["win"] = 0;
 
-	if ( (isset($_GET["uid"]) AND is_numeric($_GET["uid"])) OR isset($_GET["u"])  )
-	if ($row["newcolour"] >5) $GamesData[$c]["newcolour"]-=1; //fix bug with colour (slot 6-7)
+	if ( isset( $row["left"] ) ) {
+	$GamesData[$c]["left"] = $row["left"];
+	
+	if ( $row["left"] <= ( $row["duration"] - $LeftTimePenalty) AND $row["winner"]!=0 ) $GamesData[$c]["leaver"] = 1;
+	else $GamesData[$c]["leaver"] = 0;
+	}
+	   else {
+	   $GamesData[$c]["leaver"] = 0;
+	   $GamesData[$c]["left"] = "";
+	   }
+	
+	//echo $GamesData[$c]["leaver"];
 	
 	//REPLAY
 	 $duration = secondsToTime($row["duration"]);

@@ -81,6 +81,9 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 $GameData[$c]["heroid"]  = ($row["hero"]);
 	 
 	 $GameData[$c]["userid"]  = ($row["userid"]);
+	 //if user is NOT ranked (stats updated) show username instead of user ID
+	 if ( empty($row["userid"]) )
+	 $GameData[$c]["userid"]  = $row["name"];
      $GameData[$c]["kills"]  = ($row["kills"]);
 	 $GameData[$c]["deaths"]  = ($row["deaths"]);
 	 $GameData[$c]["assists"]  = ($row["assists"]);
@@ -110,40 +113,47 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 
 	 if ( empty($row["name"]) ) $row["name"] = '&nbsp;';
 	 
-	 if ( !isset($MostCD)  )       { $MostCD = ($row["name"]); $temp_cd = $row["creepdenies"]; $PlayerCD = $row["creepdenies"]; }
-	 if ( !isset($MostCK)  )       { $MostCK = ($row["name"]); $temp_ck = $row["creepkills"]; $PlayerCK = $row["creepkills"]; }
+	 if ( !isset($MostCD)  )       { $MostCD = ($row["name"]); $temp_cd = $row["creepdenies"]; $PlayerCD = $row["creepdenies"]; $MostCDID = ($row["userid"]); }
+	 if ( !isset($MostCK)  )       { $MostCK = ($row["name"]); $temp_ck = $row["creepkills"]; $PlayerCK = $row["creepkills"]; $MostCKID = ($row["userid"]); }
 	 if ( !isset($MostDeaths)  )   { $MostDeaths = ($row["name"]); $temp_deaths = $row["deaths"]; $PlayerDeaths = $row["deaths"]; }
-	 if ( !isset($MostAssists)  )  { $MostAssists = ($row["name"]); $temp_assists = $row["assists"]; $PlayerAssists = $row["assists"]; }
+	 if ( !isset($MostAssists)  )  { $MostAssists = ($row["name"]); $temp_assists = $row["assists"]; $PlayerAssists = $row["assists"]; $MostAssistsID = ($row["userid"]); }
 	 
 	 if ( !isset($MostKills)  )    { 
 	 $MostKills = ($row["name"]); $temp_kills = $row["kills"]; $PlayerKills = $row["kills"]; 
+	 $MostKillsID = ($row["userid"]);
 	 }
 	 
-	 if ( !isset($BestPlayer)  )     $BestPlayer = ($row["name"]);
+	 if ( !isset($BestPlayer)  )   {  $BestPlayer = ($row["name"]); $BestPlayerID = ($row["userid"]); }
 	
 	if ( $row["creepdenies"] > $temp_cd ) {
 	   $MostCD = ($row["name"]); $PlayerCD = $row["creepdenies"]; $temp_cd= $row["creepdenies"];
+	   $MostCDID = ($row["userid"]);
 	 }
 	
 	if ( $row["creepkills"] > $temp_ck ) {
 	   $MostCK = ($row["name"]); $PlayerCK = $row["creepkills"]; $temp_ck= $row["creepkills"]; 
+	   $MostCKID = ($row["userid"]);
 	 }
 	
 	if ( $row["deaths"] > $temp_deaths ) {
 	   $MostDeaths = ($row["name"]); $PlayerDeaths = $row["deaths"]; $temp_deaths= $row["deaths"];
+	   $MostDeathsID = ($row["userid"]);
 	 }
 	 
 	 if ( $row["assists"] > $temp_assists ) {
 	   $MostAssists = ($row["name"]); $PlayerAssists = $row["assists"]; $temp_assists = $row["assists"];
+	   $MostAssistsID = ($row["userid"]);
 	 }
 	 
 	 if ( $row["kills"] > $temp_kills ) {
 	   $MostKills = ($row["name"]); $PlayerKills = $row["kills"]; $temp_kills = $row["kills"];
+	   $MostKillsID = ($row["userid"]);
 	 }
 	 
 	 $score_points = ($row["kills"] -  $row["deaths"]) + ($row["assists"]*0.3);
 	 if ( $score_points > $temp_points ) {
 	 $BestPlayer = ($row["name"]);
+	 $BestPlayerID = ($row["userid"]);
 	 $temp_points = $score_points;
 	 }
 	 
@@ -210,9 +220,6 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 if ( $HideEmptySlots == 1 AND (strlen($row["name"])<=2 OR $row["left"]<=0) ) 
 	 $GameData[$c]["hideslot"] = 'hiddenslot'; else $GameData[$c]["hideslot"] = "";
 	 
-	 //if user is NOT ranked (stats updated) show username instead of user ID
-	 if ( empty($row["userid"]) )
-	 $GameData[$c]["userid"]  = $GameData[$c]["name"];
 	 
 	 $GameData[$c]["newcolour"]  = ($row["newcolour"]);
 	 $GameData[$c]["gameid"]  = ($row["gameid"]);

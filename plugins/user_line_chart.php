@@ -62,15 +62,15 @@ if ($PluginEnabled == 1  ) {
 	 $ChartData[$c]["winner"]  = ($row["winner"]);
 	if ( isset($row["newcolour"]) ) {
 	$ChartData[$c]["newcolour"]  = ($row["newcolour"]);
-	if ( $row["newcolour"] <=5  AND $row["winner"] == 1 )  { $ChartData[$c]["win"]  = 1; $win = 1; } else 
-	if ( $row["newcolour"] >5   AND $row["winner"] == 1 )  { $ChartData[$c]["win"]  = 2; $win = 2; } else 
-	if ( $row["newcolour"] >5   AND $row["winner"] == 2 )  { $ChartData[$c]["win"]  = 1; $win = 1; } else 
-	if ( $row["newcolour"] <=5  AND $row["winner"] == 2 )  { $ChartData[$c]["win"]  = 2; $win = 2; 
-	} } else $ChartData[$c]["newcolour"]  = 0;
-	if ( $row["winner"] == 0 ) { $ChartData[$c]["win"] = 0; $win = 0; }
+	if ( $row["newcolour"] <=5  AND $row["winner"] == 1 )  $ChartData[$c]["win"]  = 1; else 
+	if ( $row["newcolour"] >5   AND $row["winner"] == 1 )  $ChartData[$c]["win"]  = 2; else 
+	if ( $row["newcolour"] >5   AND $row["winner"] == 2 )  $ChartData[$c]["win"]  = 1; else 
+	if ( $row["newcolour"] <=5  AND $row["winner"] == 2 )  $ChartData[$c]["win"]  = 2; 
+	} else $ChartData[$c]["newcolour"]  = 0;
+	if ( $row["winner"] == 0 ) $ChartData[$c]["win"] = 0;
 	
-	if ( $win == 1) $tempPoints++; else
-	if ( $win == 2) $tempPoints--; 
+	if ( $ChartData[$c]["win"] == 1) $tempPoints++; else
+	if ( $ChartData[$c]["win"] == 2) $tempPoints--; 
 	
 	$ChartData[$c]["ChartPoints"] = $tempPoints;
 	$c++;
@@ -155,7 +155,6 @@ jQuery(function () {
    function OS_ChartData() {
 ?>
 <script src="<?=OS_HOME.OS_PLUGINS_DIR?>user_line_chart/highcharts.js"></script>
-<script src="<?=OS_HOME.OS_PLUGINS_DIR?>user_line_chart/js/modules/exporting.js"></script>
 <a name="chart"></a>
 <div class="clr"></div>
  <div class="ct-wrapper">
@@ -217,9 +216,7 @@ games
 	$Total = substr($Total, 0, strlen($Total)-2 );
 	  ?>
 <script src="<?=OS_HOME.OS_PLUGINS_DIR?>user_line_chart/highcharts.js"></script>
-<script src="<?=OS_HOME.OS_PLUGINS_DIR?>user_line_chart/js/modules/exporting.js"></script>
-
-		<script type="text/javascript">
+<script type="text/javascript">
 jQuery.noConflict();
 jQuery(function () {
         jQuery('#chart_container').highcharts({
@@ -244,7 +241,7 @@ jQuery(function () {
                 }
             },
             tooltip: {
-                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                headerFormat: '<span style="font-size:11px;font-weight:bold;">{point.key}</span><table>',
                 pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
                     '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
                 footerFormat: '</table>',

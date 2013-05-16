@@ -9,7 +9,8 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('HTTP/1.1 404
    include('config.php');
    require_once('inc/common.php');
 
-   require_once('lang/'.OS_LANGUAGE.'.php');    require_once('inc/integration.php');
+   require_once('lang/'.OS_LANGUAGE.'.php');
+   require_once('inc/integration.php');
    if(isset($DBDriver) AND $DBDriver == "mysql" ) require_once('inc/class.database.php'); else
    require_once('inc/class.db.PDO.php'); 
    require_once('inc/db_connect.php');

@@ -11,15 +11,15 @@ $password = '';
 $database = 'openstats';
 
 $website = 'http://localhost/openstats/';
-$HomeTitle = 'DotA OpenStats 3';
-$HomeDesc = 'DotA OpenStats 3';
+$HomeTitle = 'DotA OpenStats 4';
+$HomeDesc = 'DotA OpenStats 4';
 $HomeKeywords = 'dota, games, heroes, players, best players, top list, top players, statistics';
 
 $default_language = 'english';
 $DateFormat = 'd.m.Y, H:i';
 $DefaultStyle = 'bootstrap';
 
-$LogoText = 'DotA OpenStats 3';
+$LogoText = 'DotA OpenStats 4';
 
 //FACEBOOK APP SETUP
 //Enable Login via Facebook

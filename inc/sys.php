@@ -16,24 +16,20 @@ foreach($_GET as $key => $value) {
 include(OS_PAGE_PATH."registration_login_page.php"); 
 include(OS_PAGE_PATH."add_comment_page.php"); 
     
-	  //Check if player name exists
-	  if ( isset($_GET["u"]) AND !is_numeric( $_GET["u"]) ) {
-	  $u = safeEscape( $_GET["u"] );
-	  $sth = $db->prepare("SELECT * FROM ".OSDB_STATS." WHERE (player) = ? LIMIT 1");
+	 //If "u" is not a number, found in the database this user (if exists)
+	 if ( isset($_GET["u"]) AND !is_numeric( $_GET["u"]) ) {
+	    $uid = OS_StrToUTF8( trim($_GET["u"]) );
 	  
-	  $sth->bindValue(1, "%".strtolower($u)."%", PDO::PARAM_STR);
-	  $result = $sth->execute();
+		$sth = $db->prepare("SELECT *
+	    FROM ".OSDB_STATS." as s WHERE s.player = :player LIMIT 1");
+		$sth->bindValue(':player', $uid, PDO::PARAM_STR);
+		$result = $sth->execute();
 	  
-	  if ( $sth->rowCount()>=1 ) {
-	     $row = $sth->fetch(PDO::FETCH_ASSOC);
-		 $uid = $row["id"];
-		 $db->free($result);
-         require_once(OS_PLUGINS_DIR.'index.php');
-         os_init();
-		 header("location: ".OS_HOME."?u=".$uid.""); die;
-	     }
-	  }
-
+		if ( $sth->rowCount()>=1 ) {
+		   $row = $sth->fetch(PDO::FETCH_ASSOC);
+		   header( 'location: '.OS_HOME.'?u='.$row["id"] ); die;
+		}
+	 }
   
   if ( isset($_GET["games"]) OR isset($_GET["u"]) )            include(OS_PAGE_PATH."games_page.php"); 
   if ( isset($_GET["game"]) AND is_numeric($_GET["game"]) )    include(OS_PAGE_PATH."single_games_page.php"); else

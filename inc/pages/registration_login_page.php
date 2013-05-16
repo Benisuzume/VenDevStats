@@ -81,6 +81,7 @@ if ( isset( $_GET["login"]) AND !is_logged() AND isset($_POST["login_"] ) ) {
 	  $_SESSION["level"]    = $row["user_level"];
 	  $_SESSION["can_comment"]    = $row["can_comment"];
 	  $_SESSION["logged"]    = time();
+	  $_SESSION["user_lang"]    = $row["user_lang"];
 	  
 	  $LastLogin = $db->update(OSDB_USERS, array("user_last_login" => (int)time() ), "user_email = '".$email."'");
 

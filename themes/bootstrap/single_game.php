@@ -156,41 +156,41 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
     <tr height="26" >
 	  <td width="180"class="padLeft"><div class="best_player_title"><?=$lang["best_player"] ?></span></div>
 	  <td width="180" class="padLeft" style="text-align:left;"><h4 class="best_player">
-	   <a href="<?=OS_HOME?>?u=<?=strtolower($BestPlayer)?>"><?=$BestPlayer?></a> <img src="<?=OS_HOME?>img/best.png" class="imgvalign" width="24" height="24" /> 
+	   <a href="<?=OS_HOME?>?u=<?=($BestPlayerID)?>"><?=$BestPlayer?></a> <img src="<?=OS_HOME?>img/best.png" class="imgvalign" width="24" height="24" /> 
 	   </h4></td>
 	  <td></td>
 	</tr>  
     <tr>
 	  <td width="180" class="padLeft"><b><?=$lang["most_kills"]?></b></td>
-	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=strtolower($MostKills)?>"><?=$MostKills?></a></h4></td>
+	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=($MostKillsID)?>"><?=$MostKills?></a></h4></td>
 	  <td class="padLeft"><?=$PlayerKills?></td>
 	</tr> 
 <?php } ?>
 <?php if ($PlayerAssists>0) { ?> 
     <tr>
 	  <td width="180" class="padLeft"><b><?=$lang["most_assists"]?></b></td>
-	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=strtolower($MostAssists)?>"><?=$MostAssists?></a></h4></td>
+	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=($MostAssistsID)?>"><?=$MostAssists?></a></h4></td>
 	  <td class="padLeft"><?=$PlayerAssists?></td>
 <?php } ?>
 	</tr> 
 <?php if ($PlayerDeaths>0) { ?> 
     <tr>
 	  <td width="180" class="padLeft"><b><?=$lang["most_deaths"] ?></b></td>
-	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=strtolower($MostDeaths)?>"><?=$MostDeaths?></a></h4></td>
+	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=($MostDeathsID)?>"><?=$MostDeaths?></a></h4></td>
 	  <td class="padLeft"><?=$PlayerDeaths?></td>
 	</tr> 
 <?php } ?>
 <?php if ($PlayerCK>0) { ?>
 	<tr>
 	  <td width="180" class="padLeft"><b><?=$lang["top_ck"]?></b></td>
-	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=strtolower($MostCK)?>"><?=$MostCK?></a></h4></td>
+	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=($MostCKID)?>"><?=$MostCK?></a></h4></td>
 	  <td class="padLeft"><?=$PlayerCK?></td>
 	</tr> 
 <?php } ?>
 <?php if ($PlayerCD>0) { ?>
 	<tr>
 	  <td width="180" class="padLeft"><b><?=$lang["top_cd"]?></b></td>
-	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=strtolower($MostCD)?>"><?=$MostCD?></a></h4></td>
+	  <td width="180" class="padLeft"> <h4><a href="<?=OS_HOME?>?u=<?=($MostCDID)?>"><?=$MostCD?></a></h4></td>
 	  <td class="padLeft"><?=$PlayerCD?></td>
 	</tr> 
 <?php } ?>

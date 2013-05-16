@@ -35,7 +35,7 @@
 **********************************************/
 if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 
-define('OS_VERSION', '3.9.9.9');
+define('OS_VERSION', '4.0.0.0');
 define('OS_HOME',      $website); 
 define('OS_HOME_TITLE',    $HomeTitle);
 define('OS_TIMEZONE',      $TimeZone);
@@ -74,7 +74,7 @@ define('OSDB_PASSWORD',    $password);
 define('OSDB_DATABASE',    $database); 
 
 define('OS_THEMES_DIR',              $DefaultStyle);
-define('OS_THEME_PATH',              OS_HOME."/themes/".OS_THEMES_DIR."/");
+define('OS_THEME_PATH',              OS_HOME."themes/".OS_THEMES_DIR."/");
 define('OS_CURRENT_THEME_PATH',     "themes/".OS_THEMES_DIR."/"); 
 define('OS_PLUGINS_DIR',            'plugins/');
 define('OS_PAGE_PATH',               "inc/pages/"); 

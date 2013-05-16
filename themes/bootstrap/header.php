@@ -17,5 +17,6 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 <link rel="stylesheet" href="<?=OS_HOME?><?=OS_CURRENT_THEME_PATH?>css/bootstrap.css" type="text/css" />
 <link rel="stylesheet" href="<?=OS_HOME?><?=OS_CURRENT_THEME_PATH?>css/bootstrap-responsive.css" type="text/css" />
 <link rel="stylesheet" href="<?=OS_HOME?><?=OS_CURRENT_THEME_PATH?>style.css" type="text/css" />
+<?php os_js() ?>
 <?php os_head(); ?>
 </head>

@@ -158,8 +158,9 @@ $lang["fastest_game"]   = 'Schnellstes Spiel gewonnen';
 $lang["longest_game"]   = 'Längstes Spiel gewonnen';  
     
 $lang["game_history"]         = "Vergangene Spiele:";  
-$lang["user_game_history"]    = "Vergangene Spiele des SPielers";  
+$lang["user_game_history"]    = "Vergangene Spiele des Spielers";  
 $lang["best_player"]          = "Bester Spieler: ";  
+$lang["show_hero_history"]    = "Zeige alle Spiele mit diesem Helden";
     
 $lang["download_replay"]      = "Replay herunterladen";  
 $lang["view_gamelog"]         = "Siehe Gamelog";  
@@ -226,6 +227,7 @@ $lang["female"]      = "Weiblich";
 $lang["password"]    = "Passwort";  
 $lang["register"]    = "Registrieren";  
 $lang["username"]    = "Spielername";  
+$lang["language"]    = "Sprache";
 $lang["confirm_password"]       = "Passwort bestätigen";  
 $lang["change_password"]        = "Passwort ändern";  
 $lang["change_password_info"]   = "Klick auf die Box um dein Passwort zu ändern";  

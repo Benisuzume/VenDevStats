@@ -6,7 +6,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   if ( isset($_GET["uid"]) AND is_numeric($_GET["uid"]) AND isset($GamesData[0]["player"]) ) {
    ?>
    <div class="padTop padBottom">
-     <h2><?=$lang["game_history"]?> <a href="<?=OS_HOME?>?u=<?=(int)$_GET["uid"]?>"><?=$GamesData[0]["player"]?></a></h2>
+     <h2><?=$lang["game_history"]?> <a href="<?=OS_HOME?>?u=<?=(int)$_GET["uid"]?>"><?=$GamesData[0]["player"]?></a> <?=OS_HeroIcon( $GamesData[0]["hero_history"] )?></h2>
    </div>
    <?php
   }

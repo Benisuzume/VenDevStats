@@ -155,6 +155,7 @@ $lang["longest_game"]   = 'Longest Game Won';
 $lang["game_history"]         = "Game History:";
 $lang["user_game_history"]    = "User Game History";
 $lang["best_player"]          = "Best Player: ";
+$lang["show_hero_history"]    = "Show all games with this hero";
 
 $lang["download_replay"]      = "Download replay";
 $lang["view_gamelog"]         = "View Gamelog";
@@ -221,6 +222,7 @@ $lang["female"]      = "Female";
 $lang["password"]    = "Password";
 $lang["register"]    = "Register";
 $lang["username"]    = "Username";
+$lang["language"]    = "Language";
 $lang["confirm_password"]       = "Confirm Password";
 $lang["change_password"]        = "Change Password";
 $lang["change_password_info"]   = "Check this if you want to change the password";

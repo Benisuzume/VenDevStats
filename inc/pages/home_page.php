@@ -44,7 +44,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$CommentsData[$c]["username_clean"]  = ($row["user_name"]);
 	$CommentsData[$c]["user_id"]  = ($row["user_id"]);
 	$CommentsData[$c]["post_id"]  = ($row["post_id"]);
-	$CommentsData[$c]["text"]  = convEnt($row["text"]);
+	//$CommentsData[$c]["text"]  = convEnt($row["text"]);
 	if (isset($AutoLinkComments) AND $AutoLinkComments == 2)
 	$CommentsData[$c]["text"]  = RemoveLinks( $row["text"], $AutoLinkTextReplace  );
 	else
@@ -54,7 +54,8 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	if (isset($AutoLinkComments) AND $AutoLinkComments == 1 AND isset($AutoLinkFull) AND $AutoLinkFull == 1)
 	$CommentsData[$c]["text"]  = AutoLinkFull( $row["text"], 'target="_blank" class="u_links"' );
 	
-	$CommentsData[$c]["text"]  = html_entity_decode( $CommentsData[$c]["text"] );
+	//$CommentsData[$c]["text"]  = html_entity_decode( $CommentsData[$c]["text"] );
+	$CommentsData[$c]["text"]  = convEnt($CommentsData[$c]["text"]);
 	
 	//Quote user - bold username
 	if ( strstr($CommentsData[$c]["text"] , "@" ) AND strstr($CommentsData[$c]["text"] , ", ") ) {
@@ -135,6 +136,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$NewsData[$c]["full_text"]  = convEnt($row["news_content"]);
 	//$NewsData[$c]["text"]  = str_replace("\n","<br />", $NewsData[$c]["text"]);
 	$NewsData[$c]["date"]  = date( $DateFormat, ($row["news_date"]) );
+	$NewsData[$c]["date_int"]  = ($row["news_date"]);
 	$NewsData[$c]["comments"]  = ($row["comments"]);
 	$NewsData[$c]["allow_comments"]  = ($row["allow_comments"]);
 	$c++;

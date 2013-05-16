@@ -49,7 +49,7 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 	function getUserGames ( $MapString="dota", $id, $MinDuration, $offset, $rowsperpage, $filter = "" ) {
 	
 	 $sql = "SELECT s.*, g.id, g.map, g.gamename, g.datetime, g.ownername, g.duration,  g.creatorname, dg.winner, 
-	 g.gamestate AS type, s.player, dp.kills, dp.deaths, dp.creepkills, dp.creepdenies, dp.assists, dp.hero, dp.neutralkills, dp.newcolour
+	 g.gamestate AS type, s.player, dp.kills, dp.deaths, dp.creepkills, dp.creepdenies, dp.assists, dp.hero, dp.neutralkills, dp.newcolour, gp.`left`
 	 FROM ".OSDB_STATS." as s 
 	 LEFT JOIN ".OSDB_GP." as gp ON (gp.name) = (s.player)
 	 LEFT JOIN ".OSDB_GAMES." as g ON g.id = gp.gameid

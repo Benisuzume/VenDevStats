@@ -40,7 +40,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	  <?php if (isset($Ban["letter"]) ) { ?>
 	  <img <?=ShowToolTip($Ban["country"], OS_HOME.'img/flags/'.($Ban["letter"]).'.gif', 130, 21, 15)?>  class="imgvalign" width="21" height="15" src="<?=OS_HOME?>img/flags/<?=$Ban["letter"]?>.gif" alt="" />
 	  <?php } ?>
-	  <a href="<?=OS_HOME?>?u=<?=$Ban["id"]?>"><?=$Ban["name"]?></a>
+	  <a href="<?=OS_HOME?>?u=<?=$Ban["name"]?>"><?=$Ban["name"]?></a>
 	  <?php if (is_logged() AND isset($_SESSION["level"] ) AND $_SESSION["level"]>=9 ) { ?>
 	  <a style="float: right; font-size:11px; padding-right: 5px;" href="<?=OS_HOME?>adm/?bans&amp;edit=<?=$Ban["id"]?>">Edit</a>
 	  <?php } ?>

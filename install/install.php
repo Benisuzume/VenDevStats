@@ -7,8 +7,8 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="description" content="DotA OpenStats, php/MySQL webstatistic" />
   <meta name="keywords" content="dota, games, openstats" />
-  <link rel="stylesheet" href="themes/default/style.css" />
-  <title>OpenStats 3 Installation</title>
+  <link rel="stylesheet" href="themes/blogger/style.css" />
+  <title>OpenStats 4 Installation</title>
 
  <style>
  .container { margin-top: 32px; }
@@ -24,13 +24,13 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
  <div class="topbar">
 
         <div class="container">
-          <h1 class="brand" href="<?php echo $website; ?>">OpenStats 3</h1>
+          <h1 class="brand" href="<?php echo $website; ?>">OpenStats 4</h1>
         </div>
   </div>
   
  <div class="container">
     <div class="content">
-    <h2>Install OpenStats 3</h2>
+    <h2>Install OpenStats 4</h2>
 	
 	<?php
 	//ч
@@ -264,7 +264,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
 		<div style="display:none;">Please delete or rename <b>install/</b> folder.</div>
 		
 		<div>&nbsp;</div>
-		<input type="button" class="menuButtons" value="Go to OpenStats 3" onclick="location.href='<?=$website?>'" />
+		<input type="button" class="menuButtons" value="Go to OpenStats 4" onclick="location.href='<?=$website?>'" />
 		<?php
 		write_value_of('$OS_INSTALLED', "$OS_INSTALLED", '1', "config.php");
 		} else echo "ERROR: mysql error!";
@@ -278,7 +278,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
 </div>
   
   <footer>
-        <div id="footer-wrapper">@<?php echo date("Y"); ?> Powered by DotA OpenStats 3</div>
+        <div id="footer-wrapper">@<?php echo date("Y"); ?> Powered by DotA OpenStats 4</div>
   </footer>
 </body>
 </html>

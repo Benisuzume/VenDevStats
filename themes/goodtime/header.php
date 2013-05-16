@@ -43,6 +43,6 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 		.et_portfolio_large { margin-left: -12px !important; }
 		.et_portfolio_large .et_pt_portfolio_item { margin-left: 13px !important; }
 	</style>
-	
+<?php os_js() ?>	
 <?php os_head(); ?>
 </head>

@@ -9,7 +9,14 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	  $www = EscapeStr( trim($_POST["website"]));
 	  $gender = EscapeStr( trim($_POST["gender"]));
 	  
+	  $lang = EscapeStr( trim($_POST["lang"]));
+	  
 	  $sql = "UPDATE ".OSDB_USERS." SET ";
+	  
+	  if ( !file_exists("lang/".$lang.".php") ) $lang = ""; else {
+	  $sql.="user_lang = '".$lang."', ";
+	  $_SESSION["user_lang"] = $lang;
+	  }
 	  
 	  //User want to remove avatar
 	  if ( isset($_POST["removeAvatar"] ) AND $_POST["removeAvatar"] == 1 ) {
@@ -148,4 +155,27 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	  $ProfileData[$c]["user_gender"]  = ($row["user_gender"]);
 	  $ProfileData[$c]["user_fbid"]  = ($row["user_fbid"]);
 	  $ProfileData[$c]["can_comment"]  = ($row["can_comment"]);	
+
+	  if ( !empty($row["user_lang"]) ) $ProfileData[$c]["user_lang"]  = ($row["user_lang"]);	else
+	  $ProfileData[$c]["user_lang"]  = "english";
+	  $c=0;
+	
+	  $UserLang = array();
+	
+if ($handle = opendir("lang")) {
+   while (false !== ($file = readdir($handle)))
+	{
+	  if ($file !="." AND  $file !="index.html" AND $file !=".." AND strstr($file,".png")==false AND strstr($file,".css")==false AND strstr($file,".js")==false AND strstr($file,".php")==true ) {
+	
+	  if (trim( str_replace(".php", "", $file) ) == trim( $ProfileData[0]["user_lang"] )) $UserLang[$c]["selected"] = 'selected="selected"';
+	  else $UserLang[$c]["selected"] = "";
+	
+	  $UserLang[$c]["lang"] = $file;
+	  $UserLang[$c]["lang_name"] = str_replace(".php", "", $file);
+	
+	  $c++;
+	  }
+	}
+	
+}
 ?>

@@ -50,7 +50,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
           <tr><td width="90">Reason</td><td width="160"><span <?=ShowToolTip($full_reason, OS_HOME.'img/banned.png', 400, 16, 16)?>><?=$bq["reason"]?></span></td></tr>
 	 <? }
 	    if( isset($bq["gamename"]) AND !empty($bq["gamename"]))  {
-	   $bqgn = explode(" ", $bq["gamename"]); ?>
+	   $bqgn = explode(" ", $bq["gamename"]);
                 if( isset($bqgn[2]) AND !empty($bqgn[2]) ) { ?>
                   <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><span <?=ShowToolTip($bq["gamename"], OS_HOME.'img/banned.png', 200, 16, 16)?>><?=$bqgn[2]?></span></font></td></tr>
                 <? } else { ?>
@@ -354,20 +354,12 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
   ?>
   <tr class="GameHistoryRow">
 	 <td width="220" class="padLeft overflow_hidden slot<?=$Games["newcolour"]?>">
- 	 <?php if ($Games["winner"] == 1) { ?>
- 	 <img src="<?=OS_HOME?>img/winner.png" alt="*" width="24" height="24" class="imgvalign" />
- 	 <?php } ?>
- 	 <?php if ($Games["winner"] == 2) { ?>
- 	 <img src="<?=OS_HOME?>img/loser.png"  alt="*" width="24" height="24" class="imgvalign" />
- 	 <?php } ?>
- 	 <?php if ($Games["winner"] == 0) { ?>
- 	 <img src="<?=OS_HOME?>img/draw.png"   alt="*" width="24" height="24" class="imgvalign" />
- 	 <?php } ?>
-	 
+	<?=OS_WinLoseIcon( $Games["win"] )?>
 	   <a href="<?=OS_HOME?>?game=<?=$Games["id"]?>"><span class="winner<?=$Games["winner"]?>"><?=$Games["gamename"]?></span></a>
+	<?=OS_IsUserGameLeaver($Games["leaver"])?>
 	 </td>
 	 <?php if (isset($_GET["u"]) ) { ?>
-	 <td width="40" height="40"><img width="32" height="32" src="<?=OS_HOME?>img/heroes/<?=($Games["hero"])?>.gif" alt="Hero" /></td>
+	 <td width="40" height="40"><?=OS_UserHeroHistoryLink($User["id"], $Games["hero"], $lang["show_hero_history"]) ?></td>
 	 <td width="90">
 	 	<span class="won"><?=($Games["kills"])?></span> / 
 	    <span class="lost"><?=$Games["deaths"]?></span> / 

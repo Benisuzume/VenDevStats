@@ -344,6 +344,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `user_realm` varchar(255) NOT NULL,
   `user_website` varchar(255) NOT NULL,
   `user_gender` tinyint(4) NOT NULL,
+  `user_lang` char(15) NOT NULL,
   `user_fbid` varchar(30) NOT NULL,
   `phpbb_id` int(11) NOT NULL,
   `smf_id` int(11) NOT NULL,
