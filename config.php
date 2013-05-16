@@ -169,4 +169,7 @@ $MapString = "dota";
 // Fame/Shame Page, enable by set to 1
 $Fame_Shame_Pages = '1';
 
+// Forum Page;
+$Forum = '1';
+$ForumLink = 'http://www.codelain.com/forum/index.php?topic=23122.0';
 ?>

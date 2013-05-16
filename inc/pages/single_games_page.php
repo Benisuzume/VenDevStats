@@ -62,8 +62,8 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$sth = $db->prepare(  getGameInfo( (int) $gameid)  );
 	$result = $sth->execute();
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
-	$counter++;
-	$GameData[$c]["counter"] = $counter;
+	if( $row["newcolour"] <= 5 ) $GameData[$c]["counter"] = $row["newcolour"];
+	if( $row["newcolour"] > 5 ) $GameData[$c]["counter"] = $row["newcolour"]-1;
 	$GameData[$c]["side"] = "";
 	if ( $row["newcolour"] >5 AND $ScourgeRow == 0 ) { $GameData[$c]["side"] = "scourge"; $ScourgeRow = 1; }
 	if ( $row["newcolour"] <=5 AND $SentinelRow == 0 ) { $GameData[$c]["side"] = "sentinel"; $SentinelRow = 1;  }

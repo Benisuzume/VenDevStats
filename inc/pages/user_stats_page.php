@@ -77,7 +77,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
         $UserData[$c]["double_score"]  = ($row["double_score"]);
         $UserData[$c]["dc_count"]  = ($row["dc_count"]);
 	
-        if( !isset($row["realm"]) AND empty($row["realm"]) ) {
+        if( strlen($row["realm"]) <= 2 ) {
 		$UserData[$c]["realm"] = "Garena";
 	} else {
 		$UserData[$c]["realm"]  = ($row["realm"]);

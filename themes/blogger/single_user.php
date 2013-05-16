@@ -53,8 +53,12 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
           <tr><td width="90">Reason</td><td width="160"><span <?=ShowToolTip($full_reason, OS_HOME.'img/banned.png', 400, 16, 16)?>><?=$bq["reason"]?></span></td></tr>
 	 <? }
 	    if( isset($bq["gamename"]) AND !empty($bq["gamename"]))  {
-	   $bqgn = explode(" ", $bq["gamename"]); ?>
-          <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><?=$bqgn[2]?></font></td></tr>
+	   $bqgn = explode(" ", $bq["gamename"]);
+		if( isset($bqgn[2]) AND !empty($bqgn[2]) ) { ?>
+	          <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><?=$bqgn[2]?></font></td></tr>
+		<? } else { ?>
+		  <tr><td width="90">GameName</td><td width="160"><font color="teal"><?=$bq["gamename"]?></font></td></tr>
+		<? }  ?>
 	 <? } else { ?>
           <tr><td width="90">GameName</td><td width="160"><?=$bq["gamename"]?></td></tr>
 	 <? }  ?>

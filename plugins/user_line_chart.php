@@ -62,15 +62,15 @@ if ($PluginEnabled == 1  ) {
 	 $ChartData[$c]["winner"]  = ($row["winner"]);
 	if ( isset($row["newcolour"]) ) {
 	$ChartData[$c]["newcolour"]  = ($row["newcolour"]);
-	if ( $row["newcolour"] <=5  AND $row["winner"] == 1 )  $ChartData[$c]["win"]  = 1; else 
-	if ( $row["newcolour"] >5   AND $row["winner"] == 1 )  $ChartData[$c]["win"]  = 2; else 
-	if ( $row["newcolour"] >5   AND $row["winner"] == 2 )  $ChartData[$c]["win"]  = 1; else 
-	if ( $row["newcolour"] <=5  AND $row["winner"] == 2 )  $ChartData[$c]["win"]  = 2; 
-	} else $ChartData[$c]["newcolour"]  = 0;
-	if ( $row["winner"] == 0 ) $ChartData[$c]["win"] = 0;
+	if ( $row["newcolour"] <=5  AND $row["winner"] == 1 )  { $ChartData[$c]["win"]  = 1; $win = 1; } else 
+	if ( $row["newcolour"] >5   AND $row["winner"] == 1 )  { $ChartData[$c]["win"]  = 2; $win = 2; } else 
+	if ( $row["newcolour"] >5   AND $row["winner"] == 2 )  { $ChartData[$c]["win"]  = 1; $win = 1; } else 
+	if ( $row["newcolour"] <=5  AND $row["winner"] == 2 )  { $ChartData[$c]["win"]  = 2; $win = 2; 
+	} } else $ChartData[$c]["newcolour"]  = 0;
+	if ( $row["winner"] == 0 ) { $ChartData[$c]["win"] = 0; $win = 0; }
 	
-	if ( $ChartData[$c]["win"] == 1) $tempPoints++; else
-	if ( $ChartData[$c]["win"] == 2) $tempPoints--; 
+	if ( $win == 1) $tempPoints++; else
+	if ( $win == 2) $tempPoints--; 
 	
 	$ChartData[$c]["ChartPoints"] = $tempPoints;
 	$c++;

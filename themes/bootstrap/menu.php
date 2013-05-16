@@ -10,7 +10,16 @@ if ( !isset($s) ) $s = $lang["search_players"];
         <div class="container">
 <div class="nav-collapse collapse">
 <ul class="nav">
+<? if( $Forum == 1 ) { ?>
+  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"><?=$lang["home"]?> <b class="caret"></b></a>
+         <ul class="dropdown-menu">
+	  <li><a href="<?=OS_HOME?>">Home</a></li>
+          <li><a href="<?=$ForumLink?>">Forum</a></li>
+         </ul>
+  </li>
+<? } else { ?>
   <li><a href="<?=OS_HOME?>"><?=$lang["home"]?></a></li>
+<?php } ?>
   <?php if ($TopPage == 1) { ?>
   <li><a href="<?=OS_HOME?>?top"><?=$lang["top"]?></a></li>
   <?php } ?>

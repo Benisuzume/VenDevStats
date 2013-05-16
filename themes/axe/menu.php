@@ -7,7 +7,16 @@ if ( !isset($s) ) $s = $lang["search_players"];
 <nav class="iegradient" id="main-navigation" role="navigation">
 <div class="innerwrap">
 <ul class="sf-menu">
+<? if( $Forum == 1 ) { ?>
+  <li><a href="javascript:;"><?=$lang["home"]?></a>
+         <ul>
+          <li><a href="<?=OS_HOME?>">Home</a></li>
+          <li><a href="<?=$ForumLink?>">Forum</a></li>
+         </ul>
+  </li>
+<? } else { ?>
   <li><a href="<?=OS_HOME?>"><?=$lang["home"]?></a></li>
+<?php } ?>
   <?php if ($TopPage == 1) { ?>
   <li><a href="<?=OS_HOME?>?top"><?=$lang["top"]?></a></li>
   <?php } ?>

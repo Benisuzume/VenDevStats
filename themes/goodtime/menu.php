@@ -19,7 +19,16 @@ if ( !isset($s) ) $s = $lang["search_players"];
 	 <div id="cat-nav-content"> 
 					
 	<ul class="superfish nav clearfix">	
-	  <li class="cat-item cat-item-1"><a href="<?=OS_HOME?>"><?=$lang["home"]?></a></li>
+<? if( $Forum == 1 ) { ?>
+  <li class="cat-item cat-item-4"><a href="javascript:;"><?=$lang["home"]?></a>
+         <ul class='children'>
+          <li><a href="<?=OS_HOME?>">Home</a></li>
+          <li><a href="<?=$ForumLink?>">Forum</a></li>
+         </ul>
+  </li>
+<? } else { ?>
+  <li class="cat-item cat-item-1"><a href="<?=OS_HOME?>"><?=$lang["home"]?></a></li>
+<?php } ?>
 	   <?php if ($TopPage == 1) { ?>
        <li class="cat-item cat-item-2"><a href="<?=OS_HOME?>?top"><?=$lang["top"]?></a></li>
        <?php } ?>
