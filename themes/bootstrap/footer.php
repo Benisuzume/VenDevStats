@@ -16,7 +16,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
 </div><!-- container -->
 </div><!-- wrapper -->
-    <script src="<?=OS_HOME.OS_CURRENT_THEME_PATH?>js/jquery.js"></script>
+<!--    <script src="<?=OS_HOME.OS_CURRENT_THEME_PATH?>js/jquery.js"></script> -->
     <script src="<?=OS_HOME.OS_CURRENT_THEME_PATH?>js/bootstrap-transition.js"></script>
     <script src="<?=OS_HOME.OS_CURRENT_THEME_PATH?>js/bootstrap-alert.js"></script>
     <script src="<?=OS_HOME.OS_CURRENT_THEME_PATH?>js/bootstrap-modal.js"></script>

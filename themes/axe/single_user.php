@@ -19,7 +19,7 @@ function changeImage($iid) {
   
   <h1>
 	<?=OS_ShowUserFlag( $User["letter"], $User["country"] )?>
-    <?=$User["player"]?><font color="blue">@<?=$User["realm"]?></font>
+    <?=$User["player"]?><font color="lightgreen">@<?=$User["realm"]?></font>
 	<?=OS_IsUserGameBanned( $User["banned"], $lang["banned"] )?>
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>
@@ -50,7 +50,7 @@ if ( OS_is_banned_player( $User["banname"] ) ) {
           <tr><td width="90">Reason</td><td width="160"><span <?=ShowToolTip($full_reason, OS_HOME.'img/banned.png', 400, 16, 16)?>><?=$bq["reason"]?></span></td></tr>
 	 <? }
 	    if( isset($bq["gamename"]) AND !empty($bq["gamename"]))  {
-	   $bqgn = explode(" ", $bq["gamename"]); ?>
+	   $bqgn = explode(" ", $bq["gamename"]);
                 if( isset($bqgn[2]) AND !empty($bqgn[2]) ) { ?>
                   <tr><td width="90">GameNumber</td><td width="160"><font color="teal"><span <?=ShowToolTip($bq["gamename"], OS_HOME.'img/banned.png', 200, 16, 16)?>><?=$bqgn[2]?></span></font></td></tr>
                 <? } else { ?>

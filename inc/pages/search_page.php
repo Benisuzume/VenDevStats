@@ -3,7 +3,14 @@
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
       $s = safeEscape( $_GET["search"]);
-	  $sth = $db->prepare("SELECT COUNT(*) FROM ".OSDB_STATS." WHERE (player) LIKE ? LIMIT 1");
+// ip <-> name query
+        if ( isset($_GET["select"]) ) {
+                if ( $_GET["select"] == "name" ) $query = "LOWER(player) LIKE LOWER('%".$s."%')";
+                else $query = "ip LIKE '%".$s."%'";
+        }
+        else $query = "LOWER(player) LIKE LOWER('%".$s."%')";
+
+	  $sth = $db->prepare("SELECT COUNT(*) FROM ".OSDB_STATS." WHERE ".$query." LIMIT 1");
 	  
 	  $sth->bindValue(1, "%".strtolower($s)."%", PDO::PARAM_STR);
 	  $result = $sth->execute();
@@ -15,7 +22,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	  $draw_pagination = 1;
 	  
 	  
-	  $sth = $db->prepare("SELECT * FROM ".OSDB_STATS." WHERE (player) LIKE ? 
+	  $sth = $db->prepare("SELECT * FROM ".OSDB_STATS." WHERE ".$query." 
 	  ORDER BY score DESC
 	  LIMIT $offset, $rowsperpage");
 	  

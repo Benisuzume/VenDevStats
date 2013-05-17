@@ -12,7 +12,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
    
    <?php foreach($AdminsData as $Admin) { ?>
     <tr>
-       <td width="180" class="padLeft"><a href="<?=OS_HOME?>?u=<?=$Admin["id"]?>"><?=$Admin["name"]?></a></td>
+       <td width="180" class="padLeft"><a href="<?=OS_HOME?>?u=<?=$Admin["name"]?>"><?=$Admin["name"]?></a></td>
 	   <td><?=$Admin["server"]?></td>
     </tr>
    <?php } ?>

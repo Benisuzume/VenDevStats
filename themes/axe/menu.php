@@ -103,6 +103,9 @@ if ( !isset($s) ) $s = $lang["search_players"];
    <?php } ?>
 </ul>
 <aside class="widget">
+   <?=OS_SearchOption()?>
+</aside>
+<aside class="widget">
   <form role="search" method="get" id="searchform" action="" >
     <div><label class="screen-reader-text" for="s">Search for:</label>
     <input type="text" onblur='if (this.value == "") {this.value = "<?=$s?>";}' onfocus='if (this.value == "<?=$s?>") {this.value = ""}' type="text" value='<?=$s?>' name="search" id="s" />

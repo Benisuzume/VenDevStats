@@ -34,7 +34,7 @@
 -->
 **********************************************/
 if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
-
+if (!isset($_SESSION["level"]) AND empty($_SESSION["level"]) ) $_SESSION["level"] = 0;
 $errors = "";
 
 if ( isset($_SESSION["user_lang"]) AND file_exists("lang/".$_SESSION["user_lang"].".php") ) {
@@ -1279,6 +1279,18 @@ function OS_SortTopPlayers( $fieldName = 'sort' ) {
   </form>
   <?php
 }
+
+function OS_SearchOption( $fieldName = 'select' ) {
+if( $_SESSION["level"] >= 9 ) {
+ ?>
+<select name="select">
+<?php if (isset($_GET["select"]) AND $_GET["select"] == "name" ) $sel = 'selected="selected"'; else $sel = ''; ?>
+          <option <?=$sel?> value="name">Name</option>
+<?php if (isset($_GET["select"]) AND $_GET["select"] == "ip" ) $sel = 'selected="selected"'; else $sel = ''; ?>
+          <option <?=$sel?> value="ip">IP</option>
+</select>
+  <?php
+} }
 
 function OS_TopUser($id, $player) {
 ?><a href="<?=OS_HOME?>?u=<?=$id?>"><?=$player?></a><?php

@@ -124,10 +124,10 @@ if ( !isset($s) ) $s = $lang["search_players"];
 	   <form method="get" id="searchform1" action="">
 
 		<div><input id="searchinput" name="search" onblur='if (this.value == "") {this.value = "<?=$s?>";}' onfocus='if (this.value == "<?=$s?>") {this.value = ""}' type="text" value='<?=$s?>'/></div>
-		
 		<input type="image" src="<?=OS_HOME?>themes/<?=OS_THEMES_DIR?>/images/search_btn.png" id="searchsubmit" />
 		</form>
 	</div>
+   <?=OS_SearchOption()?>
 				<!-- End Searchbox -->	
 				</div> <!-- end #cat-nav-content -->
 				<div id="cat-nav-right"> </div>

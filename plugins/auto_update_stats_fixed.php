@@ -5,12 +5,12 @@
 
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
-$PluginEnabled = '1';
+$PluginEnabled = '0';
 //Enable edit plugin options
 $PluginOptions = '1';
 
-$MaxUpdateGames = '5';
-$UpdateTime = '5';
+$MaxUpdateGames = '200';
+$UpdateTime = '1';
 $DisplayStatsLog = '1';
 
 define('OS3_MaxUpdateGames',  $MaxUpdateGames);
@@ -120,8 +120,6 @@ if ($PluginEnabled == 1) {
 	WHERE LOWER(map) LIKE LOWER('%".$MapString."%') AND stats = 0 AND duration>='".OS_MIN_GAME_DURATION."' LIMIT ".OS3_MaxUpdateGames." " );
 	$result = $sth->execute();
 
-           $temp_points  = 0;
-
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	   $gid = $row["id"];
 	   $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, g.gamename, 
@@ -136,6 +134,7 @@ if ($PluginEnabled == 1) {
 	   WHERE dp.gameid='".$gid."'
 	   GROUP by gp.name
 	   ORDER BY newcolour");
+	   $temp_points  = 0;
 	   $result = $sth2->execute();
 	   if ($sth2->rowCount() <=0)  { 
 	   $update = $db->prepare("UPDATE ".OSDB_GAMES." SET stats = 1 WHERE id = '".$gid."'");
@@ -189,10 +188,10 @@ if ($PluginEnabled == 1) {
 		
                 if ( !isset($BestPlayer)  )     $BestPlayer = ($list["name"]);
 
-                $score_points = ($list["kills"] -  $list["deaths"]) + ($list["assists"]*0.3);
-                if ( $score_points > $temp_points ) {
+                $spoints = ($list["kills"] -  $list["deaths"]) + ($list["assists"]*0.3);
+                if ( $spoints > $temp_points ) {
                 $BestPlayer = ($list["name"]);
-                $temp_points = $score_points;
+                $temp_points = $spoints;
                 }
 		
 		global $MinDuration; 
@@ -353,11 +352,11 @@ if ($PluginEnabled == 1) {
 		 OS_add_custom_field(0, "last_update_stats" ,  time() );
 		}
 	          if ($temp_points>=1) {
-		        $updateBP = $db->query("UPDATE ".OSDB_STATS." SET best_player = best_player+1 WHERE LOWER(player) = LOWER('".$BestPlayer."') ;");
+		        $updateBP = $db->prepare("UPDATE ".OSDB_STATS." SET best_player = best_player+1 WHERE LOWER(player) = LOWER('".$BestPlayer."') ;");
 			$result = $updateBP->execute();
 	          }
-		$return.="\nGame ($gid) updated!";
-		
+		$return.="\nGame ($gid) updated!  BEST PLAYER: ".$BestPlayer.".";
+		unset( $BestPlayer );
 		
 	   }
 	   

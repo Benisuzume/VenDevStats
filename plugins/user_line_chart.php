@@ -69,8 +69,10 @@ if ($PluginEnabled == 1  ) {
 	} else $ChartData[$c]["newcolour"]  = 0;
 	if ( $row["winner"] == 0 ) $ChartData[$c]["win"] = 0;
 	
+	if ( isset($ChartData[$c]["win"]) ) {
 	if ( $ChartData[$c]["win"] == 1) $tempPoints++; else
 	if ( $ChartData[$c]["win"] == 2) $tempPoints--; 
+	}
 	
 	$ChartData[$c]["ChartPoints"] = $tempPoints;
 	$c++;

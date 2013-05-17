@@ -108,6 +108,7 @@ if ( !isset($s) ) $s = $lang["search_players"];
 <form class="navbar-form pull-right" method="get">
     <input class="span2" type="text" placeholder="<?=$s?>" id="s" name="search" />
     <button type="submit" class="btn"><?=$lang["search"]?></button>
+   <?=OS_SearchOption()?> 
 </form>
 </ul>
   </div>

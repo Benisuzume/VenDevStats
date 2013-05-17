@@ -29,7 +29,9 @@ if ( !isset($s) ) $s = $lang["search_players"];
     <div id="search">
      <form action="" id="search-form" method="get">
      <div><input id="s" name="search" onblur='if (this.value == "") {this.value = "<?=$s?>";}' onfocus='if (this.value == "<?=$s?>") {this.value = ""}' type="text" value='<?=$s?>'/>
-     <input id="sbtn" type="submit" value="" /></div>
+        <?=OS_SearchOption()?>
+	<input id="sbtn" type="submit" value="" />
+     </div>
      </form>
     </div>
     </div>
