@@ -5,12 +5,13 @@
 
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
-$PluginEnabled = '0';
+/*** Please do not use the plugin currently, since there some issues with the best_player add on. Im working on it. ***/
+$PluginEnabled = '1';
 //Enable edit plugin options
-$PluginOptions = '1';
+//$PluginOptions = '1';
 
-$MaxUpdateGames = '200';
-$UpdateTime = '1';
+$MaxUpdateGames = '5';
+$UpdateTime = '5';
 $DisplayStatsLog = '1';
 
 define('OS3_MaxUpdateGames',  $MaxUpdateGames);
