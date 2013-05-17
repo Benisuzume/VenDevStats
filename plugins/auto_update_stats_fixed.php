@@ -6,7 +6,7 @@
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
 /*** Please do not use the plugin currently, since there some issues with the best_player add on. Im working on it. ***/
-$PluginEnabled = '1';
+$PluginEnabled = '0';
 //Enable edit plugin options
 //$PluginOptions = '1';
 
