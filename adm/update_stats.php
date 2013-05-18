@@ -158,7 +158,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		if (!empty($name) AND $duration >= $MinDuration) {
 		
 		//Leaver
-		if( ( $list["left"] <= ( $list["duration"] - $LeftTimePenalty ) ) AND $list["leftreason"] == "has left the game voluntarily" ) {
+		if( ( $list["left"] <= ( $list["duration"] - $LeftTimePenalty ) ) AND $list["leftreason"] == "has left the game voluntarily" AND $leaver == 0 ) {
 		$score = $ScoreStart - $ScoreDisc; $winner = 0; $loser = 0;
 		}
                 //DISC
@@ -209,17 +209,22 @@ function OS_UpdateScoresTable( $name = "" ) {
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
                         }
 		
-		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, double_score 
+		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, double_score, `score`
 		FROM ".OSDB_STATS." WHERE (player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
 		$result = $result2->execute(); 
+		if ($result2->rowCount() >=1) {
         $stats = $result2->fetch(PDO::FETCH_ASSOC);
 		$streak = $stats["streak"];
 		$maxstreak = $stats["maxstreak"];
 		$losingstreak = $stats["losingstreak"];
 		$maxlosingstreak = $stats["maxlosingstreak"];
                 $is_double = $stats["double_score"];
-		
+		$CurrentScore = $stats["score"];
+		} else {
+		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart;
+		}
+
 		//WIN STREAK
 		//increase maxstreak until lose.
 		if ($winner == 1) {
