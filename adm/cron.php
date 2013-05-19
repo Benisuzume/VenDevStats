@@ -132,7 +132,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		
 		if ($win==0) $draw = 1; else $draw = 0;
 		if (!empty($name) AND $duration >= $MinDuration) {
-		
+		$realscore = $score;
 		//LEAVER
 		if ( ( $list["left"] <= ( $list["duration"] - $LeftTimePenalty ) ) AND $list["duration"] == "has left the game voluntarily" ) {
 		$score = $ScoreStart - $ScoreDisc; $winner = 0; $loser = 0;
@@ -185,7 +185,7 @@ function OS_UpdateScoresTable( $name = "" ) {
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
                         }
 		
-		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, `score`, double_score, games, draw FROM ".OSDB_STATS." WHERE (player) = ?");
+		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, `score`, `score2`, double_score, games, draw FROM ".OSDB_STATS." WHERE (player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
 		$result = $result2->execute();
 		if ($result2->rowCount() >=1) {
@@ -196,10 +196,11 @@ function OS_UpdateScoresTable( $name = "" ) {
 			$maxlosingstreak = $stats["maxlosingstreak"];
                 	$is_double = $stats["double_score"];
 			$CurrentScore = $stats["score"];
+                        $CurrentScore2 = $stats["score2"];
        		        $user_games = $stats["games"];
 	                $user_draw = $stats["draw"];
 		} else {
-		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart; $user_games = 0; $user_draw = 0;
+		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart; $user_games = 0; $user_draw = 0; $CurrentScore2 = $ScoreStart;
 		}
                 //Check if Rooadmin
 
@@ -211,9 +212,9 @@ function OS_UpdateScoresTable( $name = "" ) {
 
 
                 //AVGCALC
-                $curscore = $CurrentScore;
+                $curscore = $CurrentScore2;
                 if( $user_games > 10 ) {
-                        if( $ScoreStart != 0 ) $curscore = $CurrentScore - $ScoreStart;
+                        if( $ScoreStart != 0 ) $curscore = $CurrentScore2 - $ScoreStart;
                         $avgscore = $curscore / ( $user_games - $user_draw );
                 } else {
                         $avgscore = 0;
@@ -243,13 +244,13 @@ function OS_UpdateScoresTable( $name = "" ) {
 		//Create a new player...
 		  if ( $result2->rowCount() <=0) {
 		  if ( $is_double == 1 ) $score = $score*2;
-          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count) 
-		  VALUES('$name', '".strtolower( trim($name))."', '$score','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc' )";
+          $sql3 = "INSERT INTO ".OSDB_STATS."(player, player_lower, score, score2, games, wins, losses, draw, kills, deaths, assists, creeps, denies, neutrals, towers, rax, banned, ip, warn_expire, warn, admin, safelist, realm, reserved, leaver, streak, maxstreak, losingstreak, maxlosingstreak, zerodeaths, dc_count) 
+		  VALUES('$name', '".strtolower( trim($name))."', '$score', '$realscore','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc' )";
           } else {
 		  //...or update player data
-		  if ($winner == 1) $score = "score = score + $ScoreWins,";
+		  if ($winner == 1) { $score = "score = score + $ScoreWins,"; $realscore = "score2 = score2 + $ScoreWins,"; }
 		  if ($winner == 1) $score = "score = score + ".($ScoreWins*2).",";
-		  if ($winner == 0) $score = "score = score - $ScoreLosses,";
+		  if ($winner == 0) { $score = "score = score - $ScoreLosses,"; $realscore = "score2 = score2 - $ScoreLosses,"; }
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
 		  //LEAVER
@@ -261,6 +262,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
 		  $score
+		  $realscore
                   avg_score = ".$avgscore.",
 		  player = '$name',
 		  player_lower = '".strtolower( trim($name))."',

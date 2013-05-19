@@ -177,11 +177,9 @@ $ForumLink = 'http://www.codelain.com/forum/index.php?topic=23122.0';
 $DashboardOnHome = '1';
 
 //User ranks
-$rank1 = 'Noob';
-$rank2 = 'Newbie';
-$rank3 = 'Skilled';
-$rank4 = 'Pro';
-$rank5 = 'God';
+//You can add more ranks by seperate them with ',' e.g. $Ranks = 'Noob,Newbie,Skilled,Pro,God';
+//Please note that you need to add more images for more ranks
+$Ranks = 'Noob,Newbie,Skilled,Pro,God';
 
 //Extra Table for Gam Details
 //Discussion: http://www.codelain.com/forum/index.php?topic=23167.msg145822#msg145822

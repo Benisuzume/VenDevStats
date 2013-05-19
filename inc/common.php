@@ -1485,44 +1485,22 @@ function OS_UserHeroHistoryLink( $userID, $heroID,  $title = "", $w = '32', $h =
 }
 	
 function COS_Rank( $avgscore, $games ) {
-global $ScoreWins; global $rank1; global $rank2; global $rank3; global $rank4; global $rank5;
+global $ScoreWins; global $Ranks; global $DecimalPoint;
+
+$rank = explode( ",", $Ranks );
+$c = 0;
+$a = 0;
+$games = str_replace($DecimalPoint, "", $games);
  if( $games > 10 ) {
-	if( $avgscore <= 0 ) $avgscore = 1;
-	if( round( ( $ScoreWins / 5 ), 0 ) == $avgscore )
-	{
-		$getavg = 1;
-		$tool = $rank1;
-	}
-	else if( ( round( ( $ScoreWins / 5 ), 0 ) * 2 ) == $avgscore )
-	{
-                $getavg = 2;
-                $tool = $rank2;
-        }
-        else if( ( round ( ( $ScoreWins / 5 ), 0 ) * 3 ) == $avgscore )
-	{
-                $getavg = 3;
-                $tool = $rank3;
-        }
-        else if( ( round( ( $ScoreWins / 5 ), 0 ) * 4 ) == $avgscore )
-	{
-                $getavg = 4;
-                $tool = $rank4;
-        }
-        else if( $ScoreWins == $avgscore )
-	{
-                $getavg = 5;
-                $tool = $rank5;
-        }
-        else
-	{
-                $getavg = 'unknown';
-                $tool = "Somethine gone wrong here >:(";
-        }
- ?>
-	<img <?=ShowToolTip($tool, OS_HOME.'img/ranks/'.$getavg.'.gif', 100, 32, 32)?>src="img/ranks/<?=$getavg?>.gif" alt="<?=$getavg?>" width="16" height="16" class="imgvalign" />
-	<?
+  if( $avgscore <= 0 ) $avgscore = 1;
+   foreach( $rank as $b ) {
+	 $c++;
+	 $a = round( ( ( $ScoreWins / count( $rank ) ) * $c ), 0 );
+	 if( $a == $avgscore ) { ?>
+		<img <?=ShowToolTip($b, OS_HOME.'img/ranks/'.$c.'.gif', 100, 32, 32)?>src="img/ranks/<?=$c?>.gif" alt="<?=$c?>" width="16" height="16" class="imgvalign" />
+      <? }
+   }
  } else { ?>
-	<img <?=ShowToolTip("unknown(to less games)", OS_HOME.'img/ranks/unknown.gif', 180, 32, 32)?>src="img/ranks/unknown.gif" alt="unknown" width="16" height="16" class="imgvalign" />
- <?
-} }
- ?>
+        <img <?=ShowToolTip("unknown(to less games)", OS_HOME.'img/ranks/unknown.gif', 180, 32, 32)?>src="img/ranks/unknown.gif" alt="unknown" width="16" height="16" class="imgvalign" />
+ <? }
+} ?>
