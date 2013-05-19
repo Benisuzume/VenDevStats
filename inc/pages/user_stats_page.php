@@ -140,6 +140,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
         $bans = array();
         $bansquery = $db->prepare("SELECT * FROM `bans` WHERE LOWER(name) LIKE LOWER('".$PlayerName."') ORDER BY date DESC;");
         $result = $bansquery->execute();
+        $numbans = $bansquery->rowCount();
         while ($row = $bansquery->fetch(PDO::FETCH_ASSOC)) {
                 $bans[$c]["name"] = $row["name"];
                 $bans[$c]["server"] = $row["server"];
@@ -156,6 +157,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
         $ipbans = array();
         $ipbansquery = $db->prepare("SELECT * FROM `bans` WHERE ip LIKE '".$IP."' AND name NOT LIKE LOWER('".$PlayerName."') ORDER BY date DESC;");
         $result = $ipbansquery->execute();
+        $numipbans = $ipbansquery->rowCount();
         while ($row = $ipbansquery->fetch(PDO::FETCH_ASSOC)) {
                 $ipbans[$c]["name"] = $row["name"];
                 $ipbans[$c]["server"] = $row["server"];

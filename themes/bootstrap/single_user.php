@@ -30,7 +30,7 @@ function changeImage($iid) {
 <? if ( $_SESSION["level"]>=10 ) { ?>
 	<h4> IP: <?=$User["ip"]?> </h4>
 <? }
-if ( OS_is_banned_player( $User["banname"] ) ) {
+if ( $numbans > 0 OR $numipbans > 0 ) {
 ?>
    <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
      <tr>
