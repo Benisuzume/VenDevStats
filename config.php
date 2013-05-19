@@ -172,4 +172,23 @@ $Fame_Shame_Pages = '1';
 // Forum Page;
 $Forum = '1';
 $ForumLink = 'http://www.codelain.com/forum/index.php?topic=23122.0';
+
+// Dashboard from the Admin Panel also at the Home Page
+$DashboardOnHome = '1';
+
+//User ranks
+$rank1 = 'Noob';
+$rank2 = 'Newbie';
+$rank3 = 'Skilled';
+$rank4 = 'Pro';
+$rank5 = 'God';
+
+//Extra Table for Gam Details
+//Discussion: http://www.codelain.com/forum/index.php?topic=23167.msg145822#msg145822
+$ExtratableForGameDetails = 1;
+
+//Game Rootadmins
+//Please split the RootAdmins with a ':' e.g. $RootAdmins = 'player1:player2:player3';
+$RootAdmins = 'Grief-Code:Neubivljiv'
+
 ?>

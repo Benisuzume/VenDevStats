@@ -209,7 +209,7 @@ function OS_UpdateScoresTable( $name = "" ) {
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
                         }
 		
-		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, double_score, `score`
+		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, double_score, `score`, games, draw
 		FROM ".OSDB_STATS." WHERE (player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
 		$result = $result2->execute(); 
@@ -221,9 +221,27 @@ function OS_UpdateScoresTable( $name = "" ) {
 		$maxlosingstreak = $stats["maxlosingstreak"];
                 $is_double = $stats["double_score"];
 		$CurrentScore = $stats["score"];
+		$user_games = $stats["games"];
+		$user_draw = $stats["draw"];
 		} else {
-		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart;
+		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart; $user_games = 0; $user_draw = 0;
 		}
+		//AVGCALC
+		$curscore = $CurrentScore;
+		if( $user_games > 10 ) {
+			if( $ScoreStart != 0 ) $curscore = $CurrentScore - $ScoreStart;
+			$avgscore = $curscore / ( $user_games - $user_draw );
+		} else {
+			$avgscore = 0;
+		}
+
+		//Check if Rooadmin
+		
+		$listofroots = explode( ":", $RootAdmins );
+		foreach( $listofroots as $root ) {
+			if( strtolower($root) == strtolower($name) ) $is_admin = 2;
+		}
+		
 
 		//WIN STREAK
 		//increase maxstreak until lose.
@@ -268,6 +286,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
 		  $score
+		  avg_score = ".$avgscore.",
 		  player = '".$name."',
 		  player_lower = '".strtolower( trim($name))."',
 		  games = games+1, 

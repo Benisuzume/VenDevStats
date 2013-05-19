@@ -25,6 +25,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	 $GameData[$c]["dt"]  = ($row["datetime"]);
 	 $GameData[$c]["gamename"]  = ($row["gamename"]);
 	 $GameData[$c]["winner"]  = ($row["winner"]);
+         $GameData[$c]["views"]  = ($row["views"]);
 	 //SET META INFORMATION AND PAGE NAME
 	 $HomeTitle = ($row["gamename"]);
 	 $HomeDesc = os_strip_quotes($row["gamename"]);

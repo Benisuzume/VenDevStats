@@ -10,6 +10,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
     <table class="table-hover table table-condensed table-bordered">
      <tr> 
 	   <th width="32" class="padLeft">&nbsp;</th>
+	   <th width="20"><span <?=ShowToolTip("User Ranks", OS_HOME.'img/winner.png', 120, 32, 32)?>> <img src="<?=OS_HOME?>img/ranks/stats1.gif" width="20" /></span></center></th>
 	   <th width="160"><?=$lang["player"]?></th>
 	   <th width="80"><?=$lang["score"]?></th>
 	   <th width="80"><?=$lang["games"]?></th>
@@ -26,6 +27,7 @@ foreach ($TopData as $Data) {
   ?>
   <tr>
     <td width="32" class="padLeft"><?=$Data["counter"]?></td>
+    <td><?=COS_Rank( $Data["avg_score"], $Data["games"] )?></td>
     <td width="180" class="font12">
 	<?=OS_ComparePlayers( 'checkbox', $Data["id"] )?>
 	
@@ -33,6 +35,7 @@ foreach ($TopData as $Data) {
 	<?=OS_TopUser($Data["id"], $Data["player"])?>
 	<?=OS_IsUserGameBanned( $Data["banned"], $lang["banned"] )?>	
 	<?=OS_IsUserGameAdmin( $Data["admin"], $lang["admin"] )?>
+        <?=OS_IsUserGameRoot( $Data["admin"], "Root Admin" )?>
 	<?=OS_IsUserGameWarned( $Data["warn"],  $Data["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $Data["safelist"], $lang["safelist"] )?>
         <?=OS_IsDoubleScoreUser( $Data["double_score"], 'Double Score' ) ?>

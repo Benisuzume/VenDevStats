@@ -112,6 +112,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$TopData[$c]["zerodeaths"]  = ($row["zerodeaths"]);
         $TopData[$c]["double_score"]  = ($row["double_score"]);
         $TopData[$c]["best_player"]  = ($row["best_player"]);
+        $TopData[$c]["avg_score"]  = ($row["avg_score"]);
 	
 	if ($row["games"] >0 )
 	$TopData[$c]["stayratio"] = ROUND($row["games"]/($row["games"]+$row["leaver"]), 3)*100;

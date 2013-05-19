@@ -22,6 +22,7 @@ function changeImage($iid) {
     <?=$User["player"]?><font color="lightgreen">@<?=$User["realm"]?></font>
 	<?=OS_IsUserGameBanned( $User["banned"], $lang["banned"] )?>
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
+        <?=OS_IsUserGameRoot( $User["admin"], "Root Admin" )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $User["safelist"], $lang["safelist"] )?>
 	<?=OS_IsUserGameLeaver( $User["leaver"], $lang["leaves"].": ".$User["leaver"]."<div>".$lang["stayratio"].": ".$User["stayratio"]."%</div>",1 )?>

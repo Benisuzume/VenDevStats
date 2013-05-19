@@ -34,6 +34,7 @@ foreach ($TopData as $Data) {
 	<?=OS_TopUser($Data["id"], $Data["player"])?>
 	<?=OS_IsUserGameBanned( $Data["banned"], $lang["banned"] )?>	
 	<?=OS_IsUserGameAdmin( $Data["admin"], $lang["admin"] )?>
+        <?=OS_IsUserGameRoot( $Data["admin"], "Root Admin" )?>
 	<?=OS_IsUserGameWarned( $Data["warn"],  $Data["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameSafe( $Data["safelist"], $lang["safelist"] )?>
         <?=OS_IsDoubleScoreUser( $Data["double_score"], 'Double Score' ) ?>

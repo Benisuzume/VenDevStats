@@ -6,7 +6,7 @@
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
 /*** Please do not use the plugin currently, since there some issues with the best_player add on. Im working on it. ***/
-$PluginEnabled = '0';
+$PluginEnabled = '1';
 //Enable edit plugin options
 //$PluginOptions = '1';
 
@@ -257,7 +257,7 @@ if ($PluginEnabled == 1) {
                         }
 
 		
-		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, `score`, double_score FROM ".OSDB_STATS." WHERE LOWER(player) = ?");
+		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, `score`, double_score, games, draw FROM ".OSDB_STATS." WHERE LOWER(player) = ?");
 		$result2->bindValue(1, strtolower( trim($name) ), PDO::PARAM_STR);
 		$result = $result2->execute();
 		if ($result2->rowCount() >=1) {
@@ -268,9 +268,26 @@ if ($PluginEnabled == 1) {
 		$maxlosingstreak = $stats["maxlosingstreak"];
                 $is_double = $stats["double_score"];
 		$CurrentScore = $stats["score"];
+                $user_games = $stats["games"];
+                $user_draw = $stats["draw"];
 		} else {
-		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart;
+		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart; $user_games = 0; $user_draw = 0;
 		}
+		
+                //Check if Rooadmin
+                $listofroots = explode( ":", $RootAdmins );
+                foreach( $listofroots as $root ) {
+                        if( strtolower($root) == strtolower($name) ) $is_admin = 2;
+                }
+		
+                //AVGCALC
+                $curscore = $CurrentScore;
+                if( $user_games > 10 ) {
+                        if( $ScoreStart != 0 ) $curscore = $CurrentScore - $ScoreStart;
+                        $avgscore = $curscore / ( $user_games - $user_draw );
+                } else {
+                        $avgscore = 0;
+                }
 		
 		//WIN STREAK
 		//increase maxstreak until lose.
@@ -314,6 +331,7 @@ if ($PluginEnabled == 1) {
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
 		  $score
+                  avg_score = ".$avgscore.",
 		  player = '$name',
 		  player_lower = '".strtolower( trim($name))."',
 		  games = games+1, 

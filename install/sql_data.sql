@@ -284,6 +284,7 @@ CREATE TABLE IF NOT EXISTS `stats` (
   `player` varchar(30) CHARACTER SET latin1 NOT NULL,
   `player_lower` varchar(30) CHARACTER SET latin1 NOT NULL,
   `score` int(11) NOT NULL,
+  `avg_score` int(11) NOT NULL,
   `games` int(11) NOT NULL,
   `wins` int(11) NOT NULL,
   `losses` int(11) NOT NULL,

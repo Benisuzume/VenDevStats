@@ -224,4 +224,69 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	}	
 	//$db->free($result);	
 	}
+/*** DASHBOARD ***/
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GAMES."
+        WHERE map LIKE '%".$MapString."%' AND stats = 0 AND duration>='".$MinDuration."'" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalGamesForUpdate = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GAMES."
+        WHERE map LIKE '%".$MapString."%' AND stats = 1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalRankedGames = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_BANS."
+        WHERE id>=1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalBans = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_STATS."
+        WHERE id>=1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalRankedUsers = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_ADMINS."
+        WHERE id>=1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalAdmins = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_USERS."
+        WHERE user_id>=1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalUsers = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_NEWS."
+        WHERE news_id>=1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalNews = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_COMMENTS."
+        WHERE id >= 1" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalComments = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_REPORTS."" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalBanReports = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_APPEALS."" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalBanAppeals = $r[0];
+
+        $sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GUIDES."" );
+        $result = $sth->execute();
+    $r = $sth->fetch(PDO::FETCH_NUM);
+    $TotalGuides = $r[0];
+
 ?>

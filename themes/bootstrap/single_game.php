@@ -8,10 +8,35 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
   <tr>
     <td class="padLeft">
 	  <div align="center">
-	     <h1><a href="<?=OS_HOME?>?game=<?=(int) $_GET["game"]?>"><?=$GameData[0]["gamename"]?></a></h1>
+	     <h1><a href="<?=OS_HOME?>?game=<?=(int) $_GET["game"]?>"><?=$GameData[0]["gamename"]?></a><?=OS_EditGame( $_GET["game"] )?></h1>
 	  </div>
 	</td>
   </tr>
+<?if( $ExtratableForGameDetails == 1 ) { ?>
+ </table>
+       <table class="tableBig table table-bordered">
+        <tr>
+         <th width="80"  class="padLeft">Duration</th>
+         <th width="140">Date</th>
+         <th width="140">Creator</th>
+         <th width="64" >Winner</th>
+         <th width="80" >Views</th>
+        </tr>
+        <tr>
+         <td width="80" class="padLeft"><?=$GameData[0]["duration"]?></td>
+         <td width="140"><?=$GameData[0]["datetime"]?></td>
+         <td width="140"><?=$GameData[0]["creatorname"]?></td>
+         <td width="64">
+         <b>
+           <?php if ($GameData[0]["winner"] == 1) { ?>Sentinel<?php } ?>
+           <?php if ($GameData[0]["winner"] == 2) { ?>Scourge<?php } ?>
+           <?php if ($GameData[0]["winner"] == 0) { ?>Draw<?php } ?>
+         </b>
+         </td>
+         <td width="80"><?=$GameData[0]["views"]?></td>
+        </tr>
+        </table>
+<? } else { ?>
   <tr>
 	<td class="padTop">
 	<div align="center">
@@ -22,6 +47,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
    </td>
   </tr>
   </table>
+<?  } ?>
 <?php if (isset($GameData[0]["replay"]) AND !empty($GameData[0]["replay"]) ) { ?>
 <table class="tableBig table table-bordered">
   <tr class="h32">
@@ -110,6 +136,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
     <?=OS_ShowUserFlag( $Game["letter"], $Game["country"] )?>
     <?=OS_SingleGameUser($Game["userid"], $Game["full_name"], $Game["name"], $BestPlayer)?>
 	<?=OS_IsUserGameAdmin( $Game["admin"], $lang["admin"] )?>
+        <?=OS_IsUserGameRoot( $Game["admin"], $lang["admin"] )?>
 	<?=OS_IsUserGameWarned( $Game["warn"],  $Game["warn_expire"], $lang["warned"] )?>
 	<?=OS_IsUserGameBanned( $Game["banned"], $lang["banned"] ) ?>
 	<?=OS_IsUserGameSafe( $Game["safelist"], $lang["safelist"] )?>

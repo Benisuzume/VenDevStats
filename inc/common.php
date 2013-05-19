@@ -1315,11 +1315,19 @@ function OS_IsDoubleScoreUser( $double = 0, $text = 'Double Score', $w = '150', 
 }
 
 function OS_IsUserGameAdmin( $admin = 0, $text = 'Admin', $w = '130', $imgw='32',  $imgh='32' ) {
-    if ( $admin >= 1 ) {
+    if ( $admin == 1 ) {
     ?>
 	<img <?=ShowToolTip($text, OS_HOME.'img/winner.png', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16" src="<?=OS_HOME?>img/winner.png" alt="Admin" />
 	<?php
 	}
+}
+
+function OS_IsUserGameRoot( $admin = 0, $text = 'Root Admin', $w = '130', $imgw='32',  $imgh='32' ) {
+    if ( $admin > 1 ) {
+    ?>
+        <img <?=ShowToolTip($text, OS_HOME.'img/root.gif', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16" src="<?=OS_HOME?>img/root.gif" alt="Root" />
+        <?php
+        }
 }
 
 function OS_IsUserGameSafe( $safe = 0, $text = 'Safelist', $w = '130', $imgw='32',  $imgh='32' ) {
@@ -1475,4 +1483,46 @@ function OS_UserHeroHistoryLink( $userID, $heroID,  $title = "", $w = '32', $h =
  <a title="<?=$title?>" href="<?=OS_HOME?>?games&amp;uid=<?=$userID?>&amp;h=<?=$heroID?>"><?=OS_HeroIcon( $heroID, $w, $h)?></a>
  <?php
 }
-?>
+	
+function COS_Rank( $avgscore, $games ) {
+global $ScoreWins; global $rank1; global $rank2; global $rank3; global $rank4; global $rank5;
+ if( $games > 10 ) {
+	if( $avgscore <= 0 ) $avgscore = 1;
+	if( round( ( $ScoreWins / 5 ), 0 ) == $avgscore )
+	{
+		$getavg = 1;
+		$tool = $rank1;
+	}
+	else if( ( round( ( $ScoreWins / 5 ), 0 ) * 2 ) == $avgscore )
+	{
+                $getavg = 2;
+                $tool = $rank2;
+        }
+        else if( ( round ( ( $ScoreWins / 5 ), 0 ) * 3 ) == $avgscore )
+	{
+                $getavg = 3;
+                $tool = $rank3;
+        }
+        else if( ( round( ( $ScoreWins / 5 ), 0 ) * 4 ) == $avgscore )
+	{
+                $getavg = 4;
+                $tool = $rank4;
+        }
+        else if( $ScoreWins == $avgscore )
+	{
+                $getavg = 5;
+                $tool = $rank5;
+        }
+        else
+	{
+                $getavg = 'unknown';
+                $tool = "Somethine gone wrong here >:(";
+        }
+ ?>
+	<img <?=ShowToolTip($tool, OS_HOME.'img/ranks/'.$getavg.'.gif', 100, 32, 32)?>src="img/ranks/<?=$getavg?>.gif" alt="<?=$getavg?>" width="16" height="16" class="imgvalign" />
+	<?
+ } else { ?>
+	<img <?=ShowToolTip("unknown(to less games)", OS_HOME.'img/ranks/unknown.gif', 180, 32, 32)?>src="img/ranks/unknown.gif" alt="unknown" width="16" height="16" class="imgvalign" />
+ <?
+} }
+ ?>
