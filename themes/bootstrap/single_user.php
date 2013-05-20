@@ -78,7 +78,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
        	 <? if ( $_SESSION["level"]>=10 ) { ?>
           <tr><td width="90">IP</td><td width="160"><font color="blue"><?=$ibq["ip"]?></font></td></tr>
 	 <? }
-	    if( strlen($bq["reason"]) > "30" ) {
+	    if( strlen($ibq["reason"]) > "30" ) {
 	   $ibqreason = explode(" ", $ibq["reason"]); ?>
  	  <tr><td width="90">Reason</td><td width="160"><?=$ibqreason[0]?></td></tr>
 	 <? } else { ?>
