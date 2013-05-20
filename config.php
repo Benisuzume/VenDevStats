@@ -176,17 +176,19 @@ $ForumLink = 'http://www.codelain.com/forum/index.php?topic=23122.0';
 // Dashboard from the Admin Panel also at the Home Page
 $DashboardOnHome = '1';
 
-//User ranks
-//You can add more ranks by seperate them with ',' e.g. $Ranks = 'Noob,Newbie,Skilled,Pro,God';
-//Please note that you need to add more images for more ranks
-$Ranks = 'Noob,Newbie,Skilled,Pro,God';
+//User Classes
+//You can add more classes by seperate them with ',' e.g. $Classes = 'Noob,Newbie,Skilled,Pro,God';
+//Please note that you need to add more images for more Classes
+$Classes = 'Noob,Newbie,Skilled,Pro,God';
+//Classname for players with avg score under 0
+$NAVGScore = 'Ultra Noob';
 
 //Extra Table for Gam Details
 //Discussion: http://www.codelain.com/forum/index.php?topic=23167.msg145822#msg145822
 $ExtratableForGameDetails = 1;
 
 //Game Rootadmins
-//Please split the RootAdmins with a ':' e.g. $RootAdmins = 'player1:player2:player3';
-$RootAdmins = 'Grief-Code:Neubivljiv'
+//Please split the RootAdmins with a ':' e.g. $RootAdmins = 'player1,player2,player3';
+$RootAdmins = 'Grief-Code,Neubivljiv'
 
 ?>

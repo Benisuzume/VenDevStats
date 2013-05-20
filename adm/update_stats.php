@@ -238,7 +238,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 
 		//Check if Rooadmin
 		
-		$listofroots = explode( ":", $RootAdmins );
+		$listofroots = explode( ",", $RootAdmins );
 		foreach( $listofroots as $root ) {
 			if( strtolower($root) == strtolower($name) ) $is_admin = 2;
 		}
@@ -273,9 +273,11 @@ function OS_UpdateScoresTable( $name = "" ) {
 
           } else {
 		  //...or update player data
-		  if ($winner == 1  AND $leaver == 0 ) { $score = "score = score + $ScoreWins,"; $realscore = "score2 = score2 + $ScoreWins,"; }
+		  if ($winner == 1  AND $leaver == 0) $score = "score = score + $ScoreWins,";
+		  if ($winner == 1) $realscore = "score2 = score2 + $ScoreWins,";
 		  if ($winner == 1 AND $is_double == 1  AND $leaver == 0 ) $score = "score = score + ".($ScoreWins*2).",";
-		  if ($winner == 0 AND $leaver == 0) { $score = "score = score - $ScoreLosses,"; $realscore = "score2 = score2 - $ScoreLosses,"; }
+		  if ($winner == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses,";
+                  if ($winner == 0) $realscore = "score2 = score2 - $ScoreLosses,";
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
 		  //LEAVER

@@ -1317,7 +1317,7 @@ function OS_IsDoubleScoreUser( $double = 0, $text = 'Double Score', $w = '150', 
 function OS_IsUserGameAdmin( $admin = 0, $text = 'Admin', $w = '130', $imgw='32',  $imgh='32' ) {
     if ( $admin == 1 ) {
     ?>
-	<img <?=ShowToolTip($text, OS_HOME.'img/winner.png', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16" src="<?=OS_HOME?>img/winner.png" alt="Admin" />
+	<img <?=ShowToolTip($text, OS_HOME.'img/admin.png', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16" src="<?=OS_HOME?>img/admin.png" alt="Admin" />
 	<?php
 	}
 }
@@ -1325,7 +1325,7 @@ function OS_IsUserGameAdmin( $admin = 0, $text = 'Admin', $w = '130', $imgw='32'
 function OS_IsUserGameRoot( $admin = 0, $text = 'Root Admin', $w = '130', $imgw='32',  $imgh='32' ) {
     if ( $admin > 1 ) {
     ?>
-        <img <?=ShowToolTip($text, OS_HOME.'img/root.gif', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16" src="<?=OS_HOME?>img/root.gif" alt="Root" />
+        <img <?=ShowToolTip($text, OS_HOME.'img/root.png', $w, $imgw, $imgh)?> class="imgvalign" width="16" height="16" src="<?=OS_HOME?>img/root.png" alt="Root" />
         <?php
         }
 }
@@ -1485,22 +1485,27 @@ function OS_UserHeroHistoryLink( $userID, $heroID,  $title = "", $w = '32', $h =
 }
 	
 function COS_Rank( $avgscore, $games ) {
-global $ScoreWins; global $Ranks; global $DecimalPoint;
+global $ScoreWins; global $Classes; global $DecimalPoint; global $NAVGScore;
 
-$rank = explode( ",", $Ranks );
+$rank = explode( ",", $Classes );
 $c = 0;
 $a = 0;
 $games = str_replace($DecimalPoint, "", $games);
  if( $games > 10 ) {
-  if( $avgscore <= 0 ) $avgscore = 1;
+  if( $avgscore < 0 ) { ?>
+	<img <?=ShowToolTip($NAVGScore, OS_HOME.'img/ranks/n1.png', 100, 32, 32)?>src="img/ranks/n1.png" alt="n1" width="16" height="16" class="imgvalign" />
+<?  } else {
+  if( (count( $rank ) != $ScoreWins) AND ( $ScoreWins % count( $rank ) ) == 0 AND $avgscore % 2 != 0 ) $avgscore = $avgscore-1;
    foreach( $rank as $b ) {
 	 $c++;
 	 $a = round( ( ( $ScoreWins / count( $rank ) ) * $c ), 0 );
+	 //echo $avgscore;
 	 if( $a == $avgscore ) { ?>
-		<img <?=ShowToolTip($b, OS_HOME.'img/ranks/'.$c.'.gif', 100, 32, 32)?>src="img/ranks/<?=$c?>.gif" alt="<?=$c?>" width="16" height="16" class="imgvalign" />
+		<img <?=ShowToolTip($b, OS_HOME.'img/ranks/'.$c.'.png', 100, 32, 32)?>src="img/ranks/<?=$c?>.png" alt="<?=$c?>" width="16" height="16" class="imgvalign" />
       <? }
    }
+  }
  } else { ?>
-        <img <?=ShowToolTip("unknown(to less games)", OS_HOME.'img/ranks/unknown.gif', 180, 32, 32)?>src="img/ranks/unknown.gif" alt="unknown" width="16" height="16" class="imgvalign" />
+        <img <?=ShowToolTip("unknown(to less games)", OS_HOME.'img/ranks/unknown.png', 180, 32, 32)?>src="img/ranks/unknown.png" alt="unknown" width="16" height="16" class="imgvalign" />
  <? }
 } ?>

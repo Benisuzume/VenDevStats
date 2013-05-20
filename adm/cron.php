@@ -204,7 +204,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		}
                 //Check if Rooadmin
 
-                $listofroots = explode( ":", $RootAdmins );
+                $listofroots = explode( ",", $RootAdmins );
                 foreach( $listofroots as $root ) {
                         if( strtolower($root) == strtolower($name) ) $is_admin = 2;
                 }
@@ -248,9 +248,11 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  VALUES('$name', '".strtolower( trim($name))."', '$score', '$realscore','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc' )";
           } else {
 		  //...or update player data
-		  if ($winner == 1) { $score = "score = score + $ScoreWins,"; $realscore = "score2 = score2 + $ScoreWins,"; }
+		  if ($winner == 1 AND $leaver == 0) $score = "score = score + $ScoreWins,";
+		  if ($winner == 1) $realscore = "score2 = score2 + $ScoreWins,";
 		  if ($winner == 1) $score = "score = score + ".($ScoreWins*2).",";
-		  if ($winner == 0) { $score = "score = score - $ScoreLosses,"; $realscore = "score2 = score2 - $ScoreLosses,"; }
+		  if ($winner == 0 AND $leaver == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses,";
+		  if ($winner == 0) $realscore = "score2 = score2 - $ScoreLosses,";
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
 		  //LEAVER

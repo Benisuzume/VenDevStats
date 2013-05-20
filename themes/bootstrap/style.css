@@ -127,7 +127,7 @@ tr:nth-child(even) {
 .winner1 { color:#8D2323; }
 .winner2 { color:#04C500; }
 
-.slot0 { border-left: 40px solid #2E2E2E !important; }
+.slot0 { border-left: 10px solid #2E2E2E !important; }
 .slot1 { border-left: 10px solid #0044FB !important; }
 .slot2 { border-left: 10px solid #08E4B6 !important; }
 .slot3 { border-left: 10px solid #640388 !important; }

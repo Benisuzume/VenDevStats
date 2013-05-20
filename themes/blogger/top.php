@@ -15,6 +15,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
     <table>
      <tr> 
 	   <th width="32" class="padLeft">&nbsp;</th>
+           <th width="20"><span <?=ShowToolTip("User Classes", OS_HOME.'img/winner.png', 120, 32, 32)?>> <img src="<?=OS_HOME?>img/ranks/stats1.gif" width="20" /></span></center></th>
 	   <th width="160"><?=$lang["player"]?></th>
 	   <th width="80"><?=$lang["score"]?></th>
 	   <th width="80"><?=$lang["games"]?></th>
@@ -31,6 +32,7 @@ foreach ($TopData as $Data) {
   ?>
   <tr class="row">
     <td width="32" class="padLeft"><?=$Data["counter"]?></td>
+    <td><?=COS_Rank( $Data["avg_score"], $Data["games"] )?></td>
     <td width="180" class="font12">
 	<?=OS_ComparePlayers( 'checkbox', $Data["id"] )?>
 	

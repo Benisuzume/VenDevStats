@@ -10,7 +10,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
     <table class="table-hover table table-condensed table-bordered">
      <tr> 
 	   <th width="32" class="padLeft">&nbsp;</th>
-	   <th width="20"><span <?=ShowToolTip("User Ranks", OS_HOME.'img/winner.png', 120, 32, 32)?>> <img src="<?=OS_HOME?>img/ranks/stats1.gif" width="20" /></span></center></th>
+	   <th width="20"><span <?=ShowToolTip("User Classes", OS_HOME.'img/winner.png', 120, 32, 32)?>> <img src="<?=OS_HOME?>img/ranks/stats1.gif" width="20" /></span></center></th>
 	   <th width="160"><?=$lang["player"]?></th>
 	   <th width="80"><?=$lang["score"]?></th>
 	   <th width="80"><?=$lang["games"]?></th>
