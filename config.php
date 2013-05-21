@@ -185,10 +185,10 @@ $NAVGScore = 'Ultra Noob';
 
 //Extra Table for Gam Details
 //Discussion: http://www.codelain.com/forum/index.php?topic=23167.msg145822#msg145822
-$ExtratableForGameDetails = 1;
+$ExtratableForGameDetails = '1';
 
 //Game Rootadmins
-//Please split the RootAdmins with a ':' e.g. $RootAdmins = 'player1,player2,player3';
+//Please split the RootAdmins with a ',' e.g. $RootAdmins = 'player1,player2,player3';
 $RootAdmins = 'Grief-Code,Neubivljiv'
 
 ?>

@@ -5,10 +5,10 @@
 
 if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 
-/*** Please do not use the plugin currently, since there some issues with the best_player add on. Im working on it. ***/
+
 $PluginEnabled = '1';
 //Enable edit plugin options
-//$PluginOptions = '1';
+$PluginOptions = '1';
 
 $MaxUpdateGames = '5';
 $UpdateTime = '5';
@@ -35,7 +35,7 @@ define('OS3_DisplayStatsLog', $DisplayStatsLog);
   	//$db = new db("mysql:host=".OSDB_SERVER.";dbname=".OSDB_DATABASE."", OSDB_USERNAME, OSDB_PASSWORD);
 	//$dbh = OS_DBConnect();
 	$sth = $db->prepare( "SELECT COUNT(*) FROM ".OSDB_GAMES." 
-	WHERE LOWER(map) LIKE ('%".$MapString."%') AND stats = 0 AND duration>='".OS_MIN_GAME_DURATION."' ORDER BY `id`" );
+	WHERE LOWER(map) LIKE ('%".$MapString."%') AND stats = 0 AND duration>='".OS_MIN_GAME_DURATION."'" );
 	$result = $sth->execute();
     $r = $sth->fetch(PDO::FETCH_NUM);
     $TotalGamesForUpdate = $r[0];
@@ -206,12 +206,14 @@ if ($PluginEnabled == 1) {
 		if (!empty($name) AND $duration >= OS_MIN_GAME_DURATION) {
 		$realscore = $score;
 		//LEAVER
-		if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["leftreason"] == "has left the game voluntarily" ) {
+		if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["leftreason"] == "has left the game voluntarily" AND $win != 0) {
 		$score = $ScoreStart - $ScoreDisc; $winner = 0; $loser = 0;
 		}
                 //DISC
-                $splitreason = explode( " ", $list["leftreason"] );
-                if( $splitreason[1] == "lost" ) $dc = 1; else $dc = 0;
+		if( isset($list["leftreason"]) AND !empty($list["leftreason"]) ) {
+	                $splitreason = explode( " ", $list["leftreason"] );
+        	        if( $splitreason[1] == "lost" ) $dc = 1; else $dc = 0;
+		}
 
 /** CUSTOM AUTOBAN PLUGIN **/
                 //preperation
@@ -275,6 +277,7 @@ if ($PluginEnabled == 1) {
 		  $streak = 0; $maxstreak = 0; $losingstreak = 0; $maxlosingstreak = 0; $is_double = 0; $CurrentScore = $ScoreStart; $user_games = 0; $user_draw = 0; $CurrentScore2 = $ScoreStart;
 		}
 		
+		global $RootAdmins;
                 //Check if Rooadmin
                 $listofroots = explode( ",", $RootAdmins );
                 foreach( $listofroots as $root ) {
@@ -318,10 +321,10 @@ if ($PluginEnabled == 1) {
 		  VALUES('$name', '".strtolower( trim($name))."', '$score', '$realscore','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc')";
           } else {
 		  //...or update player data
-		  if ($winner == 1 AND $leaver == 0) $score = "score = score + $ScoreWins,";
+		  if ($winner == 1) $score = "score = score + $ScoreWins,";
 		  if ($winner == 1) $realscore = "score2 = score2 + $ScoreWins,";
-                  if ($winner == 1 AND $is_double == 1 AND $leaver == 0) $score = "score = score + ".($ScoreWins*2).",";
-		  if ($winner == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses,";
+                  if ($winner == 1 AND $is_double == 1) $score = "score = score + ".($ScoreWins*2).",";
+		  if ($winner == 0) $score = "score = score - $ScoreLosses,";
 		  if ($winner == 0) $realscore = "score2 = score2 - $ScoreLosses,";
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
@@ -331,7 +334,7 @@ if ($PluginEnabled == 1) {
 		  $winner = 0;
 		  $loser = 0;
 		  }
-		  
+		   
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
 		  $score
 		  $realscore
@@ -374,14 +377,15 @@ if ($PluginEnabled == 1) {
 		 $result = $update->execute(); 
 		 OS_add_custom_field(0, "last_update_stats" ,  time() );
 		}
-	          if ($temp_points>=1) {
-		        $updateBP = $db->prepare("UPDATE ".OSDB_STATS." SET best_player = best_player+1 WHERE LOWER(player) = LOWER('".$BestPlayer."') ;");
-			$result = $updateBP->execute();
-	          }
-		$return.="\nGame ($gid) updated!  BEST PLAYER: ".$BestPlayer.".";
-		unset( $BestPlayer );
+		$return.="\nGame ($gid) updated!";
 		
 	   }
+                  if ($temp_points>=1) {
+                        $updateBP = $db->prepare("UPDATE ".OSDB_STATS." SET best_player = best_player+1 WHERE LOWER(player) = LOWER('".$BestPlayer."') ;");
+                        $result = $updateBP->execute();
+                        ?><font color="red">UPDATED</font><?
+                  }
+
 	   
 	}
 	
