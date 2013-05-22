@@ -1492,7 +1492,7 @@ $c = 0;
 $a = 0;
 $games = str_replace($DecimalPoint, "", $games);
  if( $games > 10 ) {
-  if( $avgscore < 0 ) { ?>
+  if( $avgscore <= 0 ) { ?>
 	<img <?=ShowToolTip($NAVGScore, OS_HOME.'img/ranks/n1.png', 100, 32, 32)?>src="img/ranks/n1.png" alt="n1" width="16" height="16" class="imgvalign" />
 <?  } else {
   if( (count( $rank ) != $ScoreWins) AND ( $ScoreWins % count( $rank ) ) == 0 AND $avgscore % 2 != 0 ) $avgscore = $avgscore-1;
