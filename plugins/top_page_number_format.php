@@ -47,6 +47,8 @@ $Option = '
 	  $TopData[$c]["creeps"] = str_replace(",", $dec_point, $TopData[$c]["creeps"]);
 	  $TopData[$c]["denies"] = str_replace(",", $dec_point, $TopData[$c]["denies"]);
           $TopData[$c]["neutrals"] = str_replace(",", $dec_point, $TopData[$c]["neutrals"]);
+          $TopData[$c]["towers"] = str_replace(",", $dec_point, $TopData[$c]["towers"]);
+          $TopData[$c]["rax"] = str_replace(",", $dec_point, $TopData[$c]["rax"]);
 	  }
 	  
 	   return array($TopData);
@@ -69,6 +71,8 @@ $Option = '
 	  $UserData[$c]["creeps"] = str_replace(",", $dec_point, $UserData[$c]["creeps"]);
 	  $UserData[$c]["denies"] = str_replace(",", $dec_point, $UserData[$c]["denies"]);
 	  $UserData[$c]["neutrals"] = str_replace(",", $dec_point, $UserData[$c]["neutrals"]);
+          $UserData[$c]["towers"] = str_replace(",", $dec_point, $UserData[$c]["towers"]);
+          $UserData[$c]["rax"] = str_replace(",", $dec_point, $UserData[$c]["rax"]);
 	  }
 	}
 	

@@ -141,8 +141,26 @@ $user_winperc = round( ( ( ( $user_wins ) / ( $user_games - $user_draw ) ) * 100
 $user_letter   = geoip_country_code_by_addr($GeoIPDatabase, $user_ip);
 $user_country  = geoip_country_name_by_addr($GeoIPDatabase, $user_ip);
 if ($GeoIP == 1 AND empty($user_letter) ) {
-        $user_letter = "blank";
-        $user_country = "unknown";
+        if( strlen($realm) <= 2) {
+                $user_letter = "GAR";
+                $user_country = "Garena";
+        } else {
+                if( strtolower($realm) == "europe.battle.net" ) {
+                        $user_letter = "EU";
+                        $user_country = "Europe";
+                }
+                else if( ( strtolower($realm) == "uswest.battle.net" ) OR ( strtolower($realm) == "useast.battle.net" ) ) {
+                        $user_letter = "US";
+                        $user_country = "USA";
+                }
+                else if( strtolower($realm) == "asia.battle.net" ) {
+                        $user_letter = "CN";
+                        $user_country = "Asia";
+                } else {
+                        $user_letter = "A1";
+                        $user_country = "Unknown";
+                }
+        }
 }
 
  ?>

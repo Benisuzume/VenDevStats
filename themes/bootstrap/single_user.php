@@ -27,9 +27,24 @@ function changeImage($iid) {
         <?=OS_IsDoubleScoreUser( $User["double_score"], 'Double Score' ) ?>
 	<?=OS_IsUserGameLeaver( $User["leaver"], $lang["leaves"].": ".$User["leaver"]."<div>".$lang["stayratio"].": ".$User["stayratio"]."%</div>",1 )?>
   </h1>
-<? if ( $_SESSION["level"]>=10 ) { ?>
-	<h4> IP: <?=$User["ip"]?> </h4>
-<? }
+<?
+if ( $_SESSION["level"]>=9 ) {
+	if( $numallips <= 1 ) {
+	  ?><h4> IP: <?=$User["ip"]?> </h4><?
+	} else {
+	    ?><form action="" method="get">
+		IPs: <input type="hidden" name="u" value="<?=$User["id"]?>"  />
+	        <select name="select"><?
+	        foreach( $allips as $ai ) { ?>
+	          <?php if (isset($_GET["select"]) AND $_GET["select"] == $ai["ip"] ) $sel = 'selected="selected"'; else $sel = ''; ?>
+	           <option <?=$sel?> value= <?=$ai["ip"] ?> ><?=$ai["ip"]?></option>
+	        <? } ?>
+	        </select>
+	        <input class="menuButtons" type="submit" value="<?=$lang["submit"]?>" />
+	  </form><?
+	}
+ }
+
 if ( $numbans > 0 OR $numipbans > 0 ) {
 ?>
    <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>
@@ -40,7 +55,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
 	 <table>
 	  <tr><td width="90">Name</td><td width="160"><font color="red"><?=$bq["name"]?></font></td></tr>
 	  <tr><td width="90">Realm</td><td width="160"><font color="green"><?=$bq["server"]?></font></td></tr>
-	 <? if ( $_SESSION["level"]>=10 ) { ?>
+	 <? if ( $_SESSION["level"]>=9 ) { ?>
           <tr><td width="90">IP</td><td width="160"><font color="blue"><?=$bq["ip"]?></font></td></tr>
 	 <? }
            $full_reason = "Reason: ".$bq["reason"];
@@ -75,7 +90,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
          <table>
           <tr><td width="90">Name</td><td width="160"><font color="red"><?=$ibq["name"]?></font></td></tr>
           <tr><td width="90">Realm</td><td width="160"><font color="green"><?=$ibq["server"]?></font></td></tr>
-       	 <? if ( $_SESSION["level"]>=10 ) { ?>
+       	 <? if ( $_SESSION["level"]>=9 ) { ?>
           <tr><td width="90">IP</td><td width="160"><font color="blue"><?=$ibq["ip"]?></font></td></tr>
 	 <? }
 	    if( strlen($ibq["reason"]) > "30" ) {
@@ -113,7 +128,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
     <table>
      <tr>
       <th width="120">AccountName</th>
-   <? if( $_SESSION["level"] >= "10" ) { ?>
+   <? if( $_SESSION["level"] >= 9 ) { ?>
       <th width="80">IP</td>
    <? } ?>
       <th width="80">Played on this Ip-Range</th>
@@ -121,7 +136,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
    <? if( $nummac > 0 ) {
        foreach ( $macqu as $ACC ) { ?>
         <tr><td width="120"><?=$ACC["player"]?></td>
-   <? if( $_SESSION["level"] >= "10" ) { ?>
+   <? if( $_SESSION["level"] >= 9 ) { ?>
         <td width="80"><?=$ACC["ip"]?></td>
    <? } ?>
         <td width="80"><?=$ACC["games"]?> <?if($ACC["games"] == 1 ) echo 'Time'; else echo 'Times'; ?></td></tr>
@@ -130,7 +145,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
     } else { ?>
      <tr>
       <td>No multiply Accounts</td>
-   <? if( $_SESSION["level"] >= "10" ) { ?>
+   <? if( $_SESSION["level"] >= 9 ) { ?>
       <td></td>
    <? } ?>
       <td></td>
@@ -145,7 +160,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
      <table>
       <tr>
        <th width="120">AccountName</th>
-	<? if( $_SESSION["level"] >= "10" ) { ?>
+	<? if( $_SESSION["level"] >= 9 ) { ?>
        <th width="80">IP</td>
         <? } ?>
        <th width="80">Banned on this Ip-Range</th>
@@ -153,7 +168,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
 <? if( $numbac > 0 ) {
     foreach ( $bacqu as $BCC ) { ?>
       <tr><td width="120"><?=$BCC["name"]?></td>
-      <? if( $_SESSION["level"] >= "10" ) { ?>
+      <? if( $_SESSION["level"] >= 9 ) { ?>
        <td width="80"><?=$BCC["ip"]?></td>
       <? } ?>
        <td width="80"><?=$BCC["COUNT(*)"]?> <?if($BCC["COUNT(*)"] == 1 ) echo 'Time'; else echo 'Times'; ?></td></tr>
@@ -161,7 +176,7 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
       } else { ?>
       <tr>
        <td>No Bans on this IP-Range</td>
-   <? if( $_SESSION["level"] >= "10" ) { ?>
+   <? if( $_SESSION["level"] >= 9 ) { ?>
        <td></td>
    <? } ?>
        <td></td>

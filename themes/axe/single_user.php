@@ -27,9 +27,24 @@ function changeImage($iid) {
 	<?=OS_IsUserGameSafe( $User["safelist"], $lang["safelist"] )?>
 	<?=OS_IsUserGameLeaver( $User["leaver"], $lang["leaves"].": ".$User["leaver"]."<div>".$lang["stayratio"].": ".$User["stayratio"]."%</div>",1 )?>
   </h1>
-<? if ( $_SESSION["level"]>=10 ) { ?>
-	<h4> IP: <?=$User["ip"]?> </h4>
-<? }
+<?
+if ( $_SESSION["level"]>=9 ) {
+        if( $numallips <= 1 ) {
+          ?><h4> IP: <?=$User["ip"]?> </h4><?
+        } else {
+            ?><form action="" method="get">
+                IPs: <input type="hidden" name="u" value="<?=$User["id"]?>"  />
+                <select name="select"><?
+                foreach( $allips as $ai ) { ?>
+                  <?php if (isset($_GET["select"]) AND $_GET["select"] == $ai["ip"] ) $sel = 'selected="selected"'; else $sel = ''; ?>
+                   <option <?=$sel?> value= <?=$ai["ip"] ?> ><?=$ai["ip"]?></option>
+                <? } ?>
+                </select>
+                <input class="menuButtons" type="submit" value="<?=$lang["submit"]?>" />
+          </form><?
+        }
+ }
+
 if ( $numbans > 0 OR $numipbans > 0 ) {
 ?>
    <h3 class="title">Banned<img class="imgvalign" id="3" width="16" height="16" src="<?=OS_HOME?>img/expand.png" onclick="showhide('BANS'); changeImage(3);" alt="" /></h3>

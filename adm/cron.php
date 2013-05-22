@@ -62,7 +62,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 	   LEFT JOIN ".OSDB_DP." AS gp ON gp.gameid = dp.gameid and dp.colour = gp.colour 
 	   LEFT JOIN ".OSDB_DG." AS dg ON dg.gameid = dp.gameid 
 	   LEFT JOIN ".OSDB_GAMES." AS g ON g.id = dp.gameid 
-	   LEFT JOIN ".OSDB_BANS." as b ON b.name=gp.name
+	   LEFT JOIN ".OSDB_BANS." as b ON b.name=LOWER(gp.name)
 	   WHERE dp.gameid='".$gid."'
 	   GROUP by gp.name
 	   ORDER BY newcolour");
@@ -100,7 +100,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		if ( in_array( strtolower($name), $admins ) )   $is_admin = 1; else $is_admin = 0;
 		if ( in_array( strtolower($name), $safelist ) ) $is_safe = 1;  else $is_safe  = 0;
 		
-		if ( strtolower($banname)==strtolower($name) ) $BANNED = 1; else $BANNED = 0;
+                if ( isset($banname) AND !empty($banname) ) $BANNED = 1; else $BANNED = 0;
 		
 		if ($win==1 AND $newcolour<=5) {$winner = 1; $loser = 0;}
 		if ($win==0) {$winner = 0; $loser = 0;}

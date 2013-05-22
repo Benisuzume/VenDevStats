@@ -42,8 +42,26 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$SearchData[$c]["country"]  = geoip_country_name_by_addr($GeoIPDatabase, $row["ip"]);
 	}
 	if ($GeoIP == 1 AND empty($SearchData[$c]["letter"]) ) { 
-	$SearchData[$c]["letter"] = "blank";
-	$SearchData[$c]["country"]  = "Reserved";
+                if( strlen($row["realm"]) <= 2) {
+                        $SearchData[$c]["letter"] = "GAR";
+                        $SearchData[$c]["country"] = "Garena";
+                } else {
+                        if( strtolower($row["realm"]) == "europe.battle.net" ) {
+                                $SearchData[$c]["letter"] = "EU";
+                                $SearchData[$c]["country"] = "Europe";
+                        }
+                        else if( strtolower($row["realm"]) == "uswest.battle.net" OR strtolower($row["realm"]) == "useast.battle.net" ) {
+                                $SearchData[$c]["letter"] = "US";
+                                $SearchData[$c]["country"] = "USA";
+                        }
+                        else if( strtolower($row["realm"]) == "asia.battle.net" ) {
+                                $SearchData[$c]["letter"] = "CN";
+                                $SearchData[$c]["country"] = "Asia";
+                        } else {
+                                $SearchData[$c]["letter"] = "A1";
+                                $SearchData[$c]["country"] = "Unknown";
+                        }
+                }
 	}
 	$SearchData[$c]["id"]        = (int)($row["id"]);
 	$SearchData[$c]["player"]  = ($row["player"]);

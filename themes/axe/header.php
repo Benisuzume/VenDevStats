@@ -167,8 +167,8 @@ var $sf = jQuery;
 <div class="innerwrap">
 <div class="header-inner">
   <div id="siteinfo">
-    <h1><a href="<?=OS_HOME?>" title="OpenStats" rel="home">DotA OpenStats 3</a></h1>
-    <p id="site-description">Just another theme for DotA OpenStats</p>
+    <h1><a href="<?=OS_HOME?>" title="OpenStats" rel="home"><?=$HomeTitle?></a></h1>
+    <p id="site-description"><?=$HomeDesc?></p>
   </div><!-- SITEINFO END -->
 <?php 
 /*

@@ -36,8 +36,26 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$UserData[$c]["country"]  = geoip_country_name_by_addr($GeoIPDatabase, $row["ip"]);
 	}
 	if ($GeoIP == 1 AND empty($UserData[$c]["letter"]) ) {
-	$UserData[$c]["letter"] = "blank";
-	$UserData[$c]["country"]  = "Unknown";
+		if( strlen($row["realm"]) <= 2) {
+			$UserData[$c]["letter"] = "GAR";
+			$UserData[$c]["country"] = "Garena";
+		} else {
+			if( strtolower($row["realm"]) == "europe.battle.net" ) {
+        	                $UserData[$c]["letter"] = "EU";
+		                $UserData[$c]["country"] = "Europe";
+			}
+                        else if( strtolower($row["realm"]) == "uswest.battle.net" OR strtolower($row["realm"]) == "useast.battle.net" ) {
+                                $UserData[$c]["letter"] = "US";
+                                $UserData[$c]["country"] = "USA";
+                        }
+                        else if( strtolower($row["realm"]) == "asia.battle.net" ) {
+                                $UserData[$c]["letter"] = "CN";
+                                $UserData[$c]["country"] = "Asia";
+                        } else {
+                                $UserData[$c]["letter"] = "A1";
+                                $UserData[$c]["country"] = "Unknown";
+                        }
+		}
 	}
 	
 	$UserData[$c]["id"]        = (int)($row["id"]);
@@ -136,6 +154,17 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$c++;
 	}
 	if ( isset($GeoIP) AND $GeoIP == 1) geoip_close($GeoIPDatabase);
+
+    //CHECK ALL IPS
+        $allips = array();
+	$allipsquery = $db->prepare("SELECT * FROM `gameplayers` WHERE LOWER(name) = LOWER('".$PlayerName."') GROUP BY `ip` ORDER BY `id`;");
+	$result = $allipsquery->execute();
+        $numallips = $allipsquery->rowCount();
+        while ($row = $allipsquery->fetch(PDO::FETCH_ASSOC)) {
+		$allips[$c]["ip"] = $row["ip"];
+		$c++;
+	}
+
     //BAN QUERY
         $bans = array();
         $bansquery = $db->prepare("SELECT * FROM `bans` WHERE LOWER(name) LIKE LOWER('".$PlayerName."') ORDER BY date DESC;");
@@ -153,6 +182,11 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
                 $bans[$c]["warn"] = $row["warn"];
             $c++;
         }
+
+        if ( isset($_GET["select"]) ) {
+                $IP = $_GET["select"];
+        }
+
     //IP BAN QUERY
         $ipbans = array();
         $ipbansquery = $db->prepare("SELECT * FROM `bans` WHERE ip LIKE '".$IP."' AND name NOT LIKE LOWER('".$PlayerName."') ORDER BY date DESC;");

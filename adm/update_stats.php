@@ -78,7 +78,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 	   LEFT JOIN ".OSDB_GP." AS gp ON gp.gameid = dp.gameid and dp.colour = gp.colour 
 	   LEFT JOIN ".OSDB_DG." AS dg ON dg.gameid = dp.gameid 
 	   LEFT JOIN ".OSDB_GAMES." AS g ON g.id = dp.gameid 
-	   LEFT JOIN ".OSDB_BANS." as b ON b.name=gp.name
+	   LEFT JOIN ".OSDB_BANS." as b ON b.name=LOWER(gp.name)
 	   WHERE dp.gameid='".$gid."'
 	   GROUP by gp.name
 	   ORDER BY newcolour");
@@ -90,7 +90,6 @@ function OS_UpdateScoresTable( $name = "" ) {
 	   $update = $db->prepare("UPDATE ".OSDB_GAMES." SET stats = 1 WHERE id = '".$gid."' ");
 	   $result = $update->execute(); 
 	   }
-	   
 	   while ($list = $sth2->fetch(PDO::FETCH_ASSOC)) {
 		$kills=$list["kills"];
 		$deaths=$list["deaths"];
@@ -123,8 +122,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		if ( in_array( strtolower($name), $admins ) )   $is_admin = 1; else $is_admin = 0;
 		if ( in_array( strtolower($name), $safelist ) ) $is_safe = 1;  else $is_safe  = 0;
 		
-		if ( strtolower($banname)==strtolower($name) ) $BANNED = 1; else $BANNED = 0;
-		
+		if ( isset($banname) AND !empty($banname) ) $BANNED = 1; else $BANNED = 0;
 		if ($win==1 AND $newcolour<=5) {$winner = 1; $loser = 0;}
 		if ($win==0) {$winner = 0; $loser = 0;}
 		if ($win==2 AND $newcolour>5) {$winner = 1; $loser = 0;}
@@ -189,24 +187,28 @@ function OS_UpdateScoresTable( $name = "" ) {
                 $dcratio = round( (($dc_count/$games)*100), 2 );
 		$lname = strtolower( $name );
                         //Check players with lower games than 5 for a high amount of leaving (over or 3 out of 5 games is to much)
-                        if( $games <= 5 AND $leave_count >= 3  AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == "0" AND $BANNED == 0 ) {
+                        if( $games <= 5 AND $leave_count >= 3  AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player left ".$leave_count." out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+				$BANNED = 1;
                         //Check players with lower games than 10 for a high amount of leaving (over or 6 out of 10 games is to much)
                         }
-			if( $games <= 10 AND $leave_count >= 6  AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == "0" AND $BANNED == 0 ) {
+			if( $games <= 10 AND $leave_count >= 6  AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player left ".$leave_count." out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         }
                         //Check players with more than 10 games, only 10% is a accepted amount of leaving
-                        if( $games > 15 AND ( $leaveratio > 10 ) AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == "0" AND $BANNED == 0 ) {
+                        if( $games > 15 AND ( $leaveratio > 15 ) AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player left has a leaving ratio of ".$leaveratio."% out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         }
                         //Now check for a high amount of disconnects, they could be done on purpose!
-                        if( $dcratio > 20 AND $games > 20 AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == "0" AND $BANNED == 0 ) {
+                        if( $dcratio > 20 AND $games > 20 AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player has a disconnect ratio of ".$dcratio."% out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         }
 		
 		$result2 = $db->prepare("SELECT player, streak, maxstreak, losingstreak, maxlosingstreak, double_score, `score`, `score2`, games, draw
@@ -305,7 +307,7 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  neutrals = neutrals + $neutralkills,
 		  towers = towers + $towerkills,
 		  rax = rax + $raxkills,
-          banned = $BANNED,
+          	  banned = $BANNED,
 		  ip = '$IPaddress',
 		  warn_expire = '$warn_expire',
 		  $warn_qry
@@ -321,6 +323,11 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  zerodeaths = zerodeaths + $zerodeaths,
                   dc_count = dc_count + $dc
 		  WHERE (player) = ('".$name."');";
+		if( isset($banname) AND !empty($banname) ){
+		  echo $banname;
+		  echo strtolower($name);
+		  echo $BANNED;
+		}
 		   }
 		  $result = $db->exec($sql3);
 		  //$result = $UpdateResult->execute();  
