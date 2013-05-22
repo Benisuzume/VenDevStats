@@ -323,11 +323,6 @@ function OS_UpdateScoresTable( $name = "" ) {
 		  zerodeaths = zerodeaths + $zerodeaths,
                   dc_count = dc_count + $dc
 		  WHERE (player) = ('".$name."');";
-		if( isset($banname) AND !empty($banname) ){
-		  echo $banname;
-		  echo strtolower($name);
-		  echo $BANNED;
-		}
 		   }
 		  $result = $db->exec($sql3);
 		  //$result = $UpdateResult->execute();  

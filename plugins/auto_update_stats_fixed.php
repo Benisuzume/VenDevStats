@@ -241,21 +241,25 @@ if ($PluginEnabled == 1) {
                         if( $games <= 5 AND $leave_count >= 3  AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player left ".$leave_count." out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         //Check players with lower games than 10 for a high amount of leaving (over or 6 out of 10 games is to much)
                         }
 			if( $games <= 10 AND $leave_count >= 6  AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player left ".$leave_count." out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         }
                         //Check players with more than 10 games, only 10% is a accepted amount of leaving
                         if( $games > 15 AND ( $leaveratio > 15 ) AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player left has a leaving ratio of ".$leaveratio."% out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         }
                         //Now check for a high amount of disconnects, they could be done on purpose!
                         if( $dcratio > 20 AND $games > 20 AND $is_admin == "0" AND $is_safe == "0" AND $alreadybanned == 0 AND $BANNED == 0 ) {
                                 $reason = "AUTOBAN: Player has a disconnect ratio of ".$dcratio."% out of ".$games." games.";
                                 $db->exec( "INSERT INTO ".OSDB_BANS." (botid,server,name,ip,gamename,date,admin,reason) VALUES ('1', '$realm', '$lname', '$IPaddress', '$gamename', CURRENT_TIMESTAMP(), 'Grief-Ban', '$reason')" );
+                                $BANNED = 1;
                         }
 
 		
