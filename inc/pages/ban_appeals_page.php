@@ -29,7 +29,7 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 			$sth->bindValue(':player', $player, PDO::PARAM_STR); 
 			$result = $sth->execute();
 			
-			if ($sth->rowCount()>=1 ) $errors.="<div>".$lang["error_no_player"]."</div>";
+			if ($sth->rowCount()<=0 ) $errors.="<div>".$lang["error_no_player"]."</div>";
 			
 			if ( empty($errors) ) {
 			  $row = $sth->fetch(PDO::FETCH_ASSOC);
