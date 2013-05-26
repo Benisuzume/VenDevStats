@@ -75,19 +75,19 @@ if (!isset($website) ) { header('HTTP/1.1 404 Not Found'); die; }
 	$GameData[$c]["country"]  = geoip_country_name_by_addr($GeoIPDatabase, $row["ip"]);
 	}
 	if ($GeoIP == 1 AND empty($GameData[$c]["letter"]) ) {
-                if( strlen($row["realm"]) <= 2) {
+                if( strlen($row["spoofedrealm"]) <= 2) {
                         $GamesData[$c]["letter"] = "GAR";
                         $GamesData[$c]["country"] = "Garena";
                 } else {
-                        if( strtolower($row["realm"]) == "europe.battle.net" ) {
+                        if( strtolower($row["spoofedrealm"]) == "europe.battle.net" ) {
                                 $GamesData[$c]["letter"] = "EU";
                                 $GamesData[$c]["country"] = "Europe";
                         }
-                        else if( strtolower($row["realm"]) == "uswest.battle.net" OR strtolower($row["realm"]) == "useast.battle.net" ) {
+                        else if( strtolower($row["spoofedrealm"]) == "uswest.battle.net" OR strtolower($row["spoofedrealm"]) == "useast.battle.net" ) {
                                 $GamesData[$c]["letter"] = "US";
                                 $GamesData[$c]["country"] = "USA";
                         }
-                        else if( strtolower($row["realm"]) == "asia.battle.net" ) {
+                        else if( strtolower($row["spoofedrealm"]) == "asia.battle.net" ) {
                                 $GamesData[$c]["letter"] = "CN";
                                 $GamesData[$c]["country"] = "Asia";
                         } else {

@@ -21,7 +21,7 @@ function changeImage($iid) {
     <?=$User["player"]?><font color="blue">@<?=$User["realm"]?></font>  
 	<?=OS_IsUserGameBanned( $User["banned"], $lang["banned"] )?>
 	<?=OS_IsUserGameAdmin( $User["GameAdmin"], $lang["admin"] )?>
-        <?=OS_IsUserGameRoot( $User["admin"], "Root Admin" )?>
+        <?=OS_IsUserGameRoot( $User["GameAdmin"], "Root Admin" )?>
 	<?=OS_IsUserGameWarned( $User["warn"],  $User["warn_expire"], $lang["warned"] )?>
         <?=OS_IsDoubleScoreUser( $User["double_score"], 'Double Score' ) ?>
 	<?=OS_IsUserGameSafe( $User["safelist"], $lang["safelist"] )?>
@@ -366,6 +366,10 @@ if ( $numbans > 0 OR $numipbans > 0 ) {
   foreach ($GamesData as $Games) {
   ?>
   <tr class="row GameHistoryRow">
+        <? if( isset($Games["newcolour"]) AND !empty($Games["newcolour"]) ) {
+                if( $Games["newcolour"] > 5 )
+                        $Games["newcolour"] = $Games["newcolour"]-1;
+        } ?>
 	 <td width="220" class="padLeft overflow_hidden slot<?=$Games["newcolour"]?>">
 	   <?=OS_WinLoseIcon( $Games["win"] )?>
 	   <a href="<?=OS_HOME?>?game=<?=$Games["id"]?>"><span class="winner<?=$Games["winner"]?>"><?=$Games["gamename"]?></span></a>
