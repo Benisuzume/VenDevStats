@@ -76,7 +76,11 @@ if ( file_exists("inc/geoip/geoip.inc") ) {
 	<th><?=$lang["slots"] ?></th>
   </tr>
   <?php
+        $totalgames = 0;
+        $totalplayers = 0;
   foreach ( $LiveGamesData as $LiveGames ) {
+        $totalgames += $LiveGames["totalgames"];
+        $totalplayers += $LiveGames["totalplayers"];
   if (!empty($LiveGames["gamename"]) ) {
   ?>
   <tr>
@@ -200,6 +204,13 @@ if ($GeoIP == 1 AND empty($user_letter) ) {
   <?php } 
   }
   ?>
+  <tr>
+   <th colspan="2" class="padLeft">
+   <?
+    echo "There currently ".$totalplayers." Players in ".$totalgames." games.";
+   ?>
+   </th>
+  </tr>
   </table>
   
      </div>
