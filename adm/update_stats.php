@@ -141,15 +141,16 @@ function OS_UpdateScoresTable( $name = "" ) {
                 $temp_points = $score_points;
                 }
 
+                // Score formula for each game (uncomment below to user score formula)
+                // $scoreFormula = (((($kills-$deaths+$assists*0.5+$towerkills*0.5+$raxkills*0.2+($courierkills+$creepdenies)*0.1+$neutralkills*0.03+$creepkills*0.03) * .2)+($score)));
+
+                // $score = $scoreFormula;
+
 		if( !isset($list["leftreason"]) AND empty($list["leftreason"]) ) $list["leftreason"] = "No entry!"; 
 		if ( ( $list["left"] <= ( $list["duration"] - $MinDuration ) ) AND $list["leftreason"] == "has left the game voluntarily" )  {
 		   $leaver = 1; $score = "";
 		} else $leaver = 0;
 		
-		// Score formula for each game (uncomment below to user score formula)
-		// $scoreFormula = (((($kills-$deaths+$assists*0.5+$towerkills*0.5+$raxkills*0.2+($courierkills+$creepdenies)*0.1+$neutralkills*0.03+$creepkills*0.03) * .2)+($score)));
-		
-		// $score = $scoreFormula;
 		// MEW FIELDS: $realm $reserved
 		
 		if ($win==0) $draw = 1; else $draw = 0;
@@ -275,22 +276,23 @@ function OS_UpdateScoresTable( $name = "" ) {
 
           } else {
 		  //...or update player data
-		  if ($winner == 1  AND $leaver == 0) $score = "score = score + $ScoreWins,";
+		  if ($winner == 1  AND $leaver == 0) $score = "score = score + $ScoreWins";
 		  if ($winner == 1) $realscore = "score2 = score2 + $ScoreWins,";
-		  if ($winner == 1 AND $is_double == 1  AND $leaver == 0 ) $score = "score = score + ".($ScoreWins*2).",";
-		  if ($winner == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses,";
+		  if ($winner == 1 AND $is_double == 1  AND $leaver == 0 ) $score = "score = score + ".($ScoreWins*2);
+		  if ($winner == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses";
                   if ($winner == 0) $realscore = "score2 = score2 - $ScoreLosses,";
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
+
 		  //LEAVER
 		  if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["leftreason"] == "has left the game voluntarily"  AND $leaver == 0 ) {
-		  $score = "score = score - $ScoreDisc,";
+		  $score = "score = score - $ScoreDisc";
 		  $winner = 0;
 		  $loser = 0;
 		  }
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
-		  $score
+		  $score,
 		  $realscore
 		  avg_score = ".$avgscore.",
 		  player = '".$name."',

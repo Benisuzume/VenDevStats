@@ -195,6 +195,11 @@ if ($PluginEnabled == 1) {
                 $temp_points = $spoints;
                 }
 		
+                // Score formula for each game (uncomment below to user score formula)
+                // $scoreFormula = (((($kills-$deaths+$assists*0.5+$towerkills*0.5+$raxkills*0.2+($courierkills+$creepdenies)*0.1+$neutralkills*0.03+$creepkills*0.03) * .2)+($score)));
+
+                // $score = $scoreFormula;
+
 		global $MinDuration; 
 		if( !isset($list["leftreason"]) AND empty($list["leftreason"]) ) $list["leftreason"] = "No entry!";
 		if ( ( $list["left"] <= ($list["duration"] - $MinDuration) ) AND $list["leftreason"] == "has left the game voluntarily" ) {
@@ -205,6 +210,7 @@ if ($PluginEnabled == 1) {
 		
 		if (!empty($name) AND $duration >= OS_MIN_GAME_DURATION) {
 		$realscore = $score;
+
 		//LEAVER
 		if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["leftreason"] == "has left the game voluntarily" AND $win != 0) {
 		$score = $ScoreStart - $ScoreDisc; $winner = 0; $loser = 0;
@@ -325,22 +331,22 @@ if ($PluginEnabled == 1) {
 		  VALUES('$name', '".strtolower( trim($name))."', '$score', '$realscore','1',$winner,$loser,$draw,$kills,$deaths,$assists,$creepkills,$creepdenies,$neutralkills, $towerkills, $raxkills, $BANNED, '$IPaddress', '$warn_expire', '$warn', '$is_admin', '$is_safe', '$realm', '$reserved', '$leaver', '$streak', '$maxstreak', '$losingstreak', '$maxlosingstreak', '$zerodeaths', '$dc')";
           } else {
 		  //...or update player data
-		  if ($winner == 1) $score = "score = score + $ScoreWins,";
+		  if ($winner == 1) $score = "score = score + $ScoreWins";
 		  if ($winner == 1) $realscore = "score2 = score2 + $ScoreWins,";
-                  if ($winner == 1 AND $is_double == 1) $score = "score = score + ".($ScoreWins*2).",";
-		  if ($winner == 0) $score = "score = score - $ScoreLosses,";
+                  if ($winner == 1 AND $is_double == 1) $score = "score = score + ".($ScoreWins*2);
+		  if ($winner == 0) $score = "score = score - $ScoreLosses";
 		  if ($winner == 0) $realscore = "score2 = score2 - $ScoreLosses,";
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
 		  //LEAVER
 		  if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["leftreason"] == "has left the game voluntarily"  AND $win!=0 ) {
-		  $score = "score = score - $ScoreDisc,";
+		  $score = "score = score - $ScoreDisc";
 		  $winner = 0;
 		  $loser = 0;
 		  }
 		   
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
-		  $score
+		  $score,
 		  $realscore
                   avg_score = ".$avgscore.",
 		  player = '$name',
