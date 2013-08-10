@@ -69,7 +69,32 @@ function OS_UpdateScoresTable( $name = "" ) {
 	$result = $sth->execute(); 
 	
 	 while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
+
 	 $gid = $row["id"];
+        	$minimumplayercheck = $db->prepare( "SELECT COUNT(*) FROM
+	        ".OSDB_GP." AS gp
+       		LEFT JOIN ".OSDB_GAMES." AS g ON gp.gameid=g.id
+       		WHERE g.duration-gp.left < '".$LeftTimePenalty."' AND g.id='".$row["id"]."';" );
+        	$result = $minimumplayercheck->execute();
+		while ($list = $minimumplayercheck->fetch(PDO::FETCH_ASSOC)) {
+			$recentstayedplayers=$list["COUNT(*)"];
+		}
+                $minimumplayercheck2 = $db->prepare( "SELECT COUNT(gp.id) FROM
+                ".OSDB_GP." AS gp
+                LEFT JOIN ".OSDB_GAMES." AS g ON gp.gameid=g.id
+                WHERE g.id='".$row["id"]."';" );
+                $result = $minimumplayercheck2->execute();
+                while ($list = $minimumplayercheck2->fetch(PDO::FETCH_ASSOC)) {
+                        $recentplayers=$list["COUNT(gp.id)"];
+                }
+
+  if( $recentstayedplayers < $MinEndedPlayers OR $recentplayers < $MinStartedPlayers )
+  {
+   $update = $db->prepare("UPDATE ".OSDB_GAMES." SET stats = 1 WHERE id = '".$gid."' ");
+   $result = $update->execute();
+   $return.="\nSkipped Game ($gid), to less players(".$recentplayers."/".$recentstayedplayers.")";
+  }
+
 	 $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, g.gamename,
 	   gp.name as name, 
 	   gp.ip as ip, gp.spoofed, gp.loadingtime, gp.spoofedrealm, gp.reserved, gp.left, gp.leftreason,
@@ -276,23 +301,23 @@ function OS_UpdateScoresTable( $name = "" ) {
 
           } else {
 		  //...or update player data
-		  if ($winner == 1  AND $leaver == 0) $score = "score = score + $ScoreWins";
+		  if ($winner == 1  AND $leaver == 0) $score = "score = score + $ScoreWins,";
 		  if ($winner == 1) $realscore = "score2 = score2 + $ScoreWins,";
-		  if ($winner == 1 AND $is_double == 1  AND $leaver == 0 ) $score = "score = score + ".($ScoreWins*2);
-		  if ($winner == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses";
+		  if ($winner == 1 AND $is_double == 1  AND $leaver == 0 ) $score = "score = score + ".($ScoreWins*2).",";
+		  if ($winner == 0 AND $leaver == 0) $score = "score = score - $ScoreLosses,";
                   if ($winner == 0) $realscore = "score2 = score2 - $ScoreLosses,";
 		  if ($win==0) { $score = ""; $leaver = 0; }
 		  
 
 		  //LEAVER
 		  if ( ( $list["left"] <= ($list["duration"] - $LeftTimePenalty) ) AND $list["leftreason"] == "has left the game voluntarily"  AND $leaver == 0 ) {
-		  $score = "score = score - $ScoreDisc";
+		  $score = "score = score - $ScoreDisc,";
 		  $winner = 0;
 		  $loser = 0;
 		  }
 		  
 		  $sql3 = "UPDATE ".OSDB_STATS." SET 
-		  $score,
+		  $score
 		  $realscore
 		  avg_score = ".$avgscore.",
 		  player = '".$name."',
@@ -341,7 +366,7 @@ function OS_UpdateScoresTable( $name = "" ) {
            $updateBP = $db->prepare("UPDATE ".OSDB_STATS." SET best_player = best_player+1 WHERE LOWER(player) = LOWER('".$BestPlayer."') ;");
 	   $result = $updateBP->execute();
           }
-	   $return.="\nGame ($gid) updated!";
+	   $return.="\nGame ($gid) updated! ".$recentstayedplayers." players";
 	 }
 	 usleep(0.5*100000);
 	 flush();

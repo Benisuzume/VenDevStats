@@ -189,6 +189,15 @@ $ExtratableForGameDetails = '1';
 
 //Game Rootadmins
 //Please split the RootAdmins with a ',' e.g. $RootAdmins = 'player1,player2,player3';
-$RootAdmins = 'Grief-Code,Neubivljiv'
+$RootAdmins = 'Grief-Code,Neubivljiv';
+
+//Ranking Games exceptions
+//Minimum required players stayed till the end of a game
+//The 'endtime' is the duration of the range of the $leftpenalitytime
+$MinEndedPlayers = 6;
+
+//Minimum required players on start to ranking a game
+$MinStartedPlayers = 4;
+
 
 ?>

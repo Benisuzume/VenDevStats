@@ -54,6 +54,29 @@ function OS_UpdateScoresTable( $name = "" ) {
 	$result = $sth->execute();
 	while ($row = $sth->fetch(PDO::FETCH_ASSOC)) {
 	 $gid = $row["id"];
+                $minimumplayercheck = $db->prepare( "SELECT COUNT(*) FROM
+                ".OSDB_GP." AS gp
+                LEFT JOIN ".OSDB_GAMES." AS g ON gp.gameid=g.id
+                WHERE g.duration-gp.left < '".$LeftTimePenalty."' AND g.id='".$row["id"]."';" );
+                $result = $minimumplayercheck->execute();
+                while ($list = $minimumplayercheck->fetch(PDO::FETCH_ASSOC)) {
+                        $recentstayedplayers=$list["COUNT(*)"];
+                }
+                $minimumplayercheck2 = $db->prepare( "SELECT COUNT(gp.id) FROM
+                ".OSDB_GP." AS gp
+                LEFT JOIN ".OSDB_GAMES." AS g ON gp.gameid=g.id
+                WHERE g.id='".$row["id"]."';" );
+                $result = $minimumplayercheck2->execute();
+                while ($list = $minimumplayercheck2->fetch(PDO::FETCH_ASSOC)) {
+                        $recentplayers=$list["COUNT(gp.id)"];
+                }
+
+  if( $recentstayedplayers < $MinEndedPlayers OR $recentplayers < $MinStartedPlayers )
+  {
+   $update = $db->prepare("UPDATE ".OSDB_GAMES." SET stats = 1 WHERE id = '".$gid."' ");
+   $result = $update->execute();
+   $return.="\nSkipped Game ($gid), to less players(".$recentplayers."/".$recentstayedplayers.")";
+  }
 	 $sth2 = $db->prepare("SELECT winner, dp.gameid, gp.colour, newcolour, kills, deaths, assists, creepkills, creepdenies, neutralkills, towerkills, gold,  raxkills, courierkills, g.duration as duration, g.gamename,
 	   gp.name as name, 
 	   gp.ip as ip, gp.spoofed, gp.spoofedrealm, gp.reserved, gp.left, gp.leftreason,
