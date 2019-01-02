@@ -1,6 +1,6 @@
 <?php  
 if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('HTTP/1.1 404 Not Found'); die; }
-$OSAppID = 'openstats_1';
+$OSAppID = 'ucfgstats_1';
 
 $SN = session_name( $OSAppID );
 if (!isset($_SESSION)) { session_start(); }
@@ -160,7 +160,7 @@ $TimeZone = 'Europe/Belgrade';
 //Gamelist patch support
 $GameListPatch = '0';
 
-$OS_INSTALLED = '1';
+$OS_INSTALLED = '0';
 
 //** CUSTOM ADDINGS **//
 // Custom Mapname for maps who havent '%dota%' in the mapname.
@@ -189,7 +189,7 @@ $ExtratableForGameDetails = '1';
 
 //Game Rootadmins
 //Please split the RootAdmins with a ',' e.g. $RootAdmins = 'player1,player2,player3';
-$RootAdmins = 'Grief-Code,Neubivljiv';
+$RootAdmins = 'Venmade,Unryze';
 
 //Ranking Games exceptions
 //Minimum required players stayed till the end of a game
