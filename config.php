@@ -199,5 +199,5 @@ $MinEndedPlayers = 6;
 //Minimum required players on start to ranking a game
 $MinStartedPlayers = 4;
 
-
+$OS_INSTALLED = '0';
 ?>
