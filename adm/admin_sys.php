@@ -96,14 +96,14 @@ if ( !isset( $_SESSION["v_check"]) ) {
    
    $_SESSION["v_check"] = OS_VERSION;
    
-    $v = OS_Curl('http://openstats.iz.rs/version_check.php?check='.OS_VERSION);
-	$os_check = OS_Curl('http://openstats.iz.rs/version.php');
+    $v = OS_Curl('https://github.com/Benisuzume/alpha-dota'.OS_VERSION);
+	$os_check = OS_Curl('https://github.com/Benisuzume/alpha-dota/releases');
 	
 	if ( $os_check != OS_VERSION AND !empty($os_check) ) {
 	   $IntroMessage = '<b>An updated version of Dota OpenStats is available.</b><br />';
 	   $IntroMessage.= 'You can update to OpenStats <b>'.$os_check."</b><br />";
 	   $IntroMessage.= 'Download the package and install it: <br />';
-	   $IntroMessage.= '<a target="_blank" class="menuButtons" href="https://sourceforge.net/projects/dotaopenstats/files/OpenStats%204.x/">Download '.$os_check.'</a> <br />';
+	   $IntroMessage.= '<a target="_blank" class="menuButtons" href="https://github.com/Benisuzume/alpha-dota/releases">Download '.$os_check.'</a> <br />';
 	   $_SESSION["intro_message"] = $IntroMessage;
 	}
 }
