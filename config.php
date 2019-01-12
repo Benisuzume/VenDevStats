@@ -11,15 +11,15 @@ $password = '';
 $database = 'openstats';
 
 $website = 'http://localhost/openstats/';
-$HomeTitle = 'DotA OpenStats 4';
-$HomeDesc = 'DotA OpenStats 4';
+$HomeTitle = 'VenDev Stats';
+$HomeDesc = 'VenDev Stats';
 $HomeKeywords = 'dota, games, heroes, players, best players, top list, top players, statistics';
 
 $default_language = 'english';
 $DateFormat = 'd.m.Y, H:i';
 $DefaultStyle = 'bootstrap';
 
-$LogoText = 'DotA OpenStats 4';
+$LogoText = 'VenDev stats';
 
 //FACEBOOK APP SETUP
 //Enable Login via Facebook
@@ -81,7 +81,7 @@ $UserRegistration = '1';
 $AllowComments = '1';
 
 //Allow users to upload avatar image
-$AllowUploadAvatar = '1';
+$AllowUploadAvatar = '0';
 //Max image size in pixels (default: 320px, quality: 85)
 $MaxImageSize = '320';
 $ImageQuality = '85';
@@ -90,13 +90,13 @@ $RecentGames = '1';
 $TotalRecentGames = '5';
 
 $ScoreStart = '1000';
-$ScoreWins = '5';
-$ScoreLosses = '3';
+$ScoreWins = '50';
+$ScoreLosses = '30';
 $ScoreDisc = '10';
 
 //Enable/Disable Ban reports and appeals
-$BanReports = '1';
-$BanAppeals = '1';
+$BanReports = '0';
+$BanAppeals = '0';
 
 //Add report user link on user page
 $ReportUserLink = '1';
@@ -121,11 +121,11 @@ $MaxPaginationLinks = '2';
 $ShowLongFastGameWon = '0';
 
 $TopPage = '1';
-$HeroesPage = '1';
-$ItemsPage = '1';
+$HeroesPage = '0';
+$ItemsPage = '0';
 $BansPage = '1';
 $WarnPage = '0';
-$AdminsPage = '1';
+$AdminsPage = '0';
 $SafelistPage = '0';
 $MemberListPage = '1';
 $GuidesPage = '0';
@@ -138,7 +138,7 @@ $ComparePlayers = '1';
 $MaxPlayersToCompare = '10';
 
 //Show or hide (1/0) empty slots (empty username, or left time = 0 ... )
-$HideEmptySlots = '1';
+$HideEmptySlots = '0';
 
 //Minimum game duration > 5*60 = 5 min (or 300 sec) 
 //Only games with defined time (longer then $MinDuration ) will be counted in the statistics
@@ -170,7 +170,7 @@ $MapString = "dota";
 $Fame_Shame_Pages = '1';
 
 // Forum Page;
-$Forum = '1';
+$Forum = '0';
 $ForumLink = 'http://www.codelain.com/forum/index.php?topic=23122.0';
 
 // Dashboard from the Admin Panel also at the Home Page
