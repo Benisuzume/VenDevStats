@@ -69,7 +69,7 @@ if ( isset($_GET["delete_file"]) ) {
 	
   }
   
-	$HomeTitle = "Admin | DotA OpenStats v3";
+	$HomeTitle = "Admin | VenDev stats";
 	
 if ( isset( $_GET["posts"]) )     $HomeTitle = "Posts | DotA OpenStats v3";   else
 if ( isset( $_GET["bans"]) )      $HomeTitle = "Bans | DotA OpenStats v3";    else
@@ -90,21 +90,21 @@ if ( isset( $_GET["plugins"]) )      $HomeTitle = "Plugins | DotA OpenStats v3";
 if ( isset( $_GET["players"]) )      $HomeTitle = "Ranked Players | DotA OpenStats v3"; else
 if ( isset( $_GET["warns"]) )        $HomeTitle = "Warns Players | DotA OpenStats v3";
 
-//Version check
+//Version check (no longer used)
 
-if ( !isset( $_SESSION["v_check"]) ) {
+// if ( !isset( $_SESSION["v_check"]) ) {
    
-   $_SESSION["v_check"] = OS_VERSION;
+//    $_SESSION["v_check"] = OS_VERSION;
    
-    $v = OS_Curl('https://github.com/Benisuzume/alpha-dota'.OS_VERSION);
-	$os_check = OS_Curl('https://github.com/Benisuzume/alpha-dota/releases');
+//     $v = OS_Curl('https://github.com/Benisuzume/alpha-dota'.OS_VERSION);
+// 	$os_check = OS_Curl('https://github.com/Benisuzume/alpha-dota/releases');
 	
-	if ( $os_check != OS_VERSION AND !empty($os_check) ) {
-	   $IntroMessage = '<b>An updated version of Dota OpenStats is available.</b><br />';
-	   $IntroMessage.= 'You can update to OpenStats <b>'.$os_check."</b><br />";
-	   $IntroMessage.= 'Download the package and install it: <br />';
-	   $IntroMessage.= '<a target="_blank" class="menuButtons" href="https://github.com/Benisuzume/alpha-dota/releases">Download '.$os_check.'</a> <br />';
-	   $_SESSION["intro_message"] = $IntroMessage;
-	}
-}
+// 	if ( $os_check != OS_VERSION AND !empty($os_check) ) {
+// 	   $IntroMessage = '<b>An updated version of Dota OpenStats is available.</b><br />';
+// 	   $IntroMessage.= 'You can update to OpenStats <b>'.$os_check."</b><br />";
+// 	   $IntroMessage.= 'Download the package and install it: <br />';
+// 	   $IntroMessage.= '<a target="_blank" class="menuButtons" href="https://github.com/Benisuzume/alpha-dota/releases">Download '.$os_check.'</a> <br />';
+// 	   $_SESSION["intro_message"] = $IntroMessage;
+// 	}
+// }
 ?>
