@@ -5,8 +5,8 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>	
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="description" content="DotA OpenStats, php/MySQL webstatistic" />
-  <meta name="keywords" content="dota, games, openstats" />
+  <meta name="description" content="VenDev Stats, php/MySQL webstatistic" />
+  <meta name="keywords" content="dota, games, vendevstats" />
   <link rel="stylesheet" href="themes/blogger/style.css" />
   <title>OpenStats 4 Installation</title>
 
@@ -54,7 +54,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
  ?>
   <div class="warning">
  <img src="adm/del.png" alt="" width="16" height="16" class="imgvalign" />
- Please enable/install <a href="http://php.net/manual/en/book.pdo.php" target="_blank"><strong>PDO</strong></a> extension.
+ Please enable/install <a href="https://secure.php.net/manual/en/book.pdo.php" target="_blank"><strong>PDO</strong></a> extension.
  <a target="_blank" href="https://www.google.com/search?q=php+pdo"><img src="themes/default/img/up.gif" alt="" class="imgvalign" width="8" height="8" />  google</a>
  </div>
  <?php
@@ -67,7 +67,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
  ?>
  <div class="warning">
  <img src="adm/del.png" alt="" width="16" height="16" class="imgvalign" />
- Please enable <a href="http://www.php.net/manual/en/ini.core.php#ini.short-open-tag" target="_blank"><strong>short_open_tag</strong></a> in your php.ini  
+ Please enable <a href="https://secure.php.net/manual/en/ini.core.php#ini.short-open-tag" target="_blank"><strong>short_open_tag</strong></a> in your php.ini  
  <a target="_blank" href="https://www.google.com/search?q=enable+short+open+tag"><img src="themes/default/img/up.gif" alt="" class="imgvalign" width="8" height="8" />  google</a>
  </div>
  <?php 
@@ -77,7 +77,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
  ?>
   <div class="warning">
  <img src="img/items/BTNCancel2.gif" alt="" width="16" height="16" class="imgvalign" />
- <a target="_blank" href="http://php.net/manual/en/book.image.php">GD Library</a> is not available on your server. Signatures will not work.
+ <a target="_blank" href="https://secure.php.net/manual/en/book.image.php">GD Library</a> is not available on your server. Signatures will not work.
  </div>
  <?php
  }
@@ -192,7 +192,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
 	   $date_ = time();
 	   
 	   $sth2 = $dbh->prepare("INSERT INTO `news` (`news_id`, `news_title`, `news_content`, `news_date`, `news_updated`, `views`, `status`, `allow_comments`, `comments`, `author`) 
-	   VALUES ('1', 'Hello world', '<p>Welcome to DotA OpenStats.</p><p>&nbsp;</p><p>This is your first post. Edit or delete it.</p><p>&nbsp;</p>','". $date_."', '0', '1', '1', '1', '1', '1');");
+	   VALUES ('1', 'Hello world', '<p>Welcome to VenDev stats.</p><p>&nbsp;</p><p>This is your first post. Edit or delete it.</p><p>&nbsp;</p>','". $date_."', '0', '1', '1', '1', '1', '1');");
 	   $sth2->execute();
 	   
 	   $insert_comment = $dbh->prepare("INSERT INTO `comments` (`id`, `user_id`, `page`, `post_id`, `text`, `date`, `user_ip`) 
@@ -264,7 +264,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
 		<div style="display:none;">Please delete or rename <b>install/</b> folder.</div>
 		
 		<div>&nbsp;</div>
-		<input type="button" class="menuButtons" value="Go to OpenStats 4" onclick="location.href='<?=$website?>'" />
+		<input type="button" class="menuButtons" value="Go to VenDev stats" onclick="location.href='<?=$website?>'" />
 		<?php
 		write_value_of('$OS_INSTALLED', "$OS_INSTALLED", '1', "config.php");
 		} else echo "ERROR: mysql error!";
@@ -278,7 +278,7 @@ if (strstr($_SERVER['REQUEST_URI'], basename(__FILE__) ) ) {header('location: ..
 </div>
   
   <footer>
-        <div id="footer-wrapper">@<?php echo date("Y"); ?> Powered by DotA OpenStats 4</div>
+        <div id="footer-wrapper">@<?php echo date("Y"); ?> Powered by VenDev Stats</div>
   </footer>
 </body>
 </html>
