@@ -5,8 +5,8 @@ if (!isset($website) ) {header('HTTP/1.1 404 Not Found'); die; }
 <head>
  	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<meta http-equiv="content-style-type" content="text/css" />
-	<meta name="author" content="Ivan Antonijevic" />
-	<meta name="rating" content="Safe For Kids" />
+	<meta name="author" content="Venmade" />
+	<meta name="rating" content="Safe for all" />
  	<meta name="description" content="<?=$HomeDesc?>" />
 	<meta name="keywords" content="<?=$HomeKeywords?>" />
 	<?=os_add_meta()?>
